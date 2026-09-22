@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>CHEM 4400H</title>
+</head>
+<body style="font-family:sans-serif;text-align:center;margin-top:20vh">
+  <h1 id="msg">404: page not found</h1>
+  <script>
+    const m = location.pathname.match(/lecture(\d+)/i);
+    if (m) {
+      document.title = "CHEM 4400H – Lecture " + m[1];
+      document.getElementById("msg").textContent = "Loading Lecture " + m[1] + "…";
+      setTimeout(() => {
+        location.replace("https://www.youtube.com/watch?v=dQw4w9WgXcQ");
+      }, 1500);
+    }
+  </script>
+</body>
+</html>
