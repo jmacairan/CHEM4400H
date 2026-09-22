@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="_ds/industry-0b60c03b-cdad-42bb-a646-55ffc30d0280/styles.css">
+  <script src="_ds/industry-0b60c03b-cdad-42bb-a646-55ffc30d0280/_ds_bundle.js"></script>
+  <style>
+    body { margin: 0; }
+    a { color: var(--color-accent-700); }
+    a:hover { color: var(--color-accent-900); }
+  </style>
+</helmet>
+
+<div style="min-height:100vh;background:var(--color-bg);color:var(--color-text);display:flex;flex-direction:column;">
+
+  <nav class="nav" style="border-bottom:1px solid var(--color-divider);">
+    <span class="nav-brand">Dual-Screen Presenter</span>
+    <sc-if value="{{ isLive }}" hint-placeholder-val="{{ false }}">
+      <span class="tag tag-accent">{{ deckName }}</span>
+      <button type="button" class="btn btn-ghost" onClick="{{ onBackToSetup }}">End session</button>
+    </sc-if>
+  </nav>
+
+  <!-- SETUP SCREEN -->
+  <sc-if value="{{ isSetup }}" hint-placeholder-val="{{ true }}">
+    <div style="flex:1;display:flex;align-items:flex-start;justify-content:center;padding:var(--space-8) var(--space-4);">
+      <div style="width:min(640px,100%);display:flex;flex-direction:column;gap:var(--space-4);">
+
+        <div class="card blueprint elev-sm" style="padding:var(--space-6);gap:var(--space-4);">
+          <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+          <div class="card-kicker">Step 1</div>
+          <h2 style="margin:0;">Load your deck</h2>
+          <p class="card-body" style="opacity:0.75;">Drop in a single HTML deck file (a deck-stage export). It runs exactly as authored — this tool just adds the projector feed and presenter notes.</p>
+
+          <div class="seg" style="align-self:flex-start;">
+            <label class="seg-opt"><input type="radio" name="inputMode" checked="{{ isUploadMode }}" onChange="{{ onSetModeUpload }}"/><span>Upload file</span></label>
+            <label class="seg-opt"><input type="radio" name="inputMode" checked="{{ isPasteMode }}" onChange="{{ onSetModePaste }}"/><span>Paste HTML</span></label>
+          </div>
+
+          <sc-if value="{{ isUploadMode }}" hint-placeholder-val="{{ true }}">
+            <div class="field">
+              <label>Deck file (.html)</label>
+              <input type="file" accept=".html,text/html" class="input" onChange="{{ onFileChange }}"/>
+            </div>
+          </sc-if>
+          <sc-if value="{{ isPasteMode }}" hint-placeholder-val="{{ false }}">
+            <div class="field">
+              <label>Deck HTML source</label>
+              <textarea class="input" rows="6" placeholder="Paste full deck HTML source here…" value="{{ pasteValue }}" onChange="{{ onPasteChange }}"></textarea>
+              <button type="button" class="btn btn-secondary blueprint" style="margin-top:var(--space-2);" onClick="{{ onUsePaste }}"><i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>Load pasted deck</button>
+            </div>
+          </sc-if>
+
+          <sc-if value="{{ deckLoaded }}" hint-placeholder-val="{{ false }}">
+            <div style="display:flex;align-items:center;gap:var(--space-2);">
+              <span class="tag tag-accent">Loaded: {{ deckName }}</span>
+              <sc-if value="{{ hasSlideCount }}" hint-placeholder-val="{{ false }}">
+                <span class="tag tag-outline">{{ slideCountLabel }}</span>
+              </sc-if>
+            </div>
+          </sc-if>
+
+          <sc-if value="{{ deckLoaded }}" hint-placeholder-val="{{ false }}">
+            <iframe ref="{{ detectFrameRef }}" srcDoc="{{ deckHtml }}" onLoad="{{ handleDetectFrameLoad }}" style="width:1px;height:1px;opacity:0;position:absolute;pointer-events:none;border:0;"></iframe>
+          </sc-if>
+
+          <button type="button" class="btn btn-primary btn-block blueprint" disabled="{{ startDisabled }}" onClick="{{ onStart }}"><i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>Start presentation</button>
+
+          <sc-if value="{{ hasError }}" hint-placeholder-val="{{ false }}">
+            <p style="color:var(--color-accent-900);font-size:13px;margin:0;">{{ errorMessage }}</p>
+          </sc-if>
+          <sc-if value="{{ hasFallbackLink }}" hint-placeholder-val="{{ false }}">
+            <a href="{{ audienceBlobUrl }}" target="_blank" onClick="{{ onOpenAudienceFallback }}" class="btn btn-secondary blueprint" style="text-decoration:none;"><i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>Open audience window</a>
+          </sc-if>
+        </div>
+
+        <div class="card blueprint" style="padding:var(--space-4);gap:var(--space-2);">
+          <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+          <div class="card-kicker">Step 2</div>
+          <p class="card-body" style="opacity:0.8;margin:0;">Starting opens a second window — the audience feed. Drag it onto your projector or second monitor, click it once, then press <strong>F</strong> or use your browser's fullscreen to fill the screen. This window becomes your presenter view: current slide, next-slide preview, notes, timer and a jump grid. Arrow keys / Space move the deck; <strong>B</strong> blacks out the audience screen.</p>
+        </div>
+
+      </div>
+    </div>
+  </sc-if>
+
+  <!-- LIVE / PRESENTER SCREEN -->
+  <sc-if value="{{ isLive }}" hint-placeholder-val="{{ false }}">
+    <div style="flex:1;display:flex;flex-direction:column;padding:var(--space-4);gap:var(--space-4);">
+
+      <div style="display:flex;align-items:center;gap:var(--space-4);flex-wrap:wrap;">
+        <span class="tag tag-outline">Slide {{ slideCounterLabel }}</span>
+        <div style="flex:1;min-width:120px;height:6px;background:var(--color-divider);border-radius:2px;overflow:hidden;">
+          <div style="height:100%;background:var(--color-accent);width:{{ progressPercentLabel }};"></div>
+        </div>
+        <span class="tag tag-neutral">Elapsed {{ elapsedLabel }}</span>
+        <span class="tag tag-neutral">{{ clockLabel }}</span>
+        <button type="button" class="btn {{ blackoutBtnClass }}" onClick="{{ onToggleBlackout }}">{{ blackoutLabel }}</button>
+      </div>
+
+      <div style="flex:1;display:grid;grid-template-columns:minmax(0,1fr) 280px;gap:var(--space-4);min-height:0;">
+
+        <div style="display:flex;flex-direction:column;gap:var(--space-3);min-height:0;">
+          <div class="blueprint" style="flex:1;min-height:0;background:var(--color-neutral-900);position:relative;">
+            <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+            <iframe ref="{{ mainFrameRef }}" srcDoc="{{ deckHtml }}" onLoad="{{ handleMainFrameLoad }}" style="width:100%;height:100%;border:0;display:block;"></iframe>
+          </div>
+          <div style="display:flex;gap:var(--space-2);">
+            <button type="button" class="btn btn-secondary blueprint" disabled="{{ prevDisabled }}" onClick="{{ onPrev }}" style="flex:1;"><i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>← Prev</button>
+            <button type="button" class="btn btn-primary blueprint" onClick="{{ onNext }}" style="flex:1;"><i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>Next →</button>
+          </div>
+        </div>
+
+        <div style="display:flex;flex-direction:column;gap:var(--space-3);min-height:0;overflow:auto;">
+
+          <div class="card blueprint" style="padding:var(--space-2);gap:var(--space-1);">
+            <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+            <div class="card-kicker">Up next</div>
+            <sc-if value="{{ hasNextSlide }}" hint-placeholder-val="{{ false }}">
+              <div style="aspect-ratio:16/9;background:var(--color-neutral-900);position:relative;">
+                <iframe ref="{{ previewFrameRef }}" srcDoc="{{ deckHtml }}" onLoad="{{ handlePreviewFrameLoad }}" style="width:100%;height:100%;border:0;display:block;pointer-events:none;"></iframe>
+              </div>
+            </sc-if>
+            <sc-if value="{{ hasNextSlide }}" hint-placeholder-val="{{ false }}" negate="true">
+              <div style="aspect-ratio:16/9;display:flex;align-items:center;justify-content:center;color:var(--color-neutral-600);font-size:12px;">Last slide</div>
+            </sc-if>
+          </div>
+
+          <div class="card blueprint" style="padding:var(--space-2);gap:var(--space-2);flex:1;">
+            <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+            <div class="card-kicker">Speaker notes</div>
+            <textarea class="input" style="flex:1;min-height:140px;" placeholder="Notes for this slide…" value="{{ currentNotes }}" onChange="{{ onNotesChange }}"></textarea>
+          </div>
+
+          <div class="card blueprint" style="padding:var(--space-2);gap:var(--space-2);">
+            <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+            <div class="card-kicker">Jump to slide</div>
+            <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(30px,1fr));gap:4px;">
+              <sc-for list="{{ jumpSlides }}" as="js" hint-placeholder-count="8">
+                <button type="button" class="{{ js.cls }}" onClick="{{ js.onClick }}" style="height:30px;font-size:12px;font-family:var(--font-heading);border:1px solid var(--color-divider);cursor:pointer;">{{ js.num }}</button>
+              </sc-for>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </sc-if>
+
+  <!-- END OF PRESENTATION OVERLAY -->
+  <sc-if value="{{ isEnded }}" hint-placeholder-val="{{ false }}">
+    <div style="position:fixed;inset:0;background:color-mix(in srgb, var(--color-accent-900) 92%, transparent);display:flex;align-items:center;justify-content:center;z-index:1000;">
+      <div class="card blueprint elev-lg" style="background:var(--color-bg);padding:var(--space-8);gap:var(--space-4);width:min(420px,90%);text-align:center;align-items:center;">
+        <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+        <h2 style="margin:0;">End of presentation</h2>
+        <p class="card-body" style="margin:0;">The audience screen is showing the end card.</p>
+        <div style="display:flex;gap:var(--space-2);">
+          <button type="button" class="btn btn-secondary blueprint" onClick="{{ onRestart }}"><i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>Restart from slide 1</button>
+          <button type="button" class="btn btn-primary blueprint" onClick="{{ onBackToSetup }}"><i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>End session</button>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+
+class Component extends DCLogic {
+  state = {
+    screen: 'setup',
+    inputMode: 'upload',
+    pasteValue: '',
+    deckHtml: null,
+    deckName: '',
+    totalSlides: 0,
+    currentIndex: 0,
+    notes: {},
+    blackout: false,
+    startTime: null,
+    ended: false,
+    error: null,
+    tick: 0,
+  };
+
+  constructor(props) {
+    super(props);
+    this.mainFrameRef = React.createRef();
+    this.previewFrameRef = React.createRef();
+    this.detectFrameRef = React.createRef();
+    this._mainWin = null;
+    this._audienceWin = null;
+    this._notesKey = null;
+    this.handleSlideMessage = this.handleSlideMessage.bind(this);
+    this.handleKeyDown = this.handleKeyDown.bind(this);
+  }
+
+  componentDidMount() {
+    window.addEventListener('keydown', this.handleKeyDown);
+    this._clockTimer = setInterval(() => this.setState(s => ({ tick: s.tick + 1 })), 1000);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('keydown', this.handleKeyDown);
+    clearInterval(this._clockTimer);
+    if (this._mainWin) { try { this._mainWin.removeEventListener('message', this.handleSlideMessage); } catch (e) {} }
+  }
+
+  hashStr(s) {
+    let h = 0;
+    for (let i = 0; i < s.length; i += 7) h = (h * 31 + s.charCodeAt(i)) | 0;
+    return Math.abs(h).toString(36);
+  }
+
+  escapeHtml(s) {
+    return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  }
+
+  setDeck(html, name) {
+    const key = 'presenter-notes-' + this.hashStr(html);
+    let notes = {};
+    try {
+      const raw = localStorage.getItem(key);
+      if (raw) notes = JSON.parse(raw);
+    } catch (e) {}
+    this._notesKey = key;
+    this.setState({ deckHtml: html, deckName: name, notes, totalSlides: 0, error: null });
+  }
+
+  onFileChange(e) {
+    const file = e.target.files && e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = () => this.setDeck(reader.result, file.name);
+    reader.readAsText(file);
+  }
+
+  onPasteChange(e) { this.setState({ pasteValue: e.target.value }); }
+  onUsePaste() {
+    if (this.state.pasteValue.trim()) this.setDeck(this.state.pasteValue, 'Pasted deck');
+  }
+
+  onSetModeUpload() { this.setState({ inputMode: 'upload' }); }
+  onSetModePaste() { this.setState({ inputMode: 'paste' }); }
+
+  pollForDeckStage(win, cb, tries) {
+    tries = tries || 0;
+    try {
+      const ds = win.document.querySelector('deck-stage');
+      if (ds) { cb(ds); return; }
+    } catch (e) {}
+    if (tries < 60) setTimeout(() => this.pollForDeckStage(win, cb, tries + 1), 150);
+  }
+
+  handleDetectFrameLoad() {
+    const win = this.detectFrameRef.current && this.detectFrameRef.current.contentWindow;
+    if (!win) return;
+    this.pollForDeckStage(win, ds => this.setState({ totalSlides: ds.length }));
+  }
+
+  handleMainFrameLoad() {
+    const win = this.mainFrameRef.current && this.mainFrameRef.current.contentWindow;
+    if (!win) return;
+    this._mainWin = win;
+    try { win.addEventListener('message', this.handleSlideMessage); } catch (e) {}
+    this.pollForDeckStage(win, ds => this.setState({ totalSlides: ds.length }));
+  }
+
+  handlePreviewFrameLoad() {
+    this.syncPreview(this.state.currentIndex + 1);
+  }
+
+  handleSlideMessage(e) {
+    if (!e.data || typeof e.data.slideIndexChanged !== 'number') return;
+    const idx = e.data.slideIndexChanged;
+    const total = e.data.deckTotal || this.state.totalSlides;
+    this.setState({ currentIndex: idx, totalSlides: total });
+    this.syncAudience(idx);
+    this.syncPreview(idx + 1);
+  }
+
+  syncAudience(idx) {
+    const w = this._audienceWin;
+    if (!w || w.closed) return;
+    this.pollForDeckStage(w, ds => ds.goTo(idx));
+  }
+
+  syncPreview(idx) {
+    const win = this.previewFrameRef.current && this.previewFrameRef.current.contentWindow;
+    if (!win) return;
+    this.pollForDeckStage(win, ds => { if (idx < ds.length) ds.goTo(idx); });
+  }
+
+  navGoTo(i) {
+    if (i < 0) return;
+    if (this.state.ended) { this.setState({ ended: false }); this.showEnd(false); }
+    if (!this._mainWin) return;
+    try {
+      const ds = this._mainWin.document.querySelector('deck-stage');
+      if (ds) ds.goTo(i);
+    } catch (e) {}
+  }
+
+  onPrev() { if (this.state.currentIndex > 0) this.navGoTo(this.state.currentIndex - 1); }
+  onNext() {
+    if (this.state.currentIndex >= this.state.totalSlides - 1) { this.triggerEnd(); return; }
+    this.navGoTo(this.state.currentIndex + 1);
+  }
+
+  triggerEnd() { this.setState({ ended: true }); this.showEnd(true); }
+  onRestart() { this.setState({ ended: false }); this.showEnd(false); this.navGoTo(0); }
+
+  showEnd(flag) {
+    const w = this._audienceWin;
+    if (!w || w.closed) return;
+    try {
+      w.document.getElementById('deckFrame').style.display = flag ? 'none' : 'block';
+      w.document.getElementById('endScreen').style.display = flag ? 'flex' : 'none';
+    } catch (e) {}
+  }
+
+  onToggleBlackout() {
+    const next = !this.state.blackout;
+    this.setState({ blackout: next });
+    const w = this._audienceWin;
+    if (w && !w.closed) {
+      try { w.document.getElementById('blackout').style.display = next ? 'block' : 'none'; } catch (e) {}
+    }
+  }
+
+  onNotesChange(e) {
+    const idx = this.state.currentIndex;
+    const notes = Object.assign({}, this.state.notes, { [idx]: e.target.value });
+    this.setState({ notes });
+    if (this._notesKey) { try { localStorage.setItem(this._notesKey, JSON.stringify(notes)); } catch (err) {} }
+  }
+
+  handleKeyDown(e) {
+    if (this.state.screen !== 'live') return;
+    const tag = (e.target && e.target.tagName) || '';
+    if (tag === 'TEXTAREA' || tag === 'INPUT') return;
+    if (e.key === 'ArrowRight' || e.key === ' ') { e.preventDefault(); this.onNext(); }
+    else if (e.key === 'ArrowLeft') { e.preventDefault(); this.onPrev(); }
+    else if (e.key.toLowerCase() === 'b') { this.onToggleBlackout(); }
+  }
+
+  escapeAttr(s) { return String(s).replace(/&/g, '&amp;').replace(/"/g, '&quot;'); }
+
+  buildAudienceHtml(deckHtml, deckName) {
+    const base = window.location.href.replace(/[^/]+$/, '');
+    const title = this.escapeHtml(deckName || 'Presentation');
+    const openTag = '<' + 'script>';
+    const closeTag = '<' + '/script>';
+    const js = 'document.getElementById("startHint").addEventListener("click",function(ev){ev.target.style.display="none";var el=document.documentElement;if(el.requestFullscreen)el.requestFullscreen().catch(function(){});});';
+    return '<!DOCTYPE html><html><head><meta charset="utf-8"><base href="' + base + '"><title>Audience — ' + title + '</title>' +
+      '<style>html,body{margin:0;height:100%;background:#000;overflow:hidden}' +
+      '#deckFrame{position:fixed;inset:0;width:100vw;height:100vh;border:0;background:#000}' +
+      '#blackout{position:fixed;inset:0;background:#000;display:none;z-index:9999}' +
+      '#endScreen{position:fixed;inset:0;display:none;z-index:9998;background:#1d2d3d;color:#f2f2f3;align-items:center;justify-content:center;flex-direction:column;font-family:sans-serif}' +
+      '#endScreen h1{font-size:56px;margin:0 0 12px;font-weight:600}' +
+      '#startHint{position:fixed;inset:0;background:rgba(0,0,0,0.88);color:#fff;display:flex;align-items:center;justify-content:center;font-size:22px;cursor:pointer;z-index:10000;font-family:sans-serif;text-align:center;padding:24px;}' +
+      '</style></head><body>' +
+      '<div id="startHint">Click anywhere, then press F for fullscreen</div>' +
+      '<iframe id="deckFrame" srcdoc="' + this.escapeAttr(deckHtml) + '"></iframe>' +
+      '<div id="blackout"></div>' +
+      '<div id="endScreen"><h1>End of Presentation</h1><div style="opacity:0.7">Thank you</div></div>' +
+      openTag + js + closeTag +
+      '</body></html>';
+  }
+
+  onStart() {
+    const { deckHtml, deckName } = this.state;
+    if (!deckHtml) return;
+    const shell = this.buildAudienceHtml(deckHtml, deckName);
+    const winName = 'audience_' + Date.now();
+    let blobUrl = null;
+    try { blobUrl = URL.createObjectURL(new Blob([shell], { type: 'text/html' })); } catch (e) {}
+    const win = window.open(blobUrl || 'about:blank', winName, 'width=1280,height=720,menubar=no,toolbar=no,location=no,status=no');
+    if (!win || win.closed) {
+      this.setState({
+        error: 'Popup blocked. Click the link below to open the audience window yourself, then come back — the presenter view still drives it.',
+        audienceBlobUrl: blobUrl, audienceWinName: winName,
+      });
+      return;
+    }
+    if (!blobUrl) { win.document.open(); win.document.write(shell); win.document.close(); }
+    this._audienceWin = win;
+    this.setState({ screen: 'live', startTime: Date.now(), currentIndex: 0, ended: false, blackout: false });
+  }
+
+  onOpenAudienceFallback() {
+    const { audienceWinName } = this.state;
+    setTimeout(() => {
+      try {
+        const w = window.open('', audienceWinName);
+        if (w && !w.closed) {
+          this._audienceWin = w;
+          this.setState({ screen: 'live', startTime: Date.now(), currentIndex: 0, ended: false, blackout: false, error: null });
+        }
+      } catch (e) {}
+    }, 400);
+  }
+
+  onBackToSetup() {
+    if (this._audienceWin && !this._audienceWin.closed) { try { this._audienceWin.close(); } catch (e) {} }
+    this._audienceWin = null;
+    if (this._mainWin) { try { this._mainWin.removeEventListener('message', this.handleSlideMessage); } catch (e) {} }
+    this._mainWin = null;
+    this.setState({ screen: 'setup', ended: false, currentIndex: 0, blackout: false, startTime: null });
+  }
+
+  formatTime(ms) {
+    const s = Math.max(0, Math.floor(ms / 1000));
+    const m = Math.floor(s / 60);
+    const ss = s % 60;
+    return String(m).padStart(2, '0') + ':' + String(ss).padStart(2, '0');
+  }
+
+  renderVals() {
+    const st = this.state;
+    const totalSlides = st.totalSlides;
+    const jumpSlides = [];
+    for (let i = 0; i < totalSlides; i++) {
+      jumpSlides.push({
+        key: i, num: i + 1,
+        cls: i === st.currentIndex ? 'btn btn-primary' : 'btn btn-secondary',
+        onClick: () => this.navGoTo(i),
+      });
+    }
+    return {
+      isSetup: st.screen === 'setup',
+      isLive: st.screen === 'live',
+      isEnded: st.ended,
+      isUploadMode: st.inputMode === 'upload',
+      isPasteMode: st.inputMode === 'paste',
+      onSetModeUpload: () => this.onSetModeUpload(),
+      onSetModePaste: () => this.onSetModePaste(),
+      pasteValue: st.pasteValue,
+      onPasteChange: e => this.onPasteChange(e),
+      onUsePaste: () => this.onUsePaste(),
+      onFileChange: e => this.onFileChange(e),
+      deckHtml: st.deckHtml || '',
+      deckName: st.deckName,
+      deckLoaded: !!st.deckHtml,
+      hasSlideCount: totalSlides > 0,
+      slideCountLabel: totalSlides + (totalSlides === 1 ? ' slide' : ' slides'),
+      detectFrameRef: this.detectFrameRef,
+      handleDetectFrameLoad: () => this.handleDetectFrameLoad(),
+      startDisabled: !st.deckHtml,
+      onStart: () => this.onStart(),
+      hasError: !!st.error,
+      errorMessage: st.error || '',
+      hasFallbackLink: !!st.audienceBlobUrl,
+      audienceBlobUrl: st.audienceBlobUrl || '#',
+      onOpenAudienceFallback: () => this.onOpenAudienceFallback(),
+      mainFrameRef: this.mainFrameRef,
+      previewFrameRef: this.previewFrameRef,
+      handleMainFrameLoad: () => this.handleMainFrameLoad(),
+      handlePreviewFrameLoad: () => this.handlePreviewFrameLoad(),
+      slideCounterLabel: (totalSlides ? (st.currentIndex + 1) : 0) + ' / ' + totalSlides,
+      progressPercentLabel: (totalSlides ? Math.round(((st.currentIndex + 1) / totalSlides) * 100) : 0) + '%',
+      elapsedLabel: st.startTime ? this.formatTime(Date.now() - st.startTime) : '00:00',
+      clockLabel: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+      blackoutBtnClass: st.blackout ? 'btn-primary' : 'btn-secondary',
+      blackoutLabel: st.blackout ? 'Blackout: on' : 'Blackout',
+      onToggleBlackout: () => this.onToggleBlackout(),
+      prevDisabled: st.currentIndex <= 0,
+      onPrev: () => this.onPrev(),
+      onNext: () => this.onNext(),
+      hasNextSlide: st.currentIndex + 1 < totalSlides,
+      currentNotes: st.notes[st.currentIndex] || '',
+      onNotesChange: e => this.onNotesChange(e),
+      jumpSlides,
+      onRestart: () => this.onRestart(),
+      onBackToSetup: () => this.onBackToSetup(),
+    };
+  }
+}
+
+</script>
+</body>
+</html>
