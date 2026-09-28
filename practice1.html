@@ -1,0 +1,1798 @@
+<!doctype html>
+<!-- Standalone single-file build: all styles, scripts, diagrams, and icons are embedded for GitHub Pages. -->
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Interactive CHEM 4400H midterm practice questions for Lectures 1–7.">
+  <title>CHEM 4400H · Midterm Practice</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%2307111f'/%3E%3Cpath d='M9 43h8V28h7v9h7V16h7v24h7V24h7v19h3' fill='none' stroke='%232dd4bf' stroke-width='4' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+  <style>
+    :root {
+      color-scheme: dark;
+      --ink: #e8f1fb;
+      --muted: #9fb0c5;
+      --page: #07111f;
+      --panel: #0d1a2a;
+      --panel-2: #102238;
+      --line: #253a50;
+      --cyan: #55d6e8;
+      --teal: #2dd4bf;
+      --blue: #5c8dff;
+      --gold: #f6c85f;
+      --good: #69e4a6;
+      --bad: #ff8f8f;
+      --shadow: 0 24px 70px rgba(0, 0, 0, .28);
+      --radius: 20px;
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      min-width: 320px;
+      background:
+        radial-gradient(circle at 78% 5%, rgba(45, 212, 191, .12), transparent 30rem),
+        radial-gradient(circle at 10% 20%, rgba(92, 141, 255, .10), transparent 34rem),
+        var(--page);
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-size: 1rem;
+      line-height: 1.58;
+    }
+
+    button, textarea, input { font: inherit; }
+
+    button { touch-action: manipulation; }
+
+    a { color: inherit; }
+
+    .skip-link {
+      position: fixed;
+      left: 1rem;
+      top: -5rem;
+      z-index: 100;
+      padding: .75rem 1rem;
+      border-radius: .6rem;
+      background: var(--teal);
+      color: #041113;
+      font-weight: 800;
+    }
+
+    .skip-link:focus { top: 1rem; }
+
+    .shell {
+      width: min(1120px, calc(100% - 2rem));
+      margin: 0 auto;
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      padding: 3.2rem 0 2.2rem;
+      border-bottom: 1px solid rgba(85, 214, 232, .16);
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      inset: auto 0 0;
+      height: 84px;
+      opacity: .34;
+      background:
+        linear-gradient(90deg, transparent 2%, var(--cyan) 2% 2.2%, transparent 2.2% 8%, var(--cyan) 8% 8.2%, transparent 8.2% 14%, var(--cyan) 14% 14.5%, transparent 14.5% 26%, var(--teal) 26% 26.2%, transparent 26.2% 43%, var(--cyan) 43% 43.7%, transparent 43.7% 63%, var(--blue) 63% 63.3%, transparent 63.3% 75%, var(--teal) 75% 75.9%, transparent 75.9% 91%, var(--cyan) 91% 91.2%, transparent 91.2%);
+      clip-path: polygon(0 84%, 2% 84%, 2% 58%, 2.2% 84%, 8% 84%, 8% 45%, 8.2% 84%, 14% 84%, 14% 20%, 14.5% 84%, 26% 84%, 26% 64%, 26.2% 84%, 43% 84%, 43% 5%, 43.7% 84%, 63% 84%, 63% 48%, 63.3% 84%, 75% 84%, 75% 0, 75.9% 84%, 91% 84%, 91% 55%, 91.2% 84%, 100% 84%, 100% 100%, 0 100%);
+      pointer-events: none;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: .55rem;
+      margin: 0 0 1rem;
+      padding: .38rem .72rem;
+      border: 1px solid rgba(85, 214, 232, .3);
+      border-radius: 999px;
+      background: rgba(85, 214, 232, .08);
+      color: var(--cyan);
+      font-size: .82rem;
+      font-weight: 800;
+      letter-spacing: .09em;
+      text-transform: uppercase;
+    }
+
+    .eyebrow::before {
+      content: "";
+      width: .55rem;
+      height: .55rem;
+      border-radius: 50%;
+      background: var(--teal);
+      box-shadow: 0 0 18px var(--teal);
+    }
+
+    h1, h2, h3 { line-height: 1.15; text-wrap: balance; }
+
+    h1 {
+      max-width: 820px;
+      margin: 0;
+      font-size: clamp(2.35rem, 7vw, 5.3rem);
+      letter-spacing: -.055em;
+    }
+
+    .hero-copy {
+      max-width: 760px;
+      margin: 1.1rem 0 0;
+      color: #c1cfde;
+      font-size: clamp(1.05rem, 2vw, 1.22rem);
+    }
+
+    .meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .65rem;
+      margin-top: 1.55rem;
+    }
+
+    .meta span {
+      padding: .52rem .75rem;
+      border: 1px solid var(--line);
+      border-radius: .7rem;
+      background: rgba(13, 26, 42, .76);
+      color: var(--muted);
+      font-size: .9rem;
+    }
+
+    .workspace {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 280px;
+      gap: 2rem;
+      padding: 2rem 0 4.5rem;
+    }
+
+    .main { min-width: 0; }
+
+    .sidebar {
+      position: sticky;
+      top: 1rem;
+      align-self: start;
+      padding: 1rem;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: rgba(13, 26, 42, .92);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(14px);
+    }
+
+    .sidebar h2 {
+      margin: 0 0 .8rem;
+      font-size: 1rem;
+    }
+
+    .progress-track {
+      height: .55rem;
+      overflow: hidden;
+      border-radius: 999px;
+      background: #17273a;
+    }
+
+    .progress-bar {
+      width: 0;
+      height: 100%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, var(--blue), var(--teal));
+      transition: width .25s ease;
+    }
+
+    .progress-copy {
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+      margin: .55rem 0 1rem;
+      color: var(--muted);
+      font-size: .82rem;
+    }
+
+    .score {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: .55rem;
+      margin-bottom: 1rem;
+    }
+
+    .score div {
+      padding: .7rem;
+      border: 1px solid var(--line);
+      border-radius: .8rem;
+      background: var(--panel-2);
+    }
+
+    .score strong {
+      display: block;
+      color: var(--ink);
+      font-size: 1.25rem;
+    }
+
+    .score span {
+      color: var(--muted);
+      font-size: .75rem;
+    }
+
+    .jump-links {
+      display: grid;
+      gap: .35rem;
+      margin: .2rem 0 1rem;
+    }
+
+    .jump-links a {
+      padding: .55rem .65rem;
+      border-radius: .55rem;
+      color: #c8d5e4;
+      text-decoration: none;
+    }
+
+    .jump-links a:hover,
+    .jump-links a:focus-visible { background: #172a40; }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 44px;
+      padding: .68rem 1rem;
+      border: 1px solid transparent;
+      border-radius: .72rem;
+      background: var(--teal);
+      color: #041416;
+      font-weight: 850;
+      cursor: pointer;
+      transition: transform .15s ease, filter .15s ease, border-color .15s ease;
+    }
+
+    .btn:hover { filter: brightness(1.08); transform: translateY(-1px); }
+
+    .btn:active { transform: translateY(0); }
+
+    .btn.secondary {
+      background: transparent;
+      border-color: var(--line);
+      color: var(--ink);
+    }
+
+    .btn.secondary:hover { border-color: #4a627b; background: #14263a; }
+
+    .btn.full { width: 100%; }
+
+    .intro-card {
+      display: grid;
+      grid-template-columns: 1.35fr .65fr;
+      gap: 1rem;
+      margin-bottom: 2.2rem;
+      padding: 1.15rem;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: linear-gradient(135deg, rgba(16, 34, 56, .94), rgba(11, 24, 39, .94));
+    }
+
+    .intro-card h2 {
+      margin: 0 0 .45rem;
+      font-size: 1.2rem;
+    }
+
+    .intro-card p { margin: 0; color: var(--muted); }
+
+    .time-box {
+      display: grid;
+      place-items: center;
+      min-height: 100px;
+      border: 1px solid rgba(246, 200, 95, .3);
+      border-radius: 1rem;
+      background: rgba(246, 200, 95, .07);
+      text-align: center;
+    }
+
+    .time-box strong { display: block; color: var(--gold); font-size: 1.65rem; line-height: 1; }
+    .time-box span { color: #d9c99c; font-size: .78rem; letter-spacing: .05em; text-transform: uppercase; }
+
+    .section-head {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 1rem;
+      margin: 2.5rem 0 1rem;
+      padding-bottom: .8rem;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .section-head h2 { margin: 0; font-size: clamp(1.5rem, 4vw, 2.1rem); }
+    .section-head p { max-width: 33rem; margin: 0; color: var(--muted); font-size: .9rem; text-align: right; }
+
+    .question-list { display: grid; gap: 1rem; }
+
+    .question-card {
+      scroll-margin-top: 1rem;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: rgba(13, 26, 42, .93);
+      box-shadow: 0 12px 35px rgba(0, 0, 0, .14);
+    }
+
+    .question-card.is-correct { border-color: rgba(105, 228, 166, .62); }
+    .question-card.is-incorrect { border-color: rgba(255, 143, 143, .55); }
+
+    .question-body { padding: 1.15rem 1.15rem 1rem; }
+
+    .question-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-bottom: .65rem;
+    }
+
+    .q-number { color: var(--cyan); font-size: .82rem; font-weight: 900; letter-spacing: .1em; text-transform: uppercase; }
+
+    .lecture-tag {
+      padding: .28rem .55rem;
+      border: 1px solid #304a64;
+      border-radius: 999px;
+      color: #b7c8da;
+      font-size: .74rem;
+      font-weight: 750;
+    }
+
+    .stem { margin: 0 0 1rem; font-size: 1.08rem; font-weight: 720; }
+
+    .question-lead {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(205px, .58fr);
+      gap: .85rem;
+      align-items: start;
+      margin-bottom: 1rem;
+    }
+
+    .question-lead .stem,
+    .question-lead .prompt-parts { margin-top: 0; margin-bottom: 0; }
+
+    .equation-card {
+      overflow: hidden;
+      border: 1px solid rgba(85, 214, 232, .34);
+      border-radius: .8rem;
+      background: linear-gradient(145deg, rgba(85, 214, 232, .09), rgba(92, 141, 255, .08));
+    }
+
+    .equation-label {
+      display: block;
+      padding: .42rem .62rem;
+      border-bottom: 1px solid rgba(85, 214, 232, .22);
+      color: var(--cyan);
+      font-size: .72rem;
+      font-weight: 900;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+
+    .equation-content {
+      padding: .7rem .68rem .76rem;
+      color: #e9f8ff;
+      font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+      font-size: .9rem;
+      font-weight: 720;
+      line-height: 1.55;
+      overflow-wrap: anywhere;
+      white-space: pre-line;
+    }
+
+    .structure-note {
+      margin: .8rem 0 0;
+      color: var(--muted);
+      font-size: .84rem;
+    }
+
+    .structure-strip {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(155px, 1fr));
+      gap: .65rem;
+      margin: .9rem 0 1rem;
+    }
+
+    .structure-figure {
+      min-width: 0;
+      margin: 0;
+      overflow: hidden;
+      border: 1px solid #2d455c;
+      border-radius: .85rem;
+      background: #f8fbff;
+      color: #101820;
+    }
+
+    .structure-figure svg {
+      display: block;
+      width: 100%;
+      height: 116px;
+      padding: .45rem .6rem .15rem;
+    }
+
+    .structure-figure figcaption {
+      display: flex;
+      justify-content: space-between;
+      gap: .5rem;
+      padding: .48rem .65rem .55rem;
+      border-top: 1px solid #d8e1ea;
+      color: #243447;
+      font-size: .74rem;
+      font-weight: 780;
+      line-height: 1.25;
+    }
+
+    .structure-figure figcaption span:last-child {
+      color: #617185;
+      font-weight: 650;
+      text-align: right;
+    }
+
+    .chem-bond {
+      stroke: currentColor;
+      stroke-width: 3;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      fill: none;
+    }
+
+    .chem-bond.thin { stroke-width: 2; }
+    .chem-aromatic { stroke: #62748a; stroke-width: 2; fill: none; }
+    .chem-atom { fill: currentColor; font: 700 18px/1 ui-sans-serif, system-ui, sans-serif; text-anchor: middle; dominant-baseline: middle; }
+    .chem-small { fill: #526376; font: 650 12px/1 ui-sans-serif, system-ui, sans-serif; text-anchor: middle; dominant-baseline: middle; }
+
+    fieldset { min-width: 0; margin: 0; padding: 0; border: 0; }
+
+    .options { display: grid; gap: .55rem; }
+
+    .option {
+      display: grid;
+      grid-template-columns: 1.8rem 1fr;
+      gap: .65rem;
+      align-items: start;
+      padding: .72rem .8rem;
+      border: 1px solid #263b51;
+      border-radius: .8rem;
+      background: #0b1726;
+      cursor: pointer;
+      transition: border-color .15s ease, background .15s ease;
+    }
+
+    .option:hover { border-color: #49657f; background: #102034; }
+    .option:has(input:focus-visible) { outline: 3px solid rgba(85, 214, 232, .35); outline-offset: 2px; }
+    .option:has(input:checked) { border-color: var(--cyan); background: rgba(85, 214, 232, .08); }
+    .option.correct-choice { border-color: var(--good); background: rgba(105, 228, 166, .08); }
+    .option.wrong-choice { border-color: var(--bad); background: rgba(255, 143, 143, .07); }
+
+    .option input { margin: .33rem 0 0; accent-color: var(--teal); }
+
+    .letter {
+      display: inline-grid;
+      place-items: center;
+      width: 1.55rem;
+      height: 1.55rem;
+      margin-right: .42rem;
+      border-radius: .42rem;
+      background: #172a40;
+      color: var(--cyan);
+      font-size: .78rem;
+      font-weight: 900;
+    }
+
+    .actions {
+      display: flex;
+      align-items: center;
+      gap: .75rem;
+      margin-top: 1rem;
+    }
+
+    .hint { color: var(--muted); font-size: .83rem; }
+
+    .answer-panel {
+      padding: 1rem 1.15rem 1.1rem;
+      border-top: 1px solid var(--line);
+      background: #0a1624;
+    }
+
+    .answer-panel[hidden] { display: none; }
+
+    .answer-title {
+      display: flex;
+      align-items: center;
+      gap: .55rem;
+      margin: 0 0 .35rem;
+      font-size: 1rem;
+    }
+
+    .answer-title::before {
+      content: "";
+      width: .72rem;
+      height: .72rem;
+      border-radius: 50%;
+      background: var(--teal);
+      box-shadow: 0 0 14px rgba(45, 212, 191, .65);
+    }
+
+    .answer-panel p { margin: .2rem 0 0; color: #c5d2e0; }
+    .answer-panel .focus { margin-top: .55rem; color: var(--muted); font-size: .82rem; }
+
+    .short-card textarea {
+      width: 100%;
+      min-height: 150px;
+      resize: vertical;
+      padding: .85rem;
+      border: 1px solid #31485f;
+      border-radius: .8rem;
+      outline: none;
+      background: #081420;
+      color: var(--ink);
+      line-height: 1.5;
+    }
+
+    .short-card textarea:focus { border-color: var(--cyan); box-shadow: 0 0 0 3px rgba(85, 214, 232, .14); }
+
+    .prompt-parts { margin: .7rem 0 1rem; padding-left: 0; color: #cad6e3; list-style: none; counter-reset: part; }
+    .prompt-parts li { position: relative; padding-left: 2.1rem; counter-increment: part; }
+    .prompt-parts li::before { content: "(" counter(part, lower-alpha) ")"; position: absolute; left: 0; color: var(--cyan); font-weight: 850; }
+    .prompt-parts li + li { margin-top: .48rem; }
+
+    .rubric {
+      margin: .8rem 0 0;
+      padding: .8rem .8rem .8rem 1.8rem;
+      border: 1px solid #274156;
+      border-radius: .75rem;
+      background: #0d1c2c;
+      color: #c3d0dd;
+    }
+
+    .rubric li + li { margin-top: .28rem; }
+
+    .bonus-card {
+      border-color: rgba(246, 200, 95, .42);
+      background: linear-gradient(145deg, rgba(40, 33, 19, .54), rgba(13, 26, 42, .96));
+    }
+
+    .bonus-card .q-number, .bonus-card .lecture-tag { color: var(--gold); }
+
+    .footer {
+      padding: 1.8rem 0 3rem;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font-size: .86rem;
+      text-align: center;
+    }
+
+    .noscript {
+      margin: 1rem auto;
+      padding: 1rem;
+      border: 1px solid var(--bad);
+      border-radius: .8rem;
+      background: rgba(255, 143, 143, .1);
+    }
+
+    :focus-visible { outline: 3px solid rgba(85, 214, 232, .7); outline-offset: 3px; }
+
+    @media (max-width: 860px) {
+      .workspace { grid-template-columns: 1fr; }
+      .sidebar { position: static; order: -1; }
+      .jump-links { grid-template-columns: repeat(3, 1fr); }
+      .jump-links a { text-align: center; }
+      .sidebar .btn.full { width: auto; }
+    }
+
+    @media (max-width: 620px) {
+      .shell { width: min(100% - 1rem, 1120px); }
+      .hero { padding-top: 2.2rem; }
+      .workspace { gap: 1rem; padding-top: 1rem; }
+      .intro-card { grid-template-columns: 1fr; }
+      .section-head { display: block; }
+      .section-head p { margin-top: .45rem; text-align: left; }
+      .question-body, .answer-panel { padding-left: .9rem; padding-right: .9rem; }
+      .actions { align-items: stretch; flex-direction: column; }
+      .actions .btn { width: 100%; }
+      .jump-links { grid-template-columns: 1fr; }
+      .question-lead { grid-template-columns: 1fr; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after { scroll-behavior: auto !important; transition: none !important; }
+    }
+
+    @media print {
+      :root { color-scheme: light; --ink: #111827; --muted: #4b5563; --page: #fff; --panel: #fff; --panel-2: #f8fafc; --line: #cbd5e1; }
+      body { background: #fff; color: #111827; }
+      .hero { padding: 1rem 0; }
+      .hero::after, .sidebar, .actions, textarea, .footer { display: none !important; }
+      .workspace { display: block; padding-top: 1rem; }
+      .question-card { break-inside: avoid; box-shadow: none; background: #fff; }
+      .option { background: #fff; }
+      .answer-panel { background: #f8fafc; }
+      .answer-panel[hidden] { display: none !important; }
+    }
+  </style>
+</head>
+<body>
+  <svg aria-hidden="true" width="0" height="0" style="position:absolute;overflow:hidden">
+    <defs>
+      <symbol id="chem-water" viewBox="0 0 260 120">
+        <line class="chem-bond" x1="116" y1="66" x2="82" y2="88"/>
+        <line class="chem-bond" x1="144" y1="66" x2="178" y2="88"/>
+        <text class="chem-atom" x="130" y="58">O</text>
+        <text class="chem-atom" x="68" y="99">H</text>
+        <text class="chem-atom" x="192" y="99">H</text>
+      </symbol>
+
+      <symbol id="chem-carbon-monoxide" viewBox="0 0 260 120">
+        <line class="chem-bond" x1="101" y1="53" x2="159" y2="53"/>
+        <line class="chem-bond" x1="101" y1="60" x2="159" y2="60"/>
+        <line class="chem-bond" x1="101" y1="67" x2="159" y2="67"/>
+        <text class="chem-atom" x="84" y="60">C</text>
+        <text class="chem-atom" x="176" y="60">O</text>
+        <text class="chem-small" x="78" y="34">−</text>
+        <text class="chem-small" x="181" y="34">+</text>
+      </symbol>
+
+      <symbol id="chem-ethene" viewBox="0 0 260 120">
+        <line class="chem-bond" x1="103" y1="55" x2="157" y2="55"/>
+        <line class="chem-bond" x1="103" y1="65" x2="157" y2="65"/>
+        <text class="chem-atom" x="76" y="60">H₂C</text>
+        <text class="chem-atom" x="184" y="60">CH₂</text>
+      </symbol>
+
+      <symbol id="chem-acetone" viewBox="0 0 260 120">
+        <line class="chem-bond" x1="65" y1="66" x2="112" y2="66"/>
+        <line class="chem-bond" x1="148" y1="66" x2="195" y2="66"/>
+        <line class="chem-bond" x1="125" y1="50" x2="125" y2="24"/>
+        <line class="chem-bond" x1="135" y1="50" x2="135" y2="24"/>
+        <text class="chem-atom" x="40" y="66">CH₃</text>
+        <text class="chem-atom" x="130" y="66">C</text>
+        <text class="chem-atom" x="130" y="12">O</text>
+        <text class="chem-atom" x="220" y="66">CH₃</text>
+      </symbol>
+
+      <symbol id="chem-methane" viewBox="0 0 260 120">
+        <line class="chem-bond" x1="130" y1="50" x2="130" y2="22"/>
+        <line class="chem-bond" x1="130" y1="70" x2="130" y2="98"/>
+        <line class="chem-bond" x1="118" y1="60" x2="88" y2="60"/>
+        <line class="chem-bond" x1="142" y1="60" x2="172" y2="60"/>
+        <text class="chem-atom" x="130" y="60">C</text>
+        <text class="chem-atom" x="130" y="11">H</text>
+        <text class="chem-atom" x="130" y="110">H</text>
+        <text class="chem-atom" x="74" y="60">H</text>
+        <text class="chem-atom" x="186" y="60">H</text>
+      </symbol>
+
+      <symbol id="chem-methyl-radical" viewBox="0 0 260 120">
+        <line class="chem-bond" x1="130" y1="50" x2="130" y2="22"/>
+        <line class="chem-bond" x1="118" y1="65" x2="89" y2="88"/>
+        <line class="chem-bond" x1="142" y1="65" x2="171" y2="88"/>
+        <text class="chem-atom" x="130" y="61">C</text>
+        <text class="chem-atom" x="130" y="11">H</text>
+        <text class="chem-atom" x="76" y="99">H</text>
+        <text class="chem-atom" x="184" y="99">H</text>
+        <circle cx="151" cy="43" r="3" fill="currentColor"/>
+      </symbol>
+
+      <symbol id="chem-peptide" viewBox="0 0 300 120">
+        <text class="chem-atom" x="27" y="72">H₂N</text>
+        <line class="chem-bond" x1="48" y1="72" x2="75" y2="72"/>
+        <text class="chem-atom" x="88" y="72">CH</text>
+        <line class="chem-bond thin" x1="88" y1="54" x2="88" y2="31"/>
+        <text class="chem-small" x="88" y="20">R</text>
+        <line class="chem-bond" x1="107" y1="72" x2="132" y2="72"/>
+        <text class="chem-atom" x="145" y="72">C</text>
+        <line class="chem-bond" x1="141" y1="55" x2="141" y2="27"/>
+        <line class="chem-bond" x1="149" y1="55" x2="149" y2="27"/>
+        <text class="chem-atom" x="145" y="14">O</text>
+        <line class="chem-bond" x1="158" y1="72" x2="182" y2="72"/>
+        <text class="chem-atom" x="199" y="72">NH</text>
+        <line class="chem-bond" x1="217" y1="72" x2="240" y2="72"/>
+        <text class="chem-atom" x="255" y="72">CH</text>
+        <line class="chem-bond thin" x1="255" y1="54" x2="255" y2="31"/>
+        <text class="chem-small" x="255" y="20">R′</text>
+      </symbol>
+
+      <symbol id="chem-mclafferty" viewBox="0 0 300 120">
+        <text class="chem-atom" x="29" y="73">R</text>
+        <line class="chem-bond" x1="44" y1="73" x2="70" y2="73"/>
+        <text class="chem-atom" x="82" y="73">C</text>
+        <line class="chem-bond" x1="78" y1="56" x2="78" y2="27"/>
+        <line class="chem-bond" x1="86" y1="56" x2="86" y2="27"/>
+        <text class="chem-atom" x="82" y="14">O</text>
+        <line class="chem-bond" x1="95" y1="73" x2="124" y2="91"/>
+        <line class="chem-bond" x1="124" y1="91" x2="158" y2="70"/>
+        <line class="chem-bond" x1="158" y1="70" x2="193" y2="91"/>
+        <line class="chem-bond" x1="193" y1="91" x2="224" y2="70"/>
+        <text class="chem-small" x="125" y="106">α</text>
+        <text class="chem-small" x="159" y="54">β</text>
+        <text class="chem-small" x="194" y="106">γ</text>
+        <text class="chem-atom" x="239" y="70">H</text>
+        <path class="chem-bond thin" stroke-dasharray="5 5" d="M230 55 C203 8, 117 4, 93 49"/>
+      </symbol>
+
+      <symbol id="chem-2-heptanone" viewBox="0 0 300 120">
+        <text class="chem-atom" x="28" y="72">CH₃</text>
+        <line class="chem-bond" x1="52" y1="72" x2="75" y2="72"/>
+        <text class="chem-atom" x="88" y="72">C</text>
+        <line class="chem-bond" x1="84" y1="55" x2="84" y2="27"/>
+        <line class="chem-bond" x1="92" y1="55" x2="92" y2="27"/>
+        <text class="chem-atom" x="88" y="14">O</text>
+        <line class="chem-bond" x1="102" y1="72" x2="130" y2="91"/>
+        <line class="chem-bond" x1="130" y1="91" x2="162" y2="72"/>
+        <line class="chem-bond" x1="162" y1="72" x2="194" y2="91"/>
+        <line class="chem-bond" x1="194" y1="91" x2="226" y2="72"/>
+        <line class="chem-bond" x1="226" y1="72" x2="248" y2="86"/>
+        <text class="chem-atom" x="275" y="91">CH₃</text>
+      </symbol>
+
+      <symbol id="chem-1-butene" viewBox="0 0 280 120">
+        <text class="chem-atom" x="42" y="62">H₂C</text>
+        <line class="chem-bond" x1="67" y1="56" x2="108" y2="56"/>
+        <line class="chem-bond" x1="67" y1="66" x2="108" y2="66"/>
+        <text class="chem-atom" x="130" y="62">CH</text>
+        <line class="chem-bond" x1="151" y1="62" x2="178" y2="62"/>
+        <text class="chem-atom" x="202" y="62">CH₂</text>
+        <line class="chem-bond" x1="226" y1="62" x2="246" y2="62"/>
+        <text class="chem-atom" x="268" y="62">CH₃</text>
+      </symbol>
+
+      <symbol id="chem-isobutene" viewBox="0 0 280 120">
+        <text class="chem-atom" x="45" y="62">H₂C</text>
+        <line class="chem-bond" x1="70" y1="56" x2="116" y2="56"/>
+        <line class="chem-bond" x1="70" y1="66" x2="116" y2="66"/>
+        <text class="chem-atom" x="132" y="62">C</text>
+        <line class="chem-bond" x1="143" y1="52" x2="176" y2="27"/>
+        <line class="chem-bond" x1="143" y1="72" x2="176" y2="96"/>
+        <text class="chem-atom" x="208" y="22">CH₃</text>
+        <text class="chem-atom" x="208" y="101">CH₃</text>
+      </symbol>
+
+      <symbol id="chem-ammonia" viewBox="0 0 260 120">
+        <line class="chem-bond" x1="130" y1="68" x2="130" y2="98"/>
+        <line class="chem-bond" x1="119" y1="59" x2="90" y2="39"/>
+        <line class="chem-bond" x1="141" y1="59" x2="170" y2="39"/>
+        <circle cx="124" cy="25" r="2.5" fill="currentColor"/>
+        <circle cx="136" cy="25" r="2.5" fill="currentColor"/>
+        <text class="chem-atom" x="130" y="60">N</text>
+        <text class="chem-atom" x="130" y="110">H</text>
+        <text class="chem-atom" x="76" y="30">H</text>
+        <text class="chem-atom" x="184" y="30">H</text>
+      </symbol>
+
+      <symbol id="chem-ddt" viewBox="0 0 320 140">
+        <polygon class="chem-bond" points="55,28 82,43 82,74 55,89 28,74 28,43"/>
+        <circle class="chem-aromatic" cx="55" cy="59" r="21"/>
+        <polygon class="chem-bond" points="265,28 292,43 292,74 265,89 238,74 238,43"/>
+        <circle class="chem-aromatic" cx="265" cy="59" r="21"/>
+        <line class="chem-bond" x1="82" y1="59" x2="144" y2="59"/>
+        <line class="chem-bond" x1="176" y1="59" x2="238" y2="59"/>
+        <text class="chem-atom" x="160" y="59">CH</text>
+        <line class="chem-bond" x1="160" y1="76" x2="160" y2="105"/>
+        <text class="chem-atom" x="160" y="124">CCl₃</text>
+        <line class="chem-bond" x1="28" y1="59" x2="9" y2="59"/>
+        <text class="chem-atom" x="7" y="39">Cl</text>
+        <line class="chem-bond" x1="292" y1="59" x2="311" y2="59"/>
+        <text class="chem-atom" x="311" y="39">Cl</text>
+      </symbol>
+
+      <symbol id="chem-chlorobenzene" viewBox="0 0 280 120">
+        <polygon class="chem-bond" points="105,20 140,40 140,80 105,100 70,80 70,40"/>
+        <circle class="chem-aromatic" cx="105" cy="60" r="27"/>
+        <line class="chem-bond" x1="140" y1="60" x2="190" y2="60"/>
+        <text class="chem-atom" x="216" y="60">Cl</text>
+      </symbol>
+
+      <symbol id="chem-polyethylene" viewBox="0 0 280 120">
+        <text class="chem-atom" x="35" y="60">[</text>
+        <line class="chem-bond" x1="49" y1="60" x2="73" y2="60"/>
+        <text class="chem-atom" x="102" y="60">CH₂</text>
+        <line class="chem-bond" x1="128" y1="60" x2="152" y2="60"/>
+        <text class="chem-atom" x="181" y="60">CH₂</text>
+        <line class="chem-bond" x1="207" y1="60" x2="231" y2="60"/>
+        <text class="chem-atom" x="246" y="60">]</text>
+        <text class="chem-small" x="260" y="85">n</text>
+      </symbol>
+
+      <symbol id="chem-si-cu-si-stack" viewBox="0 0 300 140">
+        <rect x="82" y="18" width="136" height="34" rx="2" fill="#cbd5e1" stroke="#1f2937" stroke-width="2"/>
+        <rect x="82" y="53" width="136" height="34" fill="#d97706" stroke="#1f2937" stroke-width="2"/>
+        <rect x="82" y="88" width="136" height="34" rx="2" fill="#cbd5e1" stroke="#1f2937" stroke-width="2"/>
+        <text class="chem-atom" x="150" y="35">Si</text>
+        <text class="chem-atom" x="150" y="70">Cu</text>
+        <text class="chem-atom" x="150" y="105">Si</text>
+        <text class="chem-small" x="248" y="70">depth</text>
+        <line x1="240" y1="28" x2="240" y2="112" stroke="#526376" stroke-width="2"/>
+        <path d="M234 104 L240 114 L246 104" fill="none" stroke="#526376" stroke-width="2"/>
+      </symbol>
+    </defs>
+  </svg>
+  <a class="skip-link" href="#practice">Skip to questions</a>
+
+  <header class="hero">
+    <div class="shell">
+      <p class="eyebrow">CHEM 4400H · Mass Spectrometry</p>
+      <h1>A practice midterm built to the same blueprint.</h1>
+      <p class="hero-copy">New questions with the same 50-minute structure, topic weighting, calculations, and response style as the Lectures 1–7 midterm. Answer first, then reveal the explanation or model response.</p>
+      <div class="meta" aria-label="Practice set details">
+        <span>20 MC · 1 mark each</span>
+        <span>Answer 4 of 5 · 5 marks each</span>
+        <span>2-mark optional bonus</span>
+        <span>Answers reveal individually</span>
+      </div>
+    </div>
+  </header>
+
+  <noscript><div class="shell noscript">This practice page needs JavaScript enabled to display the questions and reveal the answers.</div></noscript>
+
+  <div class="shell workspace" id="practice">
+    <main class="main">
+      <section class="intro-card" aria-labelledby="how-to-use">
+        <div>
+          <h2 id="how-to-use">Use it like the midterm</h2>
+          <p>Complete all 20 multiple-choice questions, then answer any 4 of Questions 21–25 and treat one as omitted. The question sequence mirrors the midterm, but the values, compounds, and sample scenarios are different. Write a complete response before revealing each model answer.</p>
+          <p class="structure-note">A 2D structure is shown whenever a specific compound is named. Generic analytes and compound classes do not have one unique structure.</p>
+        </div>
+        <div class="time-box" aria-label="Suggested time: 50 minutes">
+          <div><strong>50 min</strong><span>suggested time</span></div>
+        </div>
+      </section>
+
+      <section id="multiple-choice" aria-labelledby="mc-heading">
+        <div class="section-head">
+          <h2 id="mc-heading">Multiple choice</h2>
+          <p>Choose one response, then select “Check answer.” You can revise and check again.</p>
+        </div>
+        <div class="question-list" id="mc-list"></div>
+      </section>
+
+      <section id="short-answer" aria-labelledby="short-heading">
+        <div class="section-head">
+          <h2 id="short-heading">Short answer</h2>
+          <p>Answer any 4 of Questions 21–25. Each question is worth 5 marks. Use the checklist under each model answer to self-assess.</p>
+        </div>
+        <div class="question-list" id="short-list"></div>
+      </section>
+
+      <section id="bonus" aria-labelledby="bonus-heading">
+        <div class="section-head">
+          <h2 id="bonus-heading">Bonus charge-state envelope</h2>
+          <p>A two-mark ESI calculation matching the bonus format on the midterm.</p>
+        </div>
+        <div class="question-list" id="bonus-list"></div>
+      </section>
+    </main>
+
+    <aside class="sidebar" aria-labelledby="progress-heading">
+      <h2 id="progress-heading">Practice progress</h2>
+      <div class="progress-track" aria-hidden="true"><div class="progress-bar" id="progress-bar"></div></div>
+      <div class="progress-copy"><span id="progress-text">0 of 26 revealed</span><span id="progress-percent">0%</span></div>
+      <div class="score" aria-live="polite">
+        <div><strong id="score-correct">0</strong><span>MC correct</span></div>
+        <div><strong id="score-checked">0</strong><span>MC checked</span></div>
+      </div>
+      <nav class="jump-links" aria-label="Jump to section">
+        <a href="#multiple-choice">Multiple choice</a>
+        <a href="#short-answer">Short answer</a>
+        <a href="#bonus">Bonus</a>
+      </nav>
+      <button class="btn secondary full" type="button" id="reset-button">Reset practice</button>
+    </aside>
+  </div>
+
+  <footer class="footer">
+    <div class="shell">CHEM 4400H · Practice coverage: foundations, instrument concepts, EI, CI, and SIMS · Lectures 1–7</div>
+  </footer>
+
+  <script>
+    const mcQuestions = [
+      {
+        lecture: "Lecture 1 · Foundations",
+        stem: "A measured mass is 500.002 Da and the accepted exact mass is 500.000 Da. What is the mass error?",
+        equation: "mass error (ppm) = [(mₘₑₐₛ − mₐcc) / mₐcc] × 10⁶",
+        options: ["0.4 ppm", "4 ppm", "40 ppm", "400 ppm"],
+        answer: 1,
+        explanation: "Mass error = [(500.002 − 500.000) / 500.000] × 10⁶ = 4 ppm.",
+        focus: "Mass accuracy and ppm error"
+      },
+      {
+        lecture: "Lecture 1 · Foundations",
+        stem: "A peak at m/z 720 has a full width at half maximum of 0.18 Da. What is the resolving power?",
+        equation: "R = m / Δm",
+        options: ["400", "1,296", "4,000", "12,960"],
+        answer: 2,
+        explanation: "Resolving power is R = m/Δm = 720/0.18 = 4,000.",
+        focus: "Resolving power"
+      },
+      {
+        lecture: "Lecture 1 · Foundations",
+        stem: "A molecular-ion cluster has an approximate M:M+2:M+4 intensity pattern of 9:6:1. What composition is the strongest clue?",
+        equation: "two Cl atoms: (3 + 1)² → 9 : 6 : 1",
+        options: ["One chlorine atom", "Two chlorine atoms", "One bromine atom", "Two sulfur atoms"],
+        answer: 1,
+        explanation: "Two chlorine atoms produce the characteristic binomial cluster near 9:6:1. One chlorine gives an M:M+2 pattern near 3:1, whereas one bromine gives roughly 1:1.",
+        focus: "Isotope patterns"
+      },
+      {
+        lecture: "Lecture 2 · Instruments & ionization",
+        stem: "Which description best matches MALDI?",
+        equation: "M + H⁺ → [M+H]⁺",
+        options: [
+          "A 70 eV electron beam ionizes volatile molecules",
+          "A laser excites a co-crystallized matrix and commonly produces intact, singly charged analyte ions",
+          "Charged droplets evaporate to produce a broad multiple-charge envelope",
+          "A cesium beam sputters negative ions from a solid"
+        ],
+        answer: 1,
+        explanation: "MALDI uses a light-absorbing matrix and a laser pulse to desorb and ionize analytes. Spectra commonly contain intact, singly charged ions.",
+        focus: "Soft-ionization method recognition"
+      },
+      {
+        lecture: "Lecture 2 · Instruments & ionization",
+        stem: "Which method is usually the best starting point for an intact protein already dissolved in solution when multiple charging is useful?",
+        equation: "m/z = (M + zH) / z",
+        options: ["Electron ionization", "Electrospray ionization", "Dynamic SIMS", "Chemical ionization with methane"],
+        answer: 1,
+        explanation: "ESI transfers ions from solution into the gas phase and commonly produces multiply charged proteins, bringing large masses into an accessible m/z range.",
+        focus: "Selecting an ionization method",
+        structures: [
+          { id: "peptide", label: "Protein", formula: "representative peptide segment" },
+          { id: "methane", label: "Methane", formula: "CH₄" }
+        ]
+      },
+      {
+        lecture: "Lecture 2 · Instruments & ionization",
+        stem: "In a double-focusing sector instrument, what is the main role of the electrostatic sector?",
+        equation: "electrostatic sector: KE / z = constant\nmagnetic sector: r = mv / (zeB)",
+        options: [
+          "It measures ion abundance directly",
+          "It selects ions within a narrow kinetic-energy range",
+          "It ionizes the neutral sample",
+          "It separates ions only by isotope abundance"
+        ],
+        answer: 1,
+        explanation: "The electrostatic sector corrects or selects for kinetic-energy spread. The magnetic sector then provides momentum-dependent deflection; together they improve focusing and resolution.",
+        focus: "Sector analyzer roles"
+      },
+      {
+        lecture: "Lecture 3 · EI mechanism",
+        stem: "Why are standard EI spectra commonly acquired near 70 eV?",
+        equation: "M + e⁻ → M⁺• + 2e⁻",
+        options: [
+          "Every organic molecule has an ionization energy of exactly 70 eV",
+          "The molecular ion cannot fragment at this energy",
+          "It provides robust ion yield and reproducible fragmentation for library comparison",
+          "It forces all molecules to become doubly charged"
+        ],
+        answer: 2,
+        explanation: "Near 70 eV, EI provides strong ion current and highly reproducible fragmentation. That reproducibility makes library matching useful.",
+        focus: "Why 70 eV EI is standardized"
+      },
+      {
+        lecture: "Lecture 3 · EI mechanism",
+        stem: "What change is most likely when EI electron energy is lowered from 70 eV toward 15 eV?",
+        equation: "M + e⁻ → M⁺•* + 2e⁻\nM⁺•* → fragment ions + neutrals",
+        options: [
+          "Ion current usually rises and fragmentation increases",
+          "Ion current usually falls and the molecular ion may become more prominent relative to fragments",
+          "Every analyte produces only a doubly charged molecular ion",
+          "The sample no longer needs to be volatile"
+        ],
+        answer: 1,
+        explanation: "Lower-energy EI can reduce excess internal energy and fragmentation, so the molecular ion may look stronger relative to fragments. The trade-off is usually lower total ion current.",
+        focus: "Electron-energy trade-offs"
+      },
+      {
+        lecture: "Lecture 3 · EI mechanism",
+        stem: "Which outcome describes neutral excitation in an EI source?",
+        equation: "M + e⁻ → M* + e⁻",
+        options: [
+          "The molecule gains energy but does not lose an electron",
+          "The molecule gains a proton",
+          "The molecule forms a sodium adduct",
+          "The molecule is sputtered from a surface"
+        ],
+        answer: 0,
+        explanation: "Electron impact can excite a molecule without ionizing it. Because the species remains neutral, it is not guided through the mass analyzer or detected as an ion peak.",
+        focus: "Competing electron–molecule outcomes"
+      },
+      {
+        lecture: "Lecture 4 · EI fragmentation",
+        stem: "An EI spectrum contains peaks at m/z 150 and 122. What is the most defensible first interpretation?",
+        equation: "neutral loss = m(parent ion) − m(product ion)",
+        options: [
+          "A water loss is proven",
+          "A 28 Da neutral loss is inferred, but structure and mechanism must distinguish candidates such as CO and ethene",
+          "A neutral molecule at m/z 28 was detected directly",
+          "The m/z 122 ion must be doubly charged"
+        ],
+        answer: 1,
+        explanation: "The peak difference is 28 Da, but the spectrum detects charged ions—not the neutral loss itself. Molecular structure and a plausible mechanism are needed to assign the lost neutral.",
+        focus: "Interpreting neutral losses",
+        structures: [
+          { id: "water", label: "Water", formula: "H₂O" },
+          { id: "carbon-monoxide", label: "Carbon monoxide", formula: "CO" },
+          { id: "ethene", label: "Ethene", formula: "C₂H₄" }
+        ]
+      },
+      {
+        lecture: "Lecture 4 · EI fragmentation",
+        stem: "Which structural feature is required for a classic McLafferty rearrangement of a carbonyl compound?",
+        equation: "M⁺• → rearrangement ion + neutral alkene",
+        options: [
+          "A transferable gamma hydrogen that can reach the carbonyl through a six-membered geometry",
+          "Two bromine atoms on adjacent carbons",
+          "A permanently charged nitrogen atom",
+          "A sodium atom bound to the carbonyl oxygen"
+        ],
+        answer: 0,
+        explanation: "The rearrangement requires a gamma hydrogen and a geometry that supports a six-membered cyclic transition state, coupled to beta cleavage and π-bond reorganization.",
+        focus: "McLafferty requirements",
+        structures: [
+          { id: "mclafferty", label: "Carbonyl substrate", formula: "generic γ-H motif" }
+        ]
+      },
+      {
+        lecture: "Lecture 4 · EI fragmentation",
+        stem: "Alpha cleavage of an acetone molecular radical cation can place the charge on CH₃CO or CH₃. If IE(CH₃CO•) is lower than IE(CH₃•), which ion does Stevenson’s rule favour?",
+        equation: "lower IE(fragment radical) ⇒ corresponding fragment cation favoured",
+        options: ["CH₃CO⁺ at m/z 43", "CH₃⁺ at m/z 15", "Both ions must have equal abundance", "Neutral CO"],
+        answer: 0,
+        explanation: "For the same cleavage, the fragment whose corresponding radical has the lower ionization energy is more likely to retain the positive charge. Here that is the acetyl fragment.",
+        focus: "Stevenson’s rule",
+        structures: [
+          { id: "acetone", label: "Acetone", formula: "C₃H₆O" },
+          { id: "methyl-radical", label: "Methyl radical", formula: "CH₃•" }
+        ]
+      },
+      {
+        lecture: "Lecture 5 · CI fundamentals",
+        stem: "Why does conventional chemical ionization operate at a much higher source pressure than EI?",
+        equation: "CH₄⁺• + CH₄ → CH₅⁺ + CH₃•",
+        options: [
+          "To stop the reagent gas from being ionized",
+          "To make every analyte ion doubly charged",
+          "To promote collisions that form reagent ions and then drive ion–molecule reactions with analyte",
+          "To eliminate every possible fragmentation pathway"
+        ],
+        answer: 2,
+        explanation: "CI deliberately creates a collision-rich reagent-ion plasma. Reagent ions then react with trace analyte molecules, often by proton transfer.",
+        focus: "CI source conditions"
+      },
+      {
+        lecture: "Lecture 5 · CI fundamentals",
+        stem: "For proton-transfer CI, BH⁺ + M → B + [M+H]⁺ is energetically favourable when:",
+        equation: "BH⁺ + M → B + [M+H]⁺\nfavourable when PA(M) > PA(B)",
+        options: ["PA(M) is lower than PA(B)", "PA(M) is higher than PA(B)", "M has the lower molecular mass", "B contains a halogen"],
+        answer: 1,
+        explanation: "The proton moves toward the neutral species with the higher proton affinity. Therefore PA(M) must exceed PA(B) for favourable proton transfer.",
+        focus: "Proton-affinity direction"
+      },
+      {
+        lecture: "Lecture 5 · CI fundamentals",
+        stem: "A neutral analyte has nominal mass 176. Where should its singly charged protonated molecule appear?",
+        equation: "m/z([M+H]⁺) = M + 1",
+        options: ["m/z 175", "m/z 176", "m/z 177", "m/z 199"],
+        answer: 2,
+        explanation: "A protonated molecule is [M+H]⁺, so it appears one nominal mass unit above neutral M: m/z 177.",
+        focus: "Quasi-molecular ion notation"
+      },
+      {
+        lecture: "Lecture 6 · CI reagent chemistry",
+        stem: "Why does a newly formed association adduct often need a third-body collision to survive?",
+        equation: "[M+A]⁺* + N → [M+A]⁺ + N*",
+        options: [
+          "The collision supplies the analyte’s molecular mass",
+          "The collision reverses the ion’s charge",
+          "The collision removes excess association energy before the complex redissociates",
+          "The collision converts every adduct into a radical cation"
+        ],
+        answer: 2,
+        explanation: "Association creates an energized complex. A collision with a third body can carry away excess energy, stabilizing the adduct long enough for detection.",
+        focus: "Adduct stabilization"
+      },
+      {
+        lecture: "Lecture 6 · CI reagent chemistry",
+        stem: "For positive charge-exchange CI using B⁺•, which condition favours formation of M⁺•?",
+        equation: "B⁺• + M → B + M⁺•\nfavourable when IE(M) < IE(B)",
+        options: [
+          "IE(M) is lower than IE(B); a smaller favourable gap is generally gentler",
+          "IE(M) is higher than IE(B); the largest gap is always softest",
+          "PA(M) must be lower than PA(B)",
+          "M must first form a sodium adduct"
+        ],
+        answer: 0,
+        explanation: "Charge exchange is favourable when the reagent ion has enough recombination energy to remove an electron from M. A large excess-energy gap can leave M⁺• internally excited and promote fragmentation.",
+        focus: "Charge-exchange energetics"
+      },
+      {
+        lecture: "Lecture 6 · CI reagent chemistry",
+        stem: "Which analyte is the strongest candidate for electron-capture negative chemical ionization (ECNI)?",
+        equation: "M + e⁻(thermal) → M⁻•",
+        options: [
+          "A saturated hydrocarbon with no electron-withdrawing groups",
+          "DDT, a highly chlorinated pesticide",
+          "An alkyl amine selected only for protonation",
+          "A sodium salt measured only in positive mode"
+        ],
+        answer: 1,
+        explanation: "DDT and other strongly electron-capturing halogenated analytes readily form negative ions from low-energy electrons, making ECNI highly selective and sensitive for them.",
+        focus: "ECNI selectivity",
+        structures: [
+          { id: "ddt", label: "DDT", formula: "C₁₄H₉Cl₅" }
+        ]
+      },
+      {
+        lecture: "Lecture 7 · SIMS",
+        stem: "What primarily distinguishes static SIMS from dynamic SIMS?",
+        equation: "primary-ion dose = ions / area\nstatic SIMS: dose below damage limit",
+        options: [
+          "The manufacturer of the detector",
+          "The accumulated primary-ion dose and whether the surface is deliberately eroded",
+          "Whether the experiment uses vacuum",
+          "Whether the detected species carry charge"
+        ],
+        answer: 1,
+        explanation: "Static SIMS limits accumulated primary-ion dose to preserve molecular information from the original top surface. Dynamic SIMS continuously sputters material and is suited to depth profiling.",
+        focus: "Static versus dynamic SIMS"
+      },
+      {
+        lecture: "Lecture 7 · SIMS",
+        stem: "Which beam and polarity combination commonly enhances detection of chlorine from a solid surface?",
+        equation: "Cs implantation ↓ work function Φ ⇒ negative-ion yield ↑",
+        options: [
+          "O₂⁺ primary ions with positive-ion detection only",
+          "Cs⁺ primary ions with negative-ion detection of Cl⁻",
+          "Electrons with no sputtering step",
+          "Methane reagent ions with positive-ion detection"
+        ],
+        answer: 1,
+        explanation: "Implanted cesium lowers the surface work function and often increases negative secondary-ion yield. Chlorine is therefore commonly measured as Cl⁻ with a Cs⁺ primary beam.",
+        focus: "SIMS beam chemistry and polarity",
+        structures: [
+          { id: "methane", label: "Methane", formula: "CH₄" }
+        ]
+      }
+    ];
+
+    const shortQuestions = [
+      {
+        lecture: "Lectures 1–2 · Quantitative foundations",
+        title: "Mass accuracy and resolving power",
+        equation: "error (ppm) = [(mₘₑₐₛ − mₐcc) / mₐcc] × 10⁶\nR = m / Δm",
+        parts: [
+          "A peak is measured at 612.004 Da; the accepted exact mass is 612.000 Da. Calculate the mass error in ppm.",
+          "The same peak has FWHM = 0.12 Da. Calculate the resolving power.",
+          "Two ions at this m/z differ by 0.10 Da. Using the simple m/Δm criterion, decide whether the measured resolving power is sufficient and justify your conclusion."
+        ],
+        answer: "The mass error is [(612.004 − 612.000)/612.000] × 10⁶ = 6.54 ppm. The measured resolving power is R = 612/0.12 = 5,100. Resolving peaks separated by 0.10 Da at m/z 612 requires R = 612/0.10 = 6,120. Because 5,100 is lower than 6,120, the instrument is not sufficient on the stated criterion.",
+        rubric: ["6.54 ppm with the correct sign/magnitude", "R = 5,100", "Required R = 6,120", "Clear conclusion that measured R is insufficient"],
+        focus: "Show the equation, substitution, units, and comparison—not only the final number."
+      },
+      {
+        lecture: "Lectures 3–5 · Complementary spectra",
+        title: "Using EI and CI together",
+        equation: "EI: M + e⁻ → M⁺• + 2e⁻\nCI: m/z([M+H]⁺) = M + 1",
+        parts: [
+          "A volatile analyte gives a rich EI fragment pattern but no clear molecular radical cation. Methane CI gives a strong [M+H]⁺ peak at m/z 165 and far fewer fragments.",
+          "Determine the neutral nominal mass.",
+          "Explain why the EI and CI spectra together are more informative than either spectrum alone."
+        ],
+        answer: "The neutral nominal mass is 164 because [M+H]⁺ appears one unit above M. EI supplies reproducible fragmentation that can support structural interpretation and library comparison, even when M⁺• is weak or absent. CI supplies a clearer quasi-molecular ion and therefore supports the molecular-mass assignment. Together, CI anchors the mass while EI provides structural clues.",
+        rubric: ["Neutral nominal mass = 164", "EI linked to fragmentation and structural/library information", "CI linked to [M+H]⁺ and molecular-mass confirmation", "Explicit statement that the methods provide complementary evidence"],
+        focus: "Separate what each spectrum tells you, then explain how the evidence combines.",
+        structures: [
+          { id: "methane", label: "Methane", formula: "CH₄" }
+        ]
+      },
+      {
+        lecture: "Lecture 4 · EI fragmentation",
+        title: "Diagnosing a McLafferty rearrangement",
+        equation: "neutral loss = 114 − 58 = 56 Da\nM⁺• → m/z 58 ion + C₄H₈",
+        parts: [
+          "The EI molecular radical cation of 2-heptanone appears at m/z 114, with a strong rearrangement ion at m/z 58.",
+          "Calculate the neutral loss and give its formula and common name.",
+          "Name the pathway and describe the structural requirement and the bond changes that produce the detected ion."
+        ],
+        answer: "The neutral loss is 114 − 58 = 56 Da, corresponding to C₄H₈ (1-butene). The pathway is a McLafferty rearrangement. A transferable gamma hydrogen reaches the carbonyl oxygen through a six-membered cyclic geometry while the alpha–beta bond cleaves and the π bonds reorganize. The charge remains on the enol radical cation detected at m/z 58; the neutral alkene is inferred rather than directly detected.",
+        rubric: ["Neutral loss = 56 Da", "C₄H₈ / 1-butene identified", "McLafferty rearrangement named", "Gamma-hydrogen transfer through six-membered geometry", "Beta cleavage/π-bond reorganization and charged product identified"],
+        focus: "A strong answer links the numerical loss to a chemically plausible mechanism.",
+        structures: [
+          { id: "2-heptanone", label: "2-Heptanone", formula: "C₇H₁₄O" },
+          { id: "1-butene", label: "1-Butene", formula: "C₄H₈" }
+        ]
+      },
+      {
+        lecture: "Lectures 5–6 · CI reagent choice",
+        title: "Selecting a proton-transfer reagent",
+        equation: "BH⁺ + M → B + [M+H]⁺\nΔH ≈ PA(B) − PA(M)",
+        parts: [
+          "An analyte has PA = 810 kJ mol⁻¹ and nominal neutral mass 178. Compare reagent ions whose neutral bases have PA values: methane 543.5, isobutene 802.1, and ammonia 853.6 kJ mol⁻¹.",
+          "Identify which reagent ions can protonate the analyte favourably.",
+          "Of the favourable choices, identify the softer reagent and explain why. Give the nominal m/z of [M+H]⁺."
+        ],
+        answer: "CH₅⁺ and the tert-butyl reagent ion can protonate the analyte because PA(M) = 810 exceeds the PA of methane and isobutene. NH₄⁺ is not favourable because 810 is below PA(NH₃) = 853.6. The tert-butyl reagent ion is the softer favourable donor because the exothermicity is much smaller: 810 − 802.1 = 7.9 kJ mol⁻¹. The protonated molecule appears at nominal m/z 179.",
+        rubric: ["CH₅⁺ identified as favourable", "tert-Butyl reagent ion identified as favourable", "NH₄⁺ identified as unfavourable with correct PA reasoning", "tert-Butyl reagent identified as softer because of the smaller favourable PA gap", "[M+H]⁺ at m/z 179"],
+        focus: "Use proton-affinity direction first; use the size of the favourable gap to discuss softness.",
+        structures: [
+          { id: "methane", label: "Methane", formula: "CH₄" },
+          { id: "isobutene", label: "Isobutene", formula: "C₄H₈" },
+          { id: "ammonia", label: "Ammonia", formula: "NH₃" }
+        ]
+      },
+      {
+        lecture: "Lecture 7 · SIMS",
+        title: "Designing and calibrating a depth profile",
+        equation: "sputter rate = crater depth / sputter time\nfeature depth = rate × feature time",
+        parts: [
+          "A 480 s dynamic-SIMS run creates a 240 nm crater. A chlorine signal reaches its maximum at 150 s.",
+          "Calculate the average sputter rate and the estimated depth of the chlorine maximum.",
+          "Recommend a primary beam/polarity combination for chlorine, a way to control charging in an insulating coating, and one correction if the sample changes matrix with depth."
+        ],
+        answer: "The average sputter rate is 240 nm / 480 s = 0.50 nm s⁻¹. The estimated depth is 150 s × 0.50 nm s⁻¹ = 75 nm. A Cs⁺ primary beam with negative-ion detection is appropriate for Cl⁻ because cesium commonly enhances negative secondary-ion yield. Use low-energy electron flooding or an equivalent charge-neutralization method for the insulating layer. If the matrix changes, the sputter rate may also change, so use crater-depth, multilayer, or segment-specific calibration rather than one rate across the entire profile.",
+        rubric: ["0.50 nm s⁻¹", "Estimated depth = 75 nm", "Cs⁺ with negative-ion detection of Cl⁻", "Electron flooding or equivalent charge compensation", "Matrix-dependent sputter-rate limitation plus an appropriate calibration response"],
+        focus: "Distinguish the numerical depth estimate from the experimental assumptions behind it."
+      }
+    ];
+
+    const bonusQuestion = {
+      lecture: "Integrated · Lectures 2–7",
+      title: "Three measurements, one defensible plan",
+      equation: "evidence = EI fragments + CI [M+H]⁺ + static-SIMS surface ions",
+      parts: [
+        "You must characterize chlorobenzene on the outermost surface of polyethylene. You need (i) a library-searchable fragmentation pattern, (ii) confirmation of nominal molecular mass if the EI molecular ion is weak, and (iii) molecular information from the original top surface.",
+        "Choose one suitable method for each need and briefly justify each choice."
+      ],
+      answer: "Use EI for the reproducible, library-searchable fragmentation pattern. Use positive CI to obtain a strong [M+H]⁺ or related quasi-molecular ion for nominal-mass confirmation. Use static SIMS at low accumulated primary-ion dose to preserve information from the original topmost surface. A complete plan recognizes that the methods answer different questions and that dynamic SIMS would deliberately erode the surface.",
+      rubric: ["EI correctly linked to reproducible fragmentation/library searching", "Positive CI correctly linked to quasi-molecular-ion mass confirmation", "Static SIMS correctly linked to top-surface molecular information and low dose"],
+      focus: "Method choice should follow the analytical question, not a single idea of which instrument is ‘best’.",
+      structures: [
+        { id: "chlorobenzene", label: "Chlorobenzene", formula: "C₆H₅Cl" },
+        { id: "polyethylene", label: "Polyethylene", formula: "repeat unit" }
+      ]
+    };
+
+    // Alternate practice questions matched to the student midterm blueprint.
+    // The skills, order, and mark balance are parallel; the values and samples are new.
+    const midtermStyleMC = [
+      {
+        lecture: "Lectures 1–2 · TOF",
+        stem: "Singly charged ions of mass 121 Da and 196 Da are accelerated through the same voltage and travel the same TOF distance. How does the flight time of the 196 Da ion compare with that of the 121 Da ion?",
+        equation: "t₂ / t₁ = √[(m₂/z₂) / (m₁/z₁)]",
+        options: ["About 0.79 times as long", "The same", "About 1.27 times as long", "About 1.62 times as long"],
+        answer: 2,
+        explanation: "For equal charge, t is proportional to √m. Therefore t₁₉₆/t₁₂₁ = √(196/121) = 14/11 = 1.27. The 121 Da ion arrives first.",
+        focus: "TOF scales with the square root of m/z, not directly with mass."
+      },
+      {
+        lecture: "Lecture 1 · Resolving power",
+        stem: "A peak at m/z 650 has a full width at half maximum of 0.13 Da. What is the resolving power?",
+        equation: "R = m / Δm",
+        options: ["500", "1,300", "5,000", "8,450"],
+        answer: 2,
+        explanation: "R = 650/0.13 = 5,000.",
+        focus: "Use the stated FWHM as Δm."
+      },
+      {
+        lecture: "Lecture 1 · Isotope patterns",
+        stem: "A molecular-ion cluster has M and M+2 peaks in an approximate 3:1 intensity ratio. Which element is the strongest clue?",
+        equation: "one Cl atom: ³⁵Cl : ³⁷Cl ≈ 3 : 1",
+        options: ["Carbon", "Chlorine", "Bromine", "Sulfur"],
+        answer: 1,
+        explanation: "One chlorine atom gives an M:M+2 pattern near 3:1. One bromine atom gives an approximately 1:1 pair.",
+        focus: "Distinguish the characteristic chlorine and bromine isotope patterns."
+      },
+      {
+        lecture: "Lecture 2 · Ionization choice",
+        stem: "Which method is the best starting choice for an intact protein in solution when multiple charging is useful?",
+        equation: "m/z = (M + zH) / z",
+        options: ["Electron ionization", "Electrospray ionization", "Static SIMS", "Magnetic-sector analysis"],
+        answer: 1,
+        explanation: "ESI transfers solution-phase ions into the gas phase and often produces a distribution of multiply protonated protein ions.",
+        focus: "Match the ionization method to sample state and the desired charge behaviour.",
+        structures: [{ id: "peptide", label: "Protein", formula: "representative peptide segment" }]
+      },
+      {
+        lecture: "Lecture 3 · EI mechanism",
+        stem: "Why are standard EI spectra commonly collected near 70 eV?",
+        equation: "M + e⁻ → M⁺• + 2e⁻",
+        options: [
+          "It equals the ionization energy of every organic molecule",
+          "It prevents the molecular radical cation from fragmenting",
+          "It provides robust ion yield and reproducible fragmentation for library comparison",
+          "It forces every analyte to form a doubly charged ion"
+        ],
+        answer: 2,
+        explanation: "Near 70 eV, EI gives strong ion current and reproducible fragmentation, which supports comparison with reference libraries.",
+        focus: "Standardization and reproducibility are the key reasons."
+      },
+      {
+        lecture: "Lecture 3 · EI cross section",
+        stem: "At equal number density and electron energy, which analyte generally gives the larger EI ionization cross section?",
+        equation: "ion formation rate ∝ number density × electron flux × ionization cross section",
+        options: [
+          "The analyte with the more polarizable electron cloud",
+          "The analyte with the narrowest isotope cluster",
+          "The analyte with the highest molecular symmetry only",
+          "The analyte that enters the source last"
+        ],
+        answer: 0,
+        explanation: "A larger, more polarizable electron cloud generally presents a larger effective target for electron-impact ionization.",
+        focus: "Connect ionization cross section to electron-cloud size and polarizability."
+      },
+      {
+        lecture: "Lecture 3 · Charge state",
+        stem: "A highly conjugated analyte has a neutral mass of 428.0 Da and a reproducible EI peak at m/z 214.0. What is the best assignment?",
+        equation: "m/z = M / z  ⇒  z = M / (m/z)",
+        options: ["A 214 Da neutral loss", "A protonated molecule", "A sodium adduct", "A doubly charged molecular ion"],
+        answer: 3,
+        explanation: "428.0/214.0 = 2, so the peak is consistent with a doubly charged molecular ion.",
+        focus: "Check charge state before assigning a large neutral loss."
+      },
+      {
+        lecture: "Lecture 4 · EI fragmentation",
+        stem: "Which feature is required for a classic McLafferty rearrangement of a carbonyl compound?",
+        equation: "M⁺• → rearrangement ion + neutral alkene",
+        options: [
+          "A chlorine atom attached to the carbonyl carbon",
+          "Two bromine atoms separated by two carbons",
+          "A transferable gamma hydrogen that reaches the unsaturated group through a six-membered geometry",
+          "A permanent positive charge on the neutral molecule"
+        ],
+        answer: 2,
+        explanation: "The rearrangement requires a gamma hydrogen, a six-membered cyclic geometry, hydrogen transfer, and beta cleavage.",
+        focus: "Recognize both the structural requirement and the cyclic transition geometry.",
+        structures: [{ id: "mclafferty", label: "Carbonyl substrate", formula: "generic γ-H motif" }]
+      },
+      {
+        lecture: "Lecture 4 · Stevenson’s rule",
+        stem: "Cleavage of AB⁺• can place the charge on A or B. If IE(A•) is 8.1 eV and IE(B•) is 9.7 eV, which product is favoured within this pair?",
+        equation: "lower IE(fragment radical) ⇒ corresponding fragment cation favoured",
+        options: ["A⁺", "B⁺", "A²⁺", "Neither product because the ionization energies differ"],
+        answer: 0,
+        explanation: "The charge is preferentially retained by the fragment whose corresponding radical has the lower ionization energy. Here, that is A.",
+        focus: "Compare the two corresponding radical ionization energies."
+      },
+      {
+        lecture: "Lecture 5 · CI pressure",
+        stem: "Why does conventional chemical ionization operate at much higher source pressure than EI?",
+        equation: "CH₄⁺• + CH₄ → CH₅⁺ + CH₃•",
+        options: [
+          "To prevent the reagent gas from being ionized",
+          "To make every analyte ion doubly charged",
+          "To promote collisions that form reagent ions and allow ion–molecule reactions with analyte",
+          "To eliminate all fragmentation regardless of reagent gas"
+        ],
+        answer: 2,
+        explanation: "The higher pressure creates a collision-rich reagent-ion plasma and supports subsequent ion–molecule reactions with trace analyte.",
+        focus: "CI pressure is required for reagent-ion chemistry and collisions.",
+        structures: [{ id: "methane", label: "Methane", formula: "CH₄" }]
+      },
+      {
+        lecture: "Lecture 5 · Proton transfer",
+        stem: "For proton-transfer CI, BH⁺ + M → B + [M+H]⁺ proceeds most readily under which condition?",
+        equation: "favourable proton transfer: PA(M) > PA(B)",
+        options: ["PA(M) is lower than PA(B)", "PA(M) is higher than PA(B)", "PA(M) equals zero", "M has the larger molecular mass"],
+        answer: 1,
+        explanation: "The proton transfers to the neutral species with the higher proton affinity, so PA(M) must exceed PA(B).",
+        focus: "Use proton affinity, not molecular mass, to predict direction."
+      },
+      {
+        lecture: "Lecture 5 · Quasi-molecular ions",
+        stem: "A neutral analyte has nominal mass 250. At what m/z should its singly charged protonated molecule appear?",
+        equation: "m/z([M+H]⁺) = M + 1",
+        options: ["249", "250", "251", "273"],
+        answer: 2,
+        explanation: "The singly charged [M+H]⁺ ion appears one nominal mass unit above neutral M, at m/z 251.",
+        focus: "Keep neutral mass and ion m/z distinct."
+      },
+      {
+        lecture: "Lecture 6 · Association adducts",
+        stem: "Why does a newly formed association adduct often need a third-body collision to survive?",
+        equation: "[M+A]⁺* + N → [M+A]⁺ + N*",
+        options: [
+          "The third body supplies the analyte’s molecular mass",
+          "The third body converts a positive ion into a negative ion",
+          "The third body increases the analyte ionization energy",
+          "The third body removes excess association energy before the complex redissociates"
+        ],
+        answer: 3,
+        explanation: "Association initially forms an energized complex. A third-body collision removes excess energy and stabilizes the adduct.",
+        focus: "Explain stabilization as energy removal."
+      },
+      {
+        lecture: "Lecture 6 · Charge exchange",
+        stem: "For charge-exchange CI using B⁺•, which condition is energetically favourable for forming M⁺•?",
+        equation: "B⁺• + M → B + M⁺•  when IE(M) < IE(B)",
+        options: [
+          "IE(M) is lower than IE(B), with a smaller favourable gap generally giving gentler ionization",
+          "IE(M) is higher than IE(B), and the largest gap is always softest",
+          "PA(M) is lower than PA(B)",
+          "M must contain sodium"
+        ],
+        answer: 0,
+        explanation: "The reagent ion must release enough recombination energy to ionize M. A smaller favourable energy gap deposits less excess energy and is usually gentler.",
+        focus: "Use ionization energy for charge exchange and proton affinity for proton transfer."
+      },
+      {
+        lecture: "Lecture 6 · Negative CI",
+        stem: "Which sample is the strongest candidate for electron-capture negative chemical ionization?",
+        equation: "M + e⁻(thermal) → M⁻•",
+        options: [
+          "A saturated hydrocarbon with no electron-withdrawing groups",
+          "DDT, a highly chlorinated pesticide that captures low-energy electrons",
+          "An alkyl amine selected for protonation",
+          "A sodium salt measured only in positive mode"
+        ],
+        answer: 1,
+        explanation: "DDT contains several electron-withdrawing chlorine substituents and readily captures low-energy electrons, making ECNI highly sensitive.",
+        focus: "ECNI favours analytes with strong electron-capturing groups.",
+        structures: [{ id: "ddt", label: "DDT", formula: "C₁₄H₉Cl₅" }]
+      },
+      {
+        lecture: "Lecture 7 · SIMS mode",
+        stem: "Which SIMS mode best preserves molecular information from the original topmost surface?",
+        equation: "static SIMS: primary-ion dose below the surface-damage limit",
+        options: ["Static SIMS", "Dynamic SIMS", "Positive CI", "Low-energy EI"],
+        answer: 0,
+        explanation: "Static SIMS limits accumulated primary-ion dose so most sampled molecules come from previously undamaged surface regions.",
+        focus: "Static SIMS preserves the original surface; dynamic SIMS deliberately erodes it."
+      },
+      {
+        lecture: "Lecture 7 · Cs⁺ mechanism",
+        stem: "Which primary-beam choice commonly enhances negative secondary-ion yield in SIMS?",
+        equation: "X⁰ + e⁻(surface) → X⁻   as Cs lowers Φ",
+        options: [
+          "O₂⁺ because it always lowers the surface work function",
+          "Ar⁺ because matrix effects disappear",
+          "An electron beam because sputtering is unnecessary",
+          "Cs⁺ because implanted cesium lowers the surface work function and favours electron capture"
+        ],
+        answer: 3,
+        explanation: "A cesium-rich surface has a lower work function, so a departing high-electron-affinity atom can capture an electron and emerge as X⁻.",
+        focus: "Connect Cs⁺ implantation, lower work function, and negative-ion formation."
+      },
+      {
+        lecture: "Lecture 7 · O₂⁺ mechanism",
+        stem: "Why does O₂⁺ bombardment commonly enhance positive secondary-ion yield from electropositive metals?",
+        equation: "M⁰(sputtered) → M⁺ + e⁻(oxygenated surface)",
+        options: [
+          "Cesium lowers the surface work function so M gains an electron",
+          "An oxygenated surface withdraws electron density; charge transfer and local M–O bond breaking can leave M⁺",
+          "O₂⁺ prevents sputtering and detects neutral atoms directly",
+          "Every metal forms a stable negative ion under oxygen bombardment"
+        ],
+        answer: 1,
+        explanation: "Oxygen creates an oxygenated or oxidized near-surface region, withdraws electron density, and often raises the surface work function. Electron transfer to the surface and heterolytic local M–O bond breaking can therefore increase M⁺ emission.",
+        focus: "The oxygen effect combines surface electronic and local chemical-bonding effects."
+      },
+      {
+        lecture: "Lecture 7 · Depth profiling",
+        stem: "During a SIMS depth profile of a Si/Cu/Si stack, which signal sequence best confirms the proposed layer order?",
+        equation: "surface → depth: Si-rich → Cu-rich → Si-rich",
+        options: [
+          "Cu⁺ remains high and Si⁺ remains low throughout",
+          "Both signals disappear permanently after the first interface",
+          "Si⁺ starts high, Cu⁺ rises as Si⁺ falls, then Si⁺ rises again as Cu⁺ falls",
+          "The order of signals cannot contain depth information"
+        ],
+        answer: 2,
+        explanation: "The top Si layer gives high Si⁺ signal. At the Cu layer, Cu⁺ rises while Si⁺ falls. Entering the lower Si layer reverses that trend.",
+        focus: "Translate intensity-versus-sputter-time changes into layer order.",
+        structures: [{ id: "si-cu-si-stack", label: "Si/Cu/Si stack", formula: "schematic cross-section" }]
+      },
+      {
+        lecture: "Lecture 1 · Mass accuracy",
+        stem: "A measured exact mass is 400.003 Da and the accepted mass is 400.000 Da. What is the mass error?",
+        equation: "mass error (ppm) = [(mₘₑₐₛ − mₜᵣᵤₑ) / mₜᵣᵤₑ] × 10⁶",
+        options: ["0.75 ppm", "3.0 ppm", "7.5 ppm", "75 ppm"],
+        answer: 2,
+        explanation: "[(400.003 − 400.000)/400.000] × 10⁶ = 7.5 ppm.",
+        focus: "Preserve the sign and convert the fractional error to ppm."
+      }
+    ];
+
+    const midtermStyleShort = [
+      {
+        lecture: "Lectures 1–2 · Quantitative foundations",
+        title: "Time of flight and resolving power",
+        equation: "t₂/t₁ = √[(m₂/z₂)/(m₁/z₁)]\nR = m/Δm",
+        parts: [
+          "Singly charged ions at m/z 144 and 324 travel through the same TOF instrument. State which ion arrives first and calculate t₃₂₄/t₁₄₄. (2 marks)",
+          "A peak at m/z 750 has FWHM = 0.15 Da. Calculate the resolving power. On the simple m/Δm criterion, is this sufficient to distinguish two peaks 0.10 Da apart at m/z 750? Justify. (3 marks)"
+        ],
+        answer: "The m/z 144 ion arrives first. For equal charge, t₃₂₄/t₁₄₄ = √(324/144) = √2.25 = 1.50. The measured resolving power is R = 750/0.15 = 5,000. Distinguishing peaks 0.10 Da apart requires R = 750/0.10 = 7,500. Because 5,000 is lower than 7,500, the measured resolving power is insufficient on the stated criterion.",
+        rubric: ["m/z 144 identified as arriving first", "t₃₂₄/t₁₄₄ = 1.50", "Measured R = 5,000", "Required R = 7,500", "Clear conclusion that the resolution is insufficient"],
+        focus: "Show the square-root TOF relationship and compare measured R with required R."
+      },
+      {
+        lecture: "Lecture 4 · EI fragmentation",
+        title: "EI fragmentation of 2-heptanone",
+        equation: "neutral loss = 114 − 58 = 56 Da\nM⁺• → m/z 58 ion + C₄H₈",
+        parts: [
+          "The EI molecular radical cation, M⁺•, of 2-heptanone appears at m/z 114 and a strong fragment appears at m/z 58. Calculate the neutral loss and name the neutral species. (2 marks)",
+          "Name the fragmentation pathway and explain the structural requirement and bond changes that produce the detected ion. (3 marks)"
+        ],
+        answer: "The neutral loss is 114 − 58 = 56 Da, corresponding to C₄H₈, 1-butene. The pathway is a McLafferty rearrangement. A gamma hydrogen transfers to the carbonyl oxygen through a six-membered cyclic geometry while the alpha–beta bond cleaves and the pi bonds reorganize. The charge remains on the enol radical cation detected at m/z 58; the neutral alkene is inferred rather than detected directly.",
+        rubric: ["Neutral loss = 56 Da", "C₄H₈ and 1-butene identified", "McLafferty rearrangement named", "Gamma-hydrogen transfer through a six-membered geometry", "Bond cleavage, pi-bond reorganization, and the detected charged product explained"],
+        focus: "Link the calculated loss to a chemically plausible mechanism.",
+        structures: [
+          { id: "2-heptanone", label: "2-Heptanone", formula: "C₇H₁₄O" },
+          { id: "1-butene", label: "1-Butene", formula: "C₄H₈" }
+        ]
+      },
+      {
+        lecture: "Lectures 5–6 · CI reagent choice",
+        title: "Choosing a CI reagent",
+        equation: "BH⁺ + M → B + [M+H]⁺\nfavourable when PA(M) > PA(B)",
+        parts: [
+          "An analyte has PA = 815 kJ mol⁻¹ and nominal neutral mass 176. Compare proton-transfer reagents whose neutral bases have PA values: methane 543.5, isobutene 802.1, and ammonia 853.6 kJ mol⁻¹. Identify which reagent ions can protonate the analyte favourably. (3 marks)",
+          "Of the favourable choices, identify the softer reagent and explain why. (1 mark)",
+          "Give the nominal m/z of [M+H]⁺. (1 mark)"
+        ],
+        answer: "The reagent ions derived from methane and isobutene can protonate the analyte because PA(M) = 815 kJ mol⁻¹ exceeds 543.5 and 802.1 kJ mol⁻¹. Proton transfer from ammonium is not favourable because PA(M) is below PA(ammonia) = 853.6 kJ mol⁻¹. The isobutene-derived reagent is softer because the favourable PA gap is only 12.9 kJ mol⁻¹, so less excess energy is deposited than with methane. [M+H]⁺ appears at nominal m/z 177.",
+        rubric: ["Methane-derived reagent identified as favourable", "Isobutene-derived reagent identified as favourable", "Ammonium identified as unfavourable with correct PA reasoning", "Isobutene-derived reagent identified as softer from the smaller PA gap", "[M+H]⁺ at m/z 177"],
+        focus: "Decide favourability from PA direction before comparing softness.",
+        structures: [
+          { id: "methane", label: "Methane", formula: "CH₄" },
+          { id: "isobutene", label: "Isobutene", formula: "C₄H₈" },
+          { id: "ammonia", label: "Ammonia", formula: "NH₃" }
+        ]
+      },
+      {
+        lecture: "Lecture 6 · CI adducts",
+        title: "Recognizing and stabilizing CI adducts",
+        equation: "[M+H]⁺ = M + 1\n[M+Na]⁺ = M + 23\n[M+A]⁺* + N → [M+A]⁺ + N*",
+        parts: [
+          "A neutral analyte of nominal mass 250 gives positive-CI peaks at m/z 251 and 273. Assign both ions. (2 marks)",
+          "Explain why the two peaks are separated by 22 mass units even though sodium adds 23 nominal mass units to neutral M. (1 mark)",
+          "Explain why higher CI pressure can help an association adduct survive. (2 marks)"
+        ],
+        answer: "The m/z 251 peak is [M+H]⁺ and the m/z 273 peak is [M+Na]⁺. They are separated by 22 because their positions are M+1 and M+23, so (M+23) − (M+1) = 22. Association initially produces an internally excited adduct. At higher CI pressure, a collision with a third body can remove excess energy before the complex redissociates, stabilizing the detected adduct.",
+        rubric: ["m/z 251 assigned as [M+H]⁺", "m/z 273 assigned as [M+Na]⁺", "The 22-unit separation explained as 23 − 1", "Higher pressure linked to more collisions", "Third-body energy removal linked to adduct survival"],
+        focus: "Reference each adduct to neutral M before comparing the two peaks."
+      },
+      {
+        lecture: "Lecture 7 · SIMS depth profiling",
+        title: "Designing a SIMS depth-profile experiment",
+        equation: "secondary-ion intensity vs sputter time\nsputter time → depth after crater calibration",
+        parts: [
+          "A wafer is suspected to contain a silicon/copper/silicon stack. Describe how dynamic SIMS could confirm the proposed layer sequence. (1 mark)",
+          "State which ions you would monitor and their nominal m/z values. (1 mark)",
+          "Describe how the Si⁺ and Cu⁺ intensities should change as sputtering proceeds, and explain how those changes establish the layer order. (3 marks)"
+        ],
+        answer: "Raster a dynamic-SIMS primary beam over the wafer and record secondary-ion intensity as a function of sputter time. Monitor Si⁺ at nominal m/z 28 and Cu⁺ at nominal m/z 63. The initial surface should show high Si⁺ and low Cu⁺. At the first interface, Si⁺ should fall as Cu⁺ rises and reaches a plateau or maximum through the copper layer. At the second interface, Cu⁺ should fall while Si⁺ rises again. The sequence Si-rich, Cu-rich, Si-rich confirms the proposed stack. Interface transitions may be broadened by ion mixing or roughness, and sputter time becomes physical depth only after crater-depth or multilayer calibration.",
+        rubric: ["Dynamic SIMS depth profiling described", "Si⁺ at m/z 28 and Cu⁺ at m/z 63 identified", "Initial high Si⁺ signal described", "Copper-layer rise and second silicon-layer return described", "Signal sequence connected to the proposed layer order"],
+        focus: "Describe the full intensity sequence rather than only naming the monitored ions.",
+        structures: [{ id: "si-cu-si-stack", label: "Si/Cu/Si stack", formula: "schematic cross-section" }]
+      }
+    ];
+
+    mcQuestions.splice(0, mcQuestions.length, ...midtermStyleMC);
+    shortQuestions.splice(0, shortQuestions.length, ...midtermStyleShort);
+    Object.assign(bonusQuestion, {
+      lecture: "Lecture 2 · ESI charge states",
+      title: "Charge-state envelope",
+      equation: "z = (m₂ − mH) / (m₂ − m₁)\nM = z[(m/z)₁ − mH]",
+      parts: [
+        "Two adjacent ESI peaks from the same protein appear at m/z 876.008 and 904.234. The lower-m/z peak has one more proton than the higher-m/z peak.",
+        "Using a proton mass of 1.008 Da, determine the charge on the lower-m/z peak and the neutral molecular mass."
+      ],
+      answer: "Let m₁ = 876.008 for charge z and m₂ = 904.234 for charge z − 1. Then z = (904.234 − 1.008)/(904.234 − 876.008) = 903.226/28.226 = 32. The lower-m/z peak is therefore [M+32H]³²⁺. The neutral mass is M = 32(876.008 − 1.008) = 32 × 875.000 = 28,000 Da. Substitution into the adjacent 31+ peak gives the same mass within rounding.",
+      rubric: ["Adjacent-charge relationship set up correctly", "Lower-m/z peak assigned as 32+", "Neutral mass calculated as 28,000 Da", "Units and charge notation included"],
+      focus: "Use the adjacent peaks to find z before calculating the neutral mass.",
+      structures: [{ id: "peptide", label: "Protein", formula: "representative peptide segment" }]
+    });
+
+    const letters = ["A", "B", "C", "D"];
+    const state = {
+      mc: mcQuestions.map(() => ({ revealed: false, correct: false })),
+      short: shortQuestions.map(() => false),
+      bonus: false
+    };
+
+    function escapeHTML(value) {
+      return String(value).replace(/[&<>'"]/g, char => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", "'": "&#39;", '"': "&quot;" }[char]));
+    }
+
+    function renderStructures(items = []) {
+      if (!items.length) return "";
+      return `
+        <div class="structure-strip" aria-label="Chemical structures referenced in this question">
+          ${items.map(item => `
+            <figure class="structure-figure">
+              <svg viewBox="0 0 300 140" role="img" aria-label="2D structure of ${escapeHTML(item.label)}">
+                <use href="#chem-${escapeHTML(item.id)}" width="300" height="140"></use>
+              </svg>
+              <figcaption><span>${escapeHTML(item.label)}</span><span>${escapeHTML(item.formula)}</span></figcaption>
+            </figure>
+          `).join("")}
+        </div>
+      `;
+    }
+
+    function renderEquation(equation) {
+      return `
+        <aside class="equation-card" aria-label="Equation or key relationship">
+          <span class="equation-label">Equation / key relationship</span>
+          <div class="equation-content">${escapeHTML(equation)}</div>
+        </aside>
+      `;
+    }
+
+    function renderMC() {
+      const list = document.getElementById("mc-list");
+      list.innerHTML = mcQuestions.map((q, index) => `
+        <article class="question-card mc-card" id="mc-${index + 1}">
+          <div class="question-body">
+            <div class="question-top">
+              <span class="q-number">Question ${index + 1}</span>
+              <span class="lecture-tag">${escapeHTML(q.lecture)}</span>
+            </div>
+            <div class="question-lead">
+              <p class="stem" id="mc-stem-${index}">${escapeHTML(q.stem)}</p>
+              ${renderEquation(q.equation)}
+            </div>
+            ${renderStructures(q.structures)}
+            <fieldset aria-labelledby="mc-stem-${index}">
+              <div class="options">
+                ${q.options.map((option, optionIndex) => `
+                  <label class="option" data-option="${optionIndex}">
+                    <input type="radio" name="mc-${index}" value="${optionIndex}">
+                    <span><span class="letter">${letters[optionIndex]}</span>${escapeHTML(option)}</span>
+                  </label>
+                `).join("")}
+              </div>
+            </fieldset>
+            <div class="actions">
+              <button class="btn check-mc" type="button" data-index="${index}" aria-controls="mc-answer-${index}" aria-expanded="false">Check answer</button>
+              <span class="hint" id="mc-hint-${index}" role="status">Select one response.</span>
+            </div>
+          </div>
+          <div class="answer-panel" id="mc-answer-${index}" hidden>
+            <h3 class="answer-title">Answer: ${letters[q.answer]}</h3>
+            <p>${escapeHTML(q.explanation)}</p>
+            <p class="focus">Review focus: ${escapeHTML(q.focus)}</p>
+          </div>
+        </article>
+      `).join("");
+    }
+
+    function renderWrittenQuestion(question, index, kind) {
+      const numberLabel = kind === "bonus" ? "Optional bonus · 2 marks" : `Question ${index + 21} · 5 marks`;
+      const id = kind === "bonus" ? "bonus-answer" : `short-answer-${index}`;
+      const cardId = kind === "bonus" ? "bonus-question" : `short-${index + 1}`;
+      const buttonClass = kind === "bonus" ? "reveal-bonus" : "reveal-short";
+      const dataAttribute = kind === "bonus" ? "" : `data-index="${index}"`;
+      return `
+        <article class="question-card short-card ${kind === "bonus" ? "bonus-card" : ""}" id="${cardId}">
+          <div class="question-body">
+            <div class="question-top">
+              <span class="q-number">${numberLabel}</span>
+              <span class="lecture-tag">${escapeHTML(question.lecture)}</span>
+            </div>
+            <h3 class="stem">${escapeHTML(question.title)}</h3>
+            <div class="question-lead written-lead">
+              <ol class="prompt-parts">
+                ${question.parts.map(part => `<li>${escapeHTML(part)}</li>`).join("")}
+              </ol>
+              ${renderEquation(question.equation)}
+            </div>
+            ${renderStructures(question.structures)}
+            <label class="hint" for="response-${cardId}">Draft your response before revealing the model answer.</label>
+            <textarea id="response-${cardId}" spellcheck="true" placeholder="Write your reasoning here…"></textarea>
+            <div class="actions">
+              <button class="btn ${buttonClass}" type="button" ${dataAttribute} aria-controls="${id}" aria-expanded="false">Reveal model answer</button>
+              <span class="hint">Use the checklist to self-assess.</span>
+            </div>
+          </div>
+          <div class="answer-panel" id="${id}" hidden>
+            <h3 class="answer-title">Model answer</h3>
+            <p>${escapeHTML(question.answer)}</p>
+            <ul class="rubric">
+              ${question.rubric.map(item => `<li>${escapeHTML(item)}</li>`).join("")}
+            </ul>
+            <p class="focus">Exam habit: ${escapeHTML(question.focus)}</p>
+          </div>
+        </article>
+      `;
+    }
+
+    function renderWritten() {
+      document.getElementById("short-list").innerHTML = shortQuestions.map((q, i) => renderWrittenQuestion(q, i, "short")).join("");
+      document.getElementById("bonus-list").innerHTML = renderWrittenQuestion(bonusQuestion, 0, "bonus");
+    }
+
+    function updateProgress() {
+      const mcRevealed = state.mc.filter(item => item.revealed).length;
+      const shortRevealed = state.short.filter(Boolean).length;
+      const totalRevealed = mcRevealed + shortRevealed + (state.bonus ? 1 : 0);
+      const total = mcQuestions.length + shortQuestions.length + 1;
+      const percent = Math.round((totalRevealed / total) * 100);
+      const correct = state.mc.filter(item => item.revealed && item.correct).length;
+
+      document.getElementById("progress-bar").style.width = `${percent}%`;
+      document.getElementById("progress-text").textContent = `${totalRevealed} of ${total} revealed`;
+      document.getElementById("progress-percent").textContent = `${percent}%`;
+      document.getElementById("score-correct").textContent = correct;
+      document.getElementById("score-checked").textContent = mcRevealed;
+    }
+
+    function checkMC(button) {
+      const index = Number(button.dataset.index);
+      const card = document.getElementById(`mc-${index + 1}`);
+      const selected = card.querySelector(`input[name="mc-${index}"]:checked`);
+      const hint = document.getElementById(`mc-hint-${index}`);
+      if (!selected) {
+        hint.textContent = "Choose a response before checking.";
+        return;
+      }
+
+      const selectedIndex = Number(selected.value);
+      const correct = selectedIndex === mcQuestions[index].answer;
+      state.mc[index] = { revealed: true, correct };
+
+      card.classList.toggle("is-correct", correct);
+      card.classList.toggle("is-incorrect", !correct);
+      card.querySelectorAll(".option").forEach(option => {
+        const optionIndex = Number(option.dataset.option);
+        option.classList.toggle("correct-choice", optionIndex === mcQuestions[index].answer);
+        option.classList.toggle("wrong-choice", optionIndex === selectedIndex && !correct);
+      });
+
+      const panel = document.getElementById(`mc-answer-${index}`);
+      panel.hidden = false;
+      button.setAttribute("aria-expanded", "true");
+      button.textContent = "Check again";
+      hint.textContent = correct ? "Correct — now check the reasoning." : "Not quite — compare your reasoning with the explanation.";
+      updateProgress();
+    }
+
+    function toggleWritten(button, index, kind) {
+      const panelId = kind === "bonus" ? "bonus-answer" : `short-answer-${index}`;
+      const panel = document.getElementById(panelId);
+      const willReveal = panel.hidden;
+      panel.hidden = !willReveal;
+      button.setAttribute("aria-expanded", String(willReveal));
+      button.textContent = willReveal ? "Hide model answer" : "Reveal model answer";
+      if (willReveal) {
+        if (kind === "bonus") state.bonus = true;
+        else state.short[index] = true;
+      }
+      updateProgress();
+    }
+
+    function resetPractice() {
+      if (!window.confirm("Reset all selected responses, written work, and revealed answers?")) return;
+      document.querySelectorAll("input[type='radio']").forEach(input => { input.checked = false; });
+      document.querySelectorAll("textarea").forEach(area => { area.value = ""; });
+      state.mc.forEach((_, index) => { state.mc[index] = { revealed: false, correct: false }; });
+      state.short.fill(false);
+      state.bonus = false;
+      renderMC();
+      renderWritten();
+      bindEvents();
+      updateProgress();
+      document.getElementById("practice").scrollIntoView({ behavior: "smooth" });
+    }
+
+    function bindEvents() {
+      document.querySelectorAll(".check-mc").forEach(button => button.addEventListener("click", () => checkMC(button)));
+      document.querySelectorAll(".reveal-short").forEach(button => button.addEventListener("click", () => toggleWritten(button, Number(button.dataset.index), "short")));
+      const bonusButton = document.querySelector(".reveal-bonus");
+      if (bonusButton) bonusButton.addEventListener("click", () => toggleWritten(bonusButton, 0, "bonus"));
+    }
+
+    renderMC();
+    renderWritten();
+    bindEvents();
+    updateProgress();
+    document.getElementById("reset-button").addEventListener("click", resetPractice);
+  </script>
+</body>
+</html>
