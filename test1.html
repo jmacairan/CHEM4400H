@@ -1,0 +1,1070 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="CHEM 4400H midterm solutions for Lectures 1 to 7.">
+  <title>CHEM 4400H · Midterm Solutions</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%230a1728'/%3E%3Cpath d='M10 48h44M16 48V34m8 14V19m8 29V28m8 20V13m8 35V25' stroke='%233ee6c4' stroke-width='5' stroke-linecap='round'/%3E%3C/svg%3E">
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #10233d;
+      --ink-soft: #4a5d73;
+      --navy: #081625;
+      --navy-2: #102740;
+      --paper: #ffffff;
+      --canvas: #eef3f7;
+      --line: #d7e1e9;
+      --teal: #007b72;
+      --teal-bright: #2fd9bd;
+      --teal-pale: #e1f8f3;
+      --amber: #d17a00;
+      --amber-pale: #fff3d8;
+      --red: #b42318;
+      --red-pale: #ffebe8;
+      --blue: #1967d2;
+      --blue-pale: #e9f2ff;
+      --shadow: 0 18px 48px rgba(8, 22, 37, 0.10);
+      --radius: 18px;
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      min-width: 320px;
+      background:
+        radial-gradient(circle at 82% -10%, rgba(47, 217, 189, 0.14), transparent 28rem),
+        var(--canvas);
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-size: 1rem;
+      line-height: 1.62;
+    }
+
+    button, input { font: inherit; }
+    button { touch-action: manipulation; }
+
+    button:focus-visible,
+    input:focus-visible,
+    [tabindex]:focus-visible {
+      outline: 3px solid rgba(25, 103, 210, 0.45);
+      outline-offset: 3px;
+    }
+
+    code {
+      padding: 0.08em 0.32em;
+      border-radius: 0.35em;
+      background: #edf2f6;
+      color: #18334f;
+      font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+      font-size: 0.94em;
+      white-space: normal;
+    }
+
+    .button {
+      min-height: 44px;
+      padding: 0.62rem 0.9rem;
+      border: 1px solid transparent;
+      border-radius: 11px;
+      background: var(--paper);
+      color: var(--ink);
+      font-weight: 750;
+      cursor: pointer;
+      transition: transform 120ms ease, background 120ms ease, border-color 120ms ease;
+    }
+
+    .button:hover { transform: translateY(-1px); }
+    .button:active { transform: translateY(0); }
+
+    .app-shell {
+      display: grid;
+      grid-template-columns: 300px minmax(0, 1fr);
+      min-height: 100vh;
+    }
+
+    .sidebar {
+      position: sticky;
+      top: 0;
+      align-self: start;
+      height: 100vh;
+      overflow: auto;
+      padding: 1.3rem 1.1rem 2rem;
+      background: #0d2034;
+      color: white;
+      border-right: 1px solid rgba(8, 22, 37, 0.18);
+    }
+
+    .progress-card {
+      padding: 1rem;
+      border: 1px solid rgba(255, 255, 255, 0.11);
+      border-radius: 15px;
+      background: rgba(255, 255, 255, 0.055);
+    }
+
+    .progress-line {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+
+    .progress-line strong { font-size: 1.35rem; }
+    .progress-line span { color: #b8c7d6; font-size: 0.86rem; }
+
+    .progress-track {
+      height: 8px;
+      margin-top: 0.75rem;
+      overflow: hidden;
+      border-radius: 99px;
+      background: rgba(255, 255, 255, 0.12);
+    }
+
+    .progress-fill {
+      width: 0;
+      height: 100%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, var(--teal-bright), #74ffe2);
+      transition: width 240ms ease;
+    }
+
+    .section-nav { margin-top: 1.25rem; }
+    .section-title {
+      margin: 1rem 0 0.5rem;
+      color: #9eb2c4;
+      font-size: 0.74rem;
+      font-weight: 800;
+      letter-spacing: 0.11em;
+      text-transform: uppercase;
+    }
+
+    .question-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 0.45rem;
+    }
+
+    .question-chip {
+      position: relative;
+      min-width: 42px;
+      min-height: 42px;
+      padding: 0.35rem;
+      border: 1px solid rgba(255, 255, 255, 0.13);
+      border-radius: 9px;
+      background: rgba(255, 255, 255, 0.05);
+      color: #dce8f1;
+      font-size: 0.82rem;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    .question-chip:hover { background: rgba(255, 255, 255, 0.11); }
+    .question-chip.is-current {
+      border-color: var(--teal-bright);
+      background: var(--teal-bright);
+      color: var(--navy);
+      box-shadow: 0 0 0 3px rgba(47, 217, 189, 0.14);
+    }
+    .question-chip.is-complete::after {
+      content: "";
+      position: absolute;
+      top: 5px;
+      right: 5px;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #72f1d9;
+      box-shadow: 0 0 0 2px rgba(13, 32, 52, 0.72);
+    }
+    .question-chip.is-current.is-complete::after { background: var(--navy); }
+
+    .sidebar-actions {
+      display: grid;
+      gap: 0.55rem;
+      margin-top: 1.25rem;
+    }
+
+    .sidebar-button {
+      min-height: 43px;
+      padding: 0.58rem 0.72rem;
+      border: 1px solid rgba(255, 255, 255, 0.13);
+      border-radius: 10px;
+      background: transparent;
+      color: #dce8f1;
+      text-align: left;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .sidebar-button:hover { background: rgba(255, 255, 255, 0.08); }
+    .sidebar-button--danger { color: #ffc4bc; }
+
+    .main {
+      min-width: 0;
+      padding: clamp(1.25rem, 3.5vw, 3.25rem);
+    }
+
+    .workspace {
+      width: min(920px, 100%);
+      margin: 0 auto;
+    }
+
+    .page-title {
+      margin: 0 0 1.15rem;
+      color: var(--ink);
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(1.55rem, 3vw, 2.1rem);
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+    }
+
+    .question-meta {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.8rem;
+      margin-bottom: 0.85rem;
+    }
+
+    .meta-left { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      min-height: 30px;
+      padding: 0.25rem 0.6rem;
+      border-radius: 99px;
+      background: var(--blue-pale);
+      color: #164c91;
+      font-size: 0.78rem;
+      font-weight: 800;
+      letter-spacing: 0.02em;
+    }
+    .tag--marks { background: #e8edf2; color: #42576d; }
+    .tag--bonus { background: var(--amber-pale); color: #805000; }
+
+    .question-counter {
+      color: var(--ink-soft);
+      font-size: 0.9rem;
+      font-weight: 750;
+    }
+
+    .question-card {
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--paper);
+      box-shadow: var(--shadow);
+    }
+
+    .question-body { padding: clamp(1.3rem, 3.2vw, 2.5rem); }
+
+    .question-number {
+      margin: 0 0 0.35rem;
+      color: var(--teal);
+      font-size: 0.86rem;
+      font-weight: 850;
+      letter-spacing: 0.09em;
+      text-transform: uppercase;
+    }
+
+    .question-heading {
+      max-width: 22ch;
+      margin: 0 0 1.25rem;
+      color: var(--ink);
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(1.7rem, 4vw, 2.65rem);
+      line-height: 1.08;
+      letter-spacing: -0.025em;
+    }
+
+    .prompt {
+      color: #1a3048;
+      font-size: clamp(1.02rem, 1.7vw, 1.16rem);
+    }
+    .prompt p:first-child { margin-top: 0; }
+    .prompt ol, .prompt ul { padding-left: 1.4rem; }
+    .prompt li + li { margin-top: 0.52rem; }
+
+    .options {
+      display: grid;
+      gap: 0.72rem;
+      margin-top: 1.35rem;
+    }
+
+    .option {
+      display: grid;
+      grid-template-columns: 2.2rem minmax(0, 1fr);
+      gap: 0.8rem;
+      align-items: start;
+      width: 100%;
+      padding: 0.9rem 1rem;
+      border: 1px solid #cdd9e2;
+      border-radius: 12px;
+      background: #f9fbfc;
+      color: var(--ink);
+      text-align: left;
+      cursor: pointer;
+      transition: background 120ms ease, border-color 120ms ease, transform 120ms ease;
+    }
+    .option:hover { transform: translateY(-1px); border-color: #8fa5b8; background: white; }
+    .option.is-selected { border-color: var(--blue); background: var(--blue-pale); }
+    .option.is-correct { border-color: var(--teal); background: var(--teal-pale); }
+    .option.is-wrong { border-color: var(--red); background: var(--red-pale); }
+
+    .option-letter {
+      display: grid;
+      place-items: center;
+      width: 2.15rem;
+      height: 2.15rem;
+      border-radius: 50%;
+      background: #e7edf2;
+      color: #263f58;
+      font-size: 0.9rem;
+      font-weight: 900;
+    }
+    .option.is-selected .option-letter { background: var(--blue); color: white; }
+    .option.is-correct .option-letter { background: var(--teal); color: white; }
+    .option.is-wrong .option-letter { background: var(--red); color: white; }
+
+    .answer-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.7rem;
+      margin-top: 1.15rem;
+    }
+
+    .button--primary { background: var(--navy); color: white; }
+    .button--primary:hover { background: var(--navy-2); }
+    .button--secondary { border-color: #bdccd8; background: white; color: var(--ink); }
+    .button--teal { background: var(--teal); color: white; }
+    .button--teal:hover { background: #00665f; }
+    .button[disabled] { opacity: 0.46; cursor: not-allowed; transform: none; }
+
+    .feedback {
+      display: none;
+      margin-top: 1rem;
+      padding: 0.78rem 0.9rem;
+      border-left: 4px solid var(--teal);
+      border-radius: 9px;
+      background: var(--teal-pale);
+      color: #124d48;
+      font-weight: 720;
+    }
+    .feedback.is-visible { display: block; }
+    .feedback.is-wrong { border-left-color: var(--red); background: var(--red-pale); color: #7d211a; }
+
+    .reveal-stack {
+      display: grid;
+      gap: 0.8rem;
+      margin-top: 1.5rem;
+    }
+
+    .reveal {
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: #f8fafc;
+    }
+
+    .reveal-toggle {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      width: 100%;
+      min-height: 52px;
+      padding: 0.78rem 1rem;
+      border: 0;
+      background: transparent;
+      color: var(--ink);
+      text-align: left;
+      font-weight: 820;
+      cursor: pointer;
+    }
+    .reveal-toggle:hover { background: #f0f5f8; }
+    .reveal-toggle::after {
+      content: "+";
+      display: grid;
+      place-items: center;
+      width: 1.8rem;
+      height: 1.8rem;
+      border-radius: 50%;
+      background: #e4ebf0;
+      color: #24425e;
+      font-size: 1.2rem;
+      flex: 0 0 auto;
+    }
+    .reveal-toggle[aria-expanded="true"]::after { content: "−"; background: var(--teal-pale); color: var(--teal); }
+
+    .reveal-content {
+      padding: 0 1rem 1rem;
+      color: #263e56;
+      border-top: 1px solid var(--line);
+      background: white;
+    }
+    .reveal-content[hidden] { display: none; }
+    .reveal-content > :first-child { margin-top: 1rem; }
+    .reveal-content > :last-child { margin-bottom: 0; }
+    .reveal-content ul, .reveal-content ol { padding-left: 1.35rem; }
+
+    .question-footer {
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+      padding: 1rem clamp(1.3rem, 3.2vw, 2.5rem);
+      border-top: 1px solid var(--line);
+      background: #f5f8fa;
+    }
+
+    .nav-button {
+      min-width: 130px;
+      min-height: 46px;
+      padding: 0.62rem 0.9rem;
+      border: 1px solid #bac9d5;
+      border-radius: 11px;
+      background: white;
+      color: var(--ink);
+      font-weight: 800;
+      cursor: pointer;
+    }
+    .nav-button:hover { border-color: #8198aa; }
+    .nav-button--next { border-color: var(--navy); background: var(--navy); color: white; }
+    .nav-button[disabled] { opacity: 0.42; cursor: not-allowed; }
+
+    .shortcut-note {
+      margin: 1rem 0 0;
+      color: #65788b;
+      font-size: 0.82rem;
+      text-align: center;
+    }
+
+    .kbd {
+      display: inline-block;
+      min-width: 1.65rem;
+      padding: 0.08rem 0.32rem;
+      border: 1px solid #c2cdd6;
+      border-bottom-width: 2px;
+      border-radius: 5px;
+      background: white;
+      color: #40556a;
+      font-size: 0.76rem;
+      font-weight: 800;
+      line-height: 1.35;
+      text-align: center;
+    }
+
+    dialog {
+      width: min(920px, calc(100vw - 2rem));
+      max-height: min(84vh, 780px);
+      padding: 0;
+      overflow: hidden;
+      border: 0;
+      border-radius: 18px;
+      background: white;
+      color: var(--ink);
+      box-shadow: 0 30px 90px rgba(2, 13, 24, 0.38);
+    }
+    dialog::backdrop { background: rgba(3, 14, 25, 0.72); backdrop-filter: blur(4px); }
+
+    .dialog-header {
+      position: sticky;
+      top: 0;
+      z-index: 2;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      padding: 1rem 1.2rem;
+      background: var(--navy);
+      color: white;
+    }
+    .dialog-header h2 { margin: 0; font-size: 1.2rem; }
+    .dialog-close {
+      width: 42px;
+      height: 42px;
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.08);
+      color: white;
+      font-size: 1.35rem;
+      cursor: pointer;
+    }
+    .dialog-body { max-height: calc(84vh - 74px); padding: 1.25rem; overflow: auto; }
+
+    .key-table { width: 100%; border-collapse: collapse; font-size: 0.94rem; }
+    .key-table th, .key-table td { padding: 0.62rem 0.7rem; border-bottom: 1px solid var(--line); text-align: left; vertical-align: top; }
+    .key-table th { position: sticky; top: 0; background: #edf3f6; color: #344c63; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.06em; }
+    .key-table td:first-child { width: 6rem; font-weight: 850; }
+    .key-table td:nth-child(2) { width: 6rem; font-weight: 850; color: var(--teal); }
+
+    .dialog-section + .dialog-section { margin-top: 1.6rem; }
+    .dialog-section h3 { margin: 0 0 0.6rem; }
+
+    .toast {
+      position: fixed;
+      right: 1rem;
+      bottom: 1rem;
+      z-index: 50;
+      max-width: min(390px, calc(100vw - 2rem));
+      padding: 0.8rem 1rem;
+      border-radius: 11px;
+      background: var(--navy);
+      color: white;
+      box-shadow: 0 14px 40px rgba(8, 22, 37, 0.25);
+      font-weight: 720;
+      opacity: 0;
+      transform: translateY(12px);
+      pointer-events: none;
+      transition: opacity 160ms ease, transform 160ms ease;
+    }
+    .toast.is-visible { opacity: 1; transform: translateY(0); }
+
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    @media (max-width: 900px) {
+      .app-shell { grid-template-columns: 1fr; }
+      .main { order: 1; }
+      .sidebar {
+        position: static;
+        order: 2;
+        height: auto;
+        padding: 0.85rem 1rem 1rem;
+        border-right: 0;
+        border-bottom: 1px solid rgba(8, 22, 37, 0.18);
+      }
+      .progress-card { display: grid; grid-template-columns: auto 1fr; align-items: center; gap: 1rem; }
+      .progress-track { margin: 0; }
+      .section-nav { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0.75rem; margin-top: 0.85rem; }
+      .section-nav > div { min-width: 0; }
+      .section-title { margin-top: 0; }
+      .question-grid { grid-template-columns: repeat(5, minmax(40px, 1fr)); }
+      .sidebar-actions { grid-template-columns: repeat(3, 1fr); }
+      .sidebar-button { text-align: center; }
+    }
+
+    @media (max-width: 620px) {
+      .section-nav { grid-template-columns: 1fr; }
+      .question-grid { grid-template-columns: repeat(8, minmax(38px, 1fr)); overflow-x: auto; }
+      .sidebar-actions { grid-template-columns: 1fr 1fr; }
+      .sidebar-actions .sidebar-button:first-child { grid-column: 1 / -1; }
+      .main { padding: 1rem; }
+      .question-body { padding: 1.2rem; }
+      .question-footer { padding: 0.85rem 1.2rem; }
+      .nav-button { min-width: 0; flex: 1; }
+      .key-table { min-width: 680px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; transition: none !important; }
+    }
+
+    @media print {
+      .sidebar, .question-footer, .shortcut-note, .answer-actions { display: none !important; }
+      .app-shell { display: block; }
+      .main { padding: 0; }
+      .question-card { box-shadow: none; }
+      .reveal-content[hidden] { display: block; }
+    }
+  </style>
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar" aria-label="Question navigator">
+      <div class="progress-card">
+        <div class="progress-line">
+          <strong id="progressCount">0 / 23</strong>
+          <span>discussed</span>
+        </div>
+        <div class="progress-track" role="progressbar" aria-label="Review progress" aria-valuemin="0" aria-valuemax="23" aria-valuenow="0">
+          <div class="progress-fill" id="progressFill"></div>
+        </div>
+      </div>
+
+      <nav class="section-nav" id="questionNav"></nav>
+
+      <div class="sidebar-actions">
+        <button class="sidebar-button" id="markButton" type="button">Mark current discussed</button>
+        <button class="sidebar-button" id="shortcutsButton" type="button">Keyboard help</button>
+        <button class="sidebar-button sidebar-button--danger" id="resetButton" type="button">Reset progress</button>
+      </div>
+    </aside>
+
+    <main class="main">
+      <div class="workspace">
+        <h1 class="page-title">Midterm Solutions</h1>
+        <div class="question-meta">
+          <div class="meta-left">
+            <span class="tag" id="sectionTag">Multiple choice</span>
+            <span class="tag tag--marks" id="marksTag">1 mark</span>
+          </div>
+          <span class="question-counter" id="questionCounter">Question 1 of 23</span>
+        </div>
+
+        <article class="question-card" aria-live="polite">
+          <div class="question-body" id="questionBody"></div>
+          <footer class="question-footer">
+            <button class="nav-button" id="previousButton" type="button">Previous</button>
+            <button class="nav-button nav-button--next" id="nextButton" type="button">Next question</button>
+          </footer>
+        </article>
+
+        <p class="shortcut-note"><span class="kbd">←</span> <span class="kbd">→</span> navigate · <span class="kbd">R</span> reveal · <span class="kbd">H</span> hint</p>
+      </div>
+    </main>
+  </div>
+
+  <dialog id="shortcutsDialog" aria-labelledby="shortcutsTitle">
+    <div class="dialog-header">
+      <h2 id="shortcutsTitle">Keyboard controls</h2>
+      <button class="dialog-close" type="button" data-close-dialog="shortcutsDialog" aria-label="Close keyboard controls">×</button>
+    </div>
+    <div class="dialog-body">
+      <table class="key-table">
+        <thead><tr><th>Key</th><th>Action</th></tr></thead>
+        <tbody>
+          <tr><td><span class="kbd">←</span> / <span class="kbd">→</span></td><td>Previous or next question</td></tr>
+          <tr><td><span class="kbd">1</span>–<span class="kbd">4</span></td><td>Select an answer on a multiple-choice question</td></tr>
+          <tr><td><span class="kbd">Enter</span></td><td>Check a selected multiple-choice answer</td></tr>
+          <tr><td><span class="kbd">R</span></td><td>Reveal the answer or worked solution</td></tr>
+          <tr><td><span class="kbd">H</span></td><td>Open the hint when one is available</td></tr>
+          <tr><td><span class="kbd">M</span></td><td>Mark the current question discussed</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </dialog>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script>
+    const questions = [
+      {
+        id: "mc-1", section: "mc", number: "1", nav: "1", title: "Time of flight",
+        prompt: `<p>Singly charged ions of mass 100 Da and 225 Da are accelerated through the same voltage and travel the same TOF distance. How does the flight time of the 225 Da ion compare with that of the 100 Da ion?</p>`,
+        options: ["It is about 0.67 times as long", "It is the same", "It is about 1.5 times as long", "It is about 2.25 times as long"],
+        correct: 2,
+        reasoning: `<p><strong>Answer: C. It is about 1.5 times as long.</strong></p><p>For ions with the same charge, flight time is proportional to the square root of mass-to-charge ratio:</p><p><code>t₂₂₅ / t₁₀₀ = √(225/100) = 1.50</code></p><p>The 100 Da ion arrives first.</p>`
+      },
+      {
+        id: "mc-2", section: "mc", number: "2", nav: "2", title: "Resolving power",
+        prompt: `<p>A peak at <code>m/z 800</code> has a full width at half maximum of 0.20 Da. What is the resolving power?</p>`,
+        options: ["400", "4,000", "8,000", "16,000"],
+        correct: 1,
+        reasoning: `<p><strong>Answer: B. 4,000.</strong></p><p><code>R = m / Δm = 800 / 0.20 = 4,000</code></p>`
+      },
+      {
+        id: "mc-3", section: "mc", number: "3", nav: "3", title: "Isotope patterns",
+        prompt: `<p>A molecular-ion cluster has M and M+2 peaks of approximately equal intensity. Which element is the strongest clue?</p>`,
+        options: ["Carbon", "Chlorine", "Bromine", "Sulfur"],
+        correct: 2,
+        reasoning: `<p><strong>Answer: C. Bromine.</strong></p><p>The two abundant bromine isotopes, ⁷⁹Br and ⁸¹Br, occur at similar natural abundance. A molecule containing one bromine therefore gives an approximately 1:1 M to M+2 pattern.</p>`
+      },
+      {
+        id: "mc-4", section: "mc", number: "4", nav: "4", title: "EI cross section",
+        prompt: `<p>At equal number density and electron energy, which analyte generally gives the larger EI ionization cross section?</p>`,
+        options: ["The analyte with the more polarizable electron cloud", "The analyte with the narrowest isotope cluster", "The analyte with the highest molecular symmetry only", "The analyte that enters the source last"],
+        correct: 0,
+        reasoning: `<p><strong>Answer: A. The analyte with the more polarizable electron cloud.</strong></p><p>A more easily distorted electron cloud generally presents a larger effective interaction area to the incident electron. This is a qualitative trend rather than a direct calibration.</p>`
+      },
+      {
+        id: "mc-5", section: "mc", number: "5", nav: "5", title: "Multiply charged ions",
+        prompt: `<p>A highly conjugated compound has a neutral mass of 356.2 Da and a reproducible EI peak at <code>m/z 178.1</code>. What is the best assignment?</p>`,
+        options: ["A singly charged fragment formed by loss of 178.1 Da", "A protonated molecule", "A sodium adduct", "A doubly charged molecular ion"],
+        correct: 3,
+        reasoning: `<p><strong>Answer: D. A doubly charged molecular ion.</strong></p><p>The peak lies exactly at half the neutral mass:</p><p><code>356.2 / 2 = 178.1</code></p><p>That position is diagnostic for the doubly charged molecular ion, M²⁺.</p>`
+      },
+      {
+        id: "mc-6", section: "mc", number: "6", nav: "6", title: "Neutral loss",
+        prompt: `<p>An EI spectrum shows an apparent molecular radical cation at <code>m/z 150</code> and a fragment at <code>m/z 122</code>. What is the most defensible interpretation?</p>`,
+        options: ["A neutral species at m/z 28 was detected directly", "A 28 Da neutral loss is inferred, but structure and mechanism are needed to identify it", "The m/z 122 ion must be doubly charged", "The parent ion gained 28 Da before fragmenting"],
+        correct: 1,
+        reasoning: `<p><strong>Answer: B. A 28 Da neutral loss is inferred.</strong></p><p>Only charged species produce mass-spectrum peaks. The difference <code>150 − 122 = 28 Da</code> suggests a neutral loss, but mass difference alone does not identify the neutral. Structure and mechanism are still required.</p>`
+      },
+      {
+        id: "mc-7", section: "mc", number: "7", nav: "7", title: "McLafferty rearrangement",
+        prompt: `<p>Which feature is required for a classic McLafferty rearrangement of a carbonyl compound?</p>`,
+        options: ["A chlorine atom attached to the carbonyl carbon", "Two bromine atoms separated by two carbons", "A transferable gamma hydrogen that can reach the unsaturated group through a six-membered geometry", "A permanent positive charge on the neutral molecule"],
+        correct: 2,
+        reasoning: `<p><strong>Answer: C. A transferable gamma hydrogen.</strong></p><p>The rearrangement couples gamma-hydrogen transfer with bond cleavage through a six-membered cyclic transition-state geometry.</p>`
+      },
+      {
+        id: "mc-8", section: "mc", number: "8", nav: "8", title: "Stevenson’s rule",
+        prompt: `<p>A simple cleavage of AB⁺• can place the charge on A or B. If <code>IE(A•) = 7.5 eV</code> and <code>IE(B•) = 10.2 eV</code>, which product does Stevenson’s rule favour within this pair?</p>`,
+        options: ["A⁺", "B⁺", "A²⁺", "Neither product because the ionization energies differ"],
+        correct: 0,
+        reasoning: `<p><strong>Answer: A. A⁺.</strong></p><p>For the competing cleavage pair, the fragment whose corresponding neutral radical has the lower ionization energy preferentially retains the positive charge. Since <code>7.5 eV &lt; 10.2 eV</code>, A⁺ is favoured.</p>`
+      },
+      {
+        id: "mc-9", section: "mc", number: "9", nav: "9", title: "CI source pressure",
+        prompt: `<p>Why does conventional chemical ionization operate at much higher source pressure than EI?</p>`,
+        options: ["To prevent the reagent gas from being ionized", "To make every analyte ion doubly charged", "To promote collisions that create reagent ions and allow ion-molecule reactions with the analyte", "To eliminate all fragmentation regardless of reagent gas"],
+        correct: 2,
+        reasoning: `<p><strong>Answer: C. To promote reagent-ion and ion-molecule chemistry.</strong></p><p>Repeated reagent-gas collisions establish a reagent-ion plasma. Those reagent ions then react with the much less abundant analyte molecules.</p>`
+      },
+      {
+        id: "mc-10", section: "mc", number: "10", nav: "10", title: "Proton affinity",
+        prompt: `<p>For proton-transfer CI, <code>BH⁺ + M → B + [M+H]⁺</code> proceeds most readily under which condition?</p>`,
+        options: ["PA(M) < PA(B)", "PA(M) > PA(B)", "PA(M) = 0", "The analyte has the larger molecular mass"],
+        correct: 1,
+        reasoning: `<p><strong>Answer: B. <code>PA(M) &gt; PA(B)</code>.</strong></p><p>The proton transfers toward the neutral species with the higher proton affinity.</p>`
+      },
+      {
+        id: "mc-11", section: "mc", number: "11", nav: "11", title: "Protonated molecule",
+        prompt: `<p>A neutral analyte has nominal mass 198. At what <code>m/z</code> should its singly charged protonated molecule appear?</p>`,
+        options: ["197", "198", "199", "221"],
+        correct: 2,
+        reasoning: `<p><strong>Answer: C. <code>m/z 199</code>.</strong></p><p>Proton transfer produces <code>[M+H]⁺</code>, one nominal mass unit above the neutral molecule.</p>`
+      },
+      {
+        id: "mc-12", section: "mc", number: "12", nav: "12", title: "Adduct stabilization",
+        prompt: `<p>Why does a newly formed association adduct often need a third-body collision to survive?</p>`,
+        options: ["The third body supplies the analyte’s molecular mass", "The third body converts a positive ion into a negative ion", "The third body increases the ionization energy of the analyte", "The third body removes excess association energy before the complex redissociates"],
+        correct: 3,
+        reasoning: `<p><strong>Answer: D. The collision removes excess association energy.</strong></p><p>The newly formed complex is energized and can redissociate. A third-body collision removes some of that energy, increasing the chance that the adduct survives to the detector.</p>`
+      },
+      {
+        id: "mc-13", section: "mc", number: "13", nav: "13", title: "Charge-exchange CI",
+        prompt: `<p>For charge-exchange CI using B⁺•, which condition is energetically favourable for forming M⁺•?</p>`,
+        options: ["IE(M) < IE(B), with a smaller positive gap generally giving gentler ionization", "IE(M) > IE(B), and the largest possible gap is always softest", "PA(M) < PA(B)", "M must contain sodium"],
+        correct: 0,
+        reasoning: `<p><strong>Answer: A. <code>IE(M) &lt; IE(B)</code>.</strong></p><p>The reagent ion can accept an electron from M when the neutral reagent’s ionization energy exceeds the analyte’s ionization energy. A smaller positive energy gap generally leaves less excess energy in M⁺•.</p>`
+      },
+      {
+        id: "mc-14", section: "mc", number: "14", nav: "14", title: "Negative CI",
+        prompt: `<p>Which sample is the strongest candidate for electron-capture negative chemical ionization?</p>`,
+        options: ["A saturated hydrocarbon with no electron-withdrawing groups", "A highly chlorinated pesticide that captures low-energy electrons", "An alkyl amine that protonates readily", "A sodium salt measured only in positive mode"],
+        correct: 1,
+        reasoning: `<p><strong>Answer: B. A highly chlorinated pesticide.</strong></p><p>Thermalized electrons and strongly electron-withdrawing, halogenated analytes make electron-capture negative CI selective and sensitive.</p>`
+      },
+      {
+        id: "mc-15", section: "mc", number: "15", nav: "15", title: "Analyzer transmission",
+        prompt: `<p>Two secondary-ion species form at the sample surface in equal numbers, but they have different kinetic-energy distributions. Why might the detector measure different signal intensities when the analyzer uses a narrow energy window?</p>`,
+        options: ["The analyzer changes the mass-to-charge ratio of each ion", "Different fractions of the two ion populations fall within the accepted energy window", "The energy window changes the sputtering yield at the sample surface", "The detector converts neutral sputtered particles into secondary ions"],
+        correct: 1,
+        reasoning: `<p><strong>Answer: B. Different fractions fall within the accepted energy window.</strong></p><p>Analyzer transmission depends on how much of each kinetic-energy distribution overlaps the accepted energy range. Equal numbers can form at the surface while different fractions pass through the analyzer.</p>`
+      },
+      {
+        id: "sa-15", section: "sa", number: "15", nav: "15B", title: "Time of flight and resolving power", marks: 5,
+        prompt: `<p>Singly charged ions at <code>m/z 100</code> and <code>m/z 225</code> travel through the same TOF instrument.</p><ol><li>State which ion arrives first and calculate <code>t₂₂₅/t₁₀₀</code>. <strong>2 marks</strong></li><li>A peak at <code>m/z 600</code> has <code>FWHM = 0.15 Da</code>. Calculate the resolving power. On the simple <code>m/Δm</code> criterion, is this sufficient to distinguish two peaks 0.12 Da apart at <code>m/z 600</code>? Justify. <strong>3 marks</strong></li></ol>`,
+        hint: `<p>For equal charge, TOF flight time scales with the square root of mass-to-charge ratio. Compare the measured resolving power with the resolving power required for a 0.12 Da separation.</p>`,
+        solution: `<p>The <code>m/z 100</code> ion arrives first.</p><p><code>t₂₂₅/t₁₀₀ = √(225/100) = 1.50</code></p><p>Measured resolving power:</p><p><code>R = 600/0.15 = 4,000</code></p><p>Resolving power required for a 0.12 Da difference:</p><p><code>R<sub>required</sub> = 600/0.12 = 5,000</code></p><p>Because <code>4,000 &lt; 5,000</code>, the instrument is insufficient on the stated criterion.</p>`,
+        marking: `<ul><li>1 mark: identifies <code>m/z 100</code> as arriving first</li><li>1 mark: calculates the flight-time ratio as 1.50</li><li>1 mark: calculates measured <code>R = 4,000</code></li><li>1 mark: calculates required <code>R = 5,000</code></li><li>1 mark: concludes that the stated resolving power is insufficient</li></ul>`,
+        key: `<code>t₂₂₅/t₁₀₀ = 1.50</code>; measured <code>R = 4,000</code>; required <code>R = 5,000</code>; insufficient`
+      },
+      {
+        id: "sa-16", section: "sa", number: "16", nav: "16", title: "EI fragmentation of 2-hexanone", marks: 5,
+        prompt: `<p>The EI molecular radical cation, M⁺•, of 2-hexanone appears at <code>m/z 100</code>, and a strong fragment appears at <code>m/z 58</code>.</p><ol><li>Calculate the neutral loss. <strong>1 mark</strong></li><li>Name the fragmentation pathway and explain the structural requirements for it to occur. <strong>4 marks</strong></li></ol>`,
+        hint: `<p>Locate the carbonyl group and count outward to the gamma carbon. Consider whether a gamma hydrogen can reach the carbonyl through a cyclic geometry.</p>`,
+        solution: `<p>Neutral loss:</p><p><code>100 − 58 = 42 Da</code></p><p>The pathway is a <strong>McLafferty rearrangement</strong>. It requires:</p><ul><li>an ionized carbonyl group</li><li>a transferable gamma hydrogen</li><li>sufficient chain length and flexibility to adopt a six-membered cyclic transition-state geometry</li></ul><p>For 2-hexanone, this produces an <code>m/z 58</code> enol radical cation and a neutral 42 Da alkene.</p>`,
+        marking: `<ul><li>1 mark: neutral loss = 42 Da</li><li>1 mark: names the McLafferty rearrangement</li><li>1 mark: identifies the ionized carbonyl group</li><li>1 mark: identifies a transferable gamma hydrogen</li><li>1 mark: identifies the required six-membered cyclic geometry</li></ul>`,
+        key: `42 Da neutral loss; McLafferty rearrangement; ionized carbonyl, gamma H, six-membered geometry`
+      },
+      {
+        id: "sa-17", section: "sa", number: "17", nav: "17", title: "Choosing a CI reagent", marks: 5,
+        prompt: `<p>An analyte has <code>PA = 820 kJ mol⁻¹</code> and nominal neutral mass 142. Compare proton-transfer reagents whose neutral bases have these proton affinities:</p><ul><li>methane: <code>543.5 kJ mol⁻¹</code></li><li>isobutene: <code>802.1 kJ mol⁻¹</code></li><li>ammonia: <code>853.6 kJ mol⁻¹</code></li></ul><ol><li>Identify which reagent ions can protonate the analyte favourably. <strong>3 marks</strong></li><li>Of the favourable choices, identify the softer reagent and explain why. <strong>1 mark</strong></li><li>Give the nominal <code>m/z</code> of <code>[M+H]⁺</code>. <strong>1 mark</strong></li></ol>`,
+        hint: `<p>First test whether <code>PA(M) &gt; PA(B)</code>. Among the favourable reactions, the smallest positive PA difference gives the least excess energy.</p>`,
+        solution: `<p>CH₅⁺ and the isobutene-derived tert-butyl reagent ion can protonate the analyte because 820 exceeds 543.5 and 802.1.</p><p>NH₄⁺ is not favourable because <code>820 &lt; 853.6</code>.</p><p>The tert-butyl reagent ion is the softer favourable choice because its PA gap is smaller:</p><p><code>820 − 802.1 = 17.9 kJ mol⁻¹</code></p><p>The protonated molecule appears at nominal <code>m/z 143</code>.</p>`,
+        marking: `<ul><li>1 mark: identifies CH₅⁺ as favourable</li><li>1 mark: identifies the tert-butyl reagent ion as favourable</li><li>1 mark: identifies NH₄⁺ as unfavourable</li><li>1 mark: selects tert-butyl as softer because it has the smaller favourable PA gap</li><li>1 mark: gives <code>[M+H]⁺</code> at nominal <code>m/z 143</code></li></ul>`,
+        key: `CH₅⁺ and tert-butyl favourable; tert-butyl is softer; <code>[M+H]⁺</code> at <code>m/z 143</code>`
+      },
+      {
+        id: "sa-18", section: "sa", number: "18", nav: "18", title: "Recognizing and stabilizing CI adducts", marks: 5,
+        prompt: `<p>A neutral analyte of nominal mass 300 gives positive-CI peaks at <code>m/z 301</code> and <code>m/z 323</code>. The sample contains some sodium with nominal mass 23.</p><ol><li>Explain why the peaks are separated by 22 mass units rather than 23. <strong>3 marks</strong></li><li>Explain why higher CI pressure can help an association adduct survive. <strong>2 marks</strong></li></ol>`,
+        hint: `<p>Assign each peak relative to neutral M before comparing the two peaks directly.</p>`,
+        solution: `<p>The <code>m/z 301</code> peak is <code>[M+H]⁺</code>, and the <code>m/z 323</code> peak is <code>[M+Na]⁺</code>.</p><p>The sodium adduct adds 23 nominal mass units relative to M, while the protonated molecule adds 1. The two observed peaks are therefore separated by:</p><p><code>23 − 1 = 22 mass units</code></p><p>The newly formed association complex contains excess energy. At higher source pressure, a third-body collision can remove some of that energy before the complex redissociates, allowing the adduct to survive to the detector.</p>`,
+        marking: `<ul><li>1 mark: identifies <code>[M+H]⁺</code> and <code>[M+Na]⁺</code></li><li>1 mark: explains that sodium contributes 23 while the protonated reference contributes 1</li><li>1 mark: calculates <code>23 − 1 = 22</code></li><li>1 mark: states that the newly formed complex contains excess energy</li><li>1 mark: explains third-body collisional stabilization before redissociation</li></ul>`,
+        key: `<code>[M+H]⁺</code> and <code>[M+Na]⁺</code>; <code>23 − 1 = 22</code>; third-body stabilization`
+      },
+      {
+        id: "sa-19", section: "sa", number: "19", nav: "19", title: "EI energy and competing outcomes", marks: 5,
+        prompt: `<p>An analyte has an ionization energy of 9.2 eV. Compare EI measurements at 12 eV and 70 eV.</p><ol><li>State whether each electron energy can ionize the analyte in principle. <strong>2 marks</strong></li><li>Predict which condition generally gives greater ion current and more fragmentation, and explain why. <strong>2 marks</strong></li><li>Explain why neutral excitation does not produce a mass-spectrum peak. <strong>1 mark</strong></li></ol>`,
+        hint: `<p>Separate the threshold question from the questions about signal intensity and fragmentation.</p>`,
+        solution: `<p>Both 12 eV and 70 eV exceed the 9.2 eV ionization threshold, so both can ionize the analyte in principle.</p><p>Standard 70 eV EI generally gives greater ion current and leaves more excess internal energy in the molecular ion, so fragmentation is more extensive.</p><p>Neutral excitation leaves the analyte uncharged. The analyzer therefore does not guide it by <code>m/z</code>, and the detector does not record it as an ion peak.</p>`,
+        marking: `<ul><li>1 mark: recognizes that 12 eV exceeds the threshold</li><li>1 mark: recognizes that 70 eV exceeds the threshold</li><li>1 mark: predicts greater ion current at the standard 70 eV condition</li><li>1 mark: connects greater excess energy with more fragmentation</li><li>1 mark: explains that a neutral species is not mass analyzed or detected as an ion</li></ul>`,
+        key: `Both energies ionize; 70 eV generally gives greater ion current and more fragmentation; neutrals are not mass analyzed`
+      },
+      {
+        id: "sa-20", section: "sa", number: "20", nav: "20", title: "Applying Stevenson’s rule", marks: 5,
+        prompt: `<p>An EI radical cation AB⁺• can cleave by either channel:</p><ul><li><code>AB⁺• → A⁺ + B•</code></li><li><code>AB⁺• → A• + B⁺</code></li></ul><p>The corresponding radical ionization energies are <code>IE(A•) = 7.4 eV</code> and <code>IE(B•) = 9.6 eV</code>.</p><ol><li>Identify the charged fragment favoured by Stevenson’s rule. <strong>1 mark</strong></li><li>Explain the prediction using the ionization-energy values. <strong>2 marks</strong></li><li>Give two reasons why the observed peak intensities may not follow this energetic prediction exactly. <strong>2 marks</strong></li></ol>`,
+        hint: `<p>Stevenson’s rule predicts which fragment preferentially retains the charge within this pair. It does not predict exact peak intensities by itself.</p>`,
+        solution: `<p>Stevenson’s rule favours <strong>A⁺</strong> because the corresponding neutral radical A• has the lower ionization energy:</p><p><code>7.4 eV &lt; 9.6 eV</code></p><p>The lower radical ionization energy favours positive-charge retention on A.</p><p>Observed peak intensities can still differ because fragmentation also depends on:</p><ul><li>bond strengths</li><li>transition-state access</li><li>rearrangements</li><li>pathway degeneracy</li><li>reaction kinetics</li><li>further decomposition of the primary fragment ions</li></ul><p>Any two valid factors answer the final part.</p>`,
+        marking: `<ul><li>1 mark: selects A⁺</li><li>1 mark: recognizes that <code>7.4 eV &lt; 9.6 eV</code></li><li>1 mark: connects lower radical IE with charge retention on A</li><li>1 mark: gives one valid competing factor</li><li>1 mark: gives a second valid competing factor</li></ul>`,
+        key: `A⁺ favoured because A• has lower IE; accept any two valid kinetic or mechanistic factors`
+      },
+      {
+        id: "sa-21", section: "sa", number: "21", nav: "21", title: "Choosing CI pathways from thermochemistry", marks: 5,
+        prompt: `<p>For analyte M, <code>PA(M) = 790 kJ mol⁻¹</code> and <code>IE(M) = 9.8 eV</code>. A proton-transfer reagent has <code>PA(B) = 760 kJ mol⁻¹</code>, and a charge-exchange reagent ion R⁺• comes from neutral R with <code>IE(R) = 11.2 eV</code>. A second analyte strongly captures low-energy electrons.</p><ol><li>Determine whether <code>BH⁺ + M → B + [M+H]⁺</code> is favourable and calculate the energy released using <code>PA(M) − PA(B)</code>. <strong>2 marks</strong></li><li>Determine whether <code>R⁺• + M → R + M⁺•</code> is favourable and calculate the energy released using <code>IE(R) − IE(M)</code>. <strong>2 marks</strong></li><li>Name the CI mode and ion polarity best suited to the second analyte. <strong>1 mark</strong></li></ol>`,
+        hint: `<p>Use the PA comparison for proton transfer and the IE comparison for charge exchange. Keep the two energy units separate.</p>`,
+        solution: `<p>Proton transfer is favourable because <code>PA(M) &gt; PA(B)</code>.</p><p><code>790 − 760 = 30 kJ mol⁻¹ released</code></p><p>Charge exchange is favourable because <code>IE(R) &gt; IE(M)</code>.</p><p><code>11.2 − 9.8 = 1.4 eV released</code></p><p>The product is M⁺•.</p><p>For the electron-capturing analyte, use <strong>electron-capture negative chemical ionization</strong> and detect negative ions.</p>`,
+        marking: `<ul><li>1 mark: concludes that proton transfer is favourable</li><li>1 mark: calculates 30 kJ mol⁻¹ released</li><li>1 mark: concludes that charge exchange is favourable</li><li>1 mark: calculates 1.4 eV released and predicts M⁺•</li><li>1 mark: selects electron-capture negative CI with negative-ion detection</li></ul>`,
+        key: `Proton transfer releases 30 kJ mol⁻¹; charge exchange releases 1.4 eV and forms M⁺•; ECNI with negative-ion detection`
+      },
+      {
+        id: "bonus", section: "bonus", number: "Bonus", nav: "+", title: "Charge-state envelope", marks: 2,
+        prompt: `<p>Two adjacent ESI peaks from the same protein appear at <code>m/z 901.008</code> and <code>m/z 948.376</code>. The lower-<code>m/z</code> peak has one more proton than the higher-<code>m/z</code> peak.</p><p>Using a proton mass of 1.008 Da, determine:</p><ol><li>the charge on the lower-<code>m/z</code> peak</li><li>the neutral molecular mass</li></ol>`,
+        hint: `<p>For adjacent charge states, use:</p><p><code>z = (m₂ − mH)/(m₂ − m₁)</code></p><p>Here, <code>m₁</code> is the lower-<code>m/z</code> peak and <code>m₂</code> is the higher-<code>m/z</code> peak.</p>`,
+        solution: `<p>Charge calculation:</p><p><code>z = (948.376 − 1.008)/(948.376 − 901.008)</code></p><p><code>z = 947.368/47.368 = 20</code></p><p>The lower-<code>m/z</code> peak has charge <strong>20+</strong>. The higher-<code>m/z</code> peak therefore has charge 19+.</p><p>Neutral-mass calculation:</p><p><code>M = z[(m/z) − mH]</code></p><p><code>M = 20(901.008 − 1.008) = 18,000 Da</code></p><p><strong>Final answer: charge 20+ and neutral molecular mass 18,000 Da.</strong></p>`,
+        marking: `<ul><li>1 mark: lower-<code>m/z</code> peak has charge 20+</li><li>1 mark: neutral molecular mass is 18,000 Da</li></ul>`,
+        key: `Lower-<code>m/z</code> charge: 20+; neutral molecular mass: 18,000 Da`
+      }
+    ];
+
+    const sectionInfo = {
+      mc: { label: "Multiple choice", navLabel: "Part A · Multiple choice" },
+      sa: { label: "Short answer", navLabel: "Part B · Short answer" },
+      bonus: { label: "Bonus", navLabel: "Bonus" }
+    };
+
+    const storageKey = "chem4400h-midterm-review-v3";
+    const defaultState = { current: 0, completed: [], selections: {}, checked: {}, reveals: {} };
+    let state = loadState();
+    let toastTimer;
+
+    const nav = document.getElementById("questionNav");
+    const questionBody = document.getElementById("questionBody");
+    const progressCount = document.getElementById("progressCount");
+    const progressFill = document.getElementById("progressFill");
+    const progressTrack = document.querySelector(".progress-track");
+    const sectionTag = document.getElementById("sectionTag");
+    const marksTag = document.getElementById("marksTag");
+    const questionCounter = document.getElementById("questionCounter");
+    const previousButton = document.getElementById("previousButton");
+    const nextButton = document.getElementById("nextButton");
+    const markButton = document.getElementById("markButton");
+
+    function loadState() {
+      try {
+        const saved = JSON.parse(localStorage.getItem(storageKey));
+        return { ...defaultState, ...saved };
+      } catch (error) {
+        return { ...defaultState };
+      }
+    }
+
+    function saveState() {
+      try { localStorage.setItem(storageKey, JSON.stringify(state)); } catch (error) { /* local file storage may be disabled */ }
+    }
+
+    function sectionQuestions(section) {
+      return questions.map((question, index) => ({ question, index })).filter(item => item.question.section === section);
+    }
+
+    function renderNavigation() {
+      nav.innerHTML = Object.keys(sectionInfo).map(section => {
+        const items = sectionQuestions(section).map(({ question, index }) => {
+          const current = index === state.current ? " is-current" : "";
+          const complete = state.completed.includes(question.id) ? " is-complete" : "";
+          return `<button class="question-chip${current}${complete}" type="button" data-question-index="${index}" aria-label="${sectionInfo[section].label} question ${question.number}" ${index === state.current ? 'aria-current="true"' : ""}>${question.nav}</button>`;
+        }).join("");
+        return `<div><p class="section-title">${sectionInfo[section].navLabel}</p><div class="question-grid">${items}</div></div>`;
+      }).join("");
+    }
+
+    function revealBlock(label, content, key) {
+      const question = questions[state.current];
+      const revealId = `${question.id}-${key}`;
+      const open = Boolean(state.reveals[revealId]);
+      return `<section class="reveal"><button class="reveal-toggle" type="button" data-reveal="${revealId}" aria-expanded="${open}">${label}</button><div class="reveal-content" ${open ? "" : "hidden"}>${content}</div></section>`;
+    }
+
+    function renderQuestion({ focus = false } = {}) {
+      const question = questions[state.current];
+      const isMC = question.section === "mc";
+      const selected = state.selections[question.id];
+      const checked = Boolean(state.checked[question.id]);
+
+      sectionTag.textContent = sectionInfo[question.section].label;
+      sectionTag.className = question.section === "bonus" ? "tag tag--bonus" : "tag";
+      marksTag.textContent = `${question.marks || 1} ${question.marks === 1 || !question.marks ? "mark" : "marks"}`;
+      questionCounter.textContent = `Question ${state.current + 1} of ${questions.length}`;
+
+      let interaction = "";
+      if (isMC) {
+        interaction = `<div class="options" role="radiogroup" aria-label="Answer choices">${question.options.map((option, index) => {
+          const isSelected = selected === index;
+          let className = "option" + (isSelected ? " is-selected" : "");
+          if (checked && index === question.correct) className += " is-correct";
+          if (checked && isSelected && index !== question.correct) className += " is-wrong";
+          return `<button class="${className}" type="button" role="radio" aria-checked="${isSelected}" data-option="${index}"><span class="option-letter">${String.fromCharCode(65 + index)}</span><span>${option}</span></button>`;
+        }).join("")}</div>
+        <div class="answer-actions"><button class="button button--primary" id="checkAnswerButton" type="button" ${selected === undefined ? "disabled" : ""}>Check answer</button><button class="button button--secondary" type="button" data-open-primary>Reveal reasoning</button></div>
+        <div class="feedback${checked ? " is-visible" : ""}${checked && selected !== question.correct ? " is-wrong" : ""}" id="feedback">${checked ? (selected === question.correct ? "Correct — ask a student to explain why the closest alternative fails." : `Not quite. The best answer is ${String.fromCharCode(65 + question.correct)}.`) : ""}</div>
+        <div class="reveal-stack">${revealBlock("Answer and reasoning", question.reasoning, "answer")}</div>`;
+      } else {
+        interaction = `<div class="answer-actions"><button class="button button--teal" type="button" data-mark-discussed>${state.completed.includes(question.id) ? "Discussed ✓" : "Mark discussed"}</button><button class="button button--secondary" type="button" data-open-primary>Reveal worked solution</button></div>
+        <div class="reveal-stack">
+          ${revealBlock("Optional hint", question.hint, "hint")}
+          ${revealBlock("Worked solution", question.solution, "solution")}
+          ${revealBlock(question.section === "bonus" ? "Marking" : "Five-mark guide", question.marking, "marking")}
+        </div>`;
+      }
+
+      questionBody.innerHTML = `<p class="question-number">${question.section === "bonus" ? "Bonus question" : `${sectionInfo[question.section].label} · Question ${question.number}`}</p><h2 class="question-heading" tabindex="-1">${question.title}</h2><div class="prompt">${question.prompt}</div>${interaction}`;
+
+      previousButton.disabled = state.current === 0;
+      nextButton.disabled = state.current === questions.length - 1;
+      markButton.textContent = state.completed.includes(question.id) ? "Current is discussed ✓" : "Mark current discussed";
+
+      renderNavigation();
+      updateProgress();
+      saveState();
+      history.replaceState(null, "", `#${question.id}`);
+      if (focus) questionBody.querySelector(".question-heading").focus({ preventScroll: true });
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    function updateProgress() {
+      const completed = state.completed.length;
+      progressCount.textContent = `${completed} / ${questions.length}`;
+      progressFill.style.width = `${(completed / questions.length) * 100}%`;
+      progressTrack.setAttribute("aria-valuenow", completed);
+    }
+
+    function setCurrent(index) {
+      state.current = Math.max(0, Math.min(questions.length - 1, index));
+      renderQuestion({ focus: true });
+    }
+
+    function markComplete(id, complete = true) {
+      const has = state.completed.includes(id);
+      if (complete && !has) state.completed.push(id);
+      if (!complete && has) state.completed = state.completed.filter(item => item !== id);
+    }
+
+    function toggleCurrentComplete() {
+      const id = questions[state.current].id;
+      const nowComplete = !state.completed.includes(id);
+      markComplete(id, nowComplete);
+      renderQuestion();
+      showToast(nowComplete ? "Marked as discussed." : "Removed from discussed progress.");
+    }
+
+    function toggleReveal(revealId, forceOpen) {
+      const isOpen = Boolean(state.reveals[revealId]);
+      state.reveals[revealId] = forceOpen === undefined ? !isOpen : forceOpen;
+      renderQuestion();
+    }
+
+    function openPrimaryReveal() {
+      const question = questions[state.current];
+      toggleReveal(`${question.id}-${question.section === "mc" ? "answer" : "solution"}`, true);
+    }
+
+    function openHint() {
+      const question = questions[state.current];
+      if (!question.hint) return showToast("This question does not have a separate hint.");
+      toggleReveal(`${question.id}-hint`, true);
+    }
+
+    function showToast(message) {
+      const toast = document.getElementById("toast");
+      toast.textContent = message;
+      toast.classList.add("is-visible");
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => toast.classList.remove("is-visible"), 2400);
+    }
+
+    nav.addEventListener("click", event => {
+      const button = event.target.closest("[data-question-index]");
+      if (button) setCurrent(Number(button.dataset.questionIndex));
+    });
+
+    questionBody.addEventListener("click", event => {
+      const option = event.target.closest("[data-option]");
+      if (option) {
+        const question = questions[state.current];
+        state.selections[question.id] = Number(option.dataset.option);
+        state.checked[question.id] = false;
+        renderQuestion();
+        return;
+      }
+
+      if (event.target.closest("#checkAnswerButton")) {
+        const question = questions[state.current];
+        if (state.selections[question.id] === undefined) return;
+        state.checked[question.id] = true;
+        markComplete(question.id, true);
+        renderQuestion();
+        return;
+      }
+
+      const reveal = event.target.closest("[data-reveal]");
+      if (reveal) return toggleReveal(reveal.dataset.reveal);
+      if (event.target.closest("[data-open-primary]")) return openPrimaryReveal();
+      if (event.target.closest("[data-mark-discussed]")) return toggleCurrentComplete();
+    });
+
+    previousButton.addEventListener("click", () => setCurrent(state.current - 1));
+    nextButton.addEventListener("click", () => setCurrent(state.current + 1));
+    markButton.addEventListener("click", toggleCurrentComplete);
+    document.getElementById("shortcutsButton").addEventListener("click", () => document.getElementById("shortcutsDialog").showModal());
+
+    document.getElementById("resetButton").addEventListener("click", () => {
+      const confirmed = window.confirm("Reset all answer selections, reveals, and progress for this review?");
+      if (!confirmed) return;
+      state = { ...defaultState, completed: [], selections: {}, checked: {}, reveals: {} };
+      renderQuestion();
+      showToast("Review progress reset.");
+    });
+
+    document.querySelectorAll("[data-close-dialog]").forEach(button => {
+      button.addEventListener("click", () => document.getElementById(button.dataset.closeDialog).close());
+    });
+
+    document.querySelectorAll("dialog").forEach(dialog => {
+      dialog.addEventListener("click", event => {
+        const rect = dialog.getBoundingClientRect();
+        const inside = event.clientX >= rect.left && event.clientX <= rect.right && event.clientY >= rect.top && event.clientY <= rect.bottom;
+        if (!inside) dialog.close();
+      });
+    });
+
+    document.addEventListener("keydown", event => {
+      if (event.target.matches("button, input, textarea, select") || document.querySelector("dialog[open]")) return;
+      if (event.key === "ArrowLeft") setCurrent(state.current - 1);
+      if (event.key === "ArrowRight") setCurrent(state.current + 1);
+      if (event.key.toLowerCase() === "r") openPrimaryReveal();
+      if (event.key.toLowerCase() === "h") openHint();
+      if (event.key.toLowerCase() === "m") toggleCurrentComplete();
+      if (/^[1-4]$/.test(event.key) && questions[state.current].section === "mc") {
+        state.selections[questions[state.current].id] = Number(event.key) - 1;
+        state.checked[questions[state.current].id] = false;
+        renderQuestion();
+      }
+      if (event.key === "Enter" && questions[state.current].section === "mc") {
+        const question = questions[state.current];
+        if (state.selections[question.id] !== undefined) {
+          state.checked[question.id] = true;
+          markComplete(question.id, true);
+          renderQuestion();
+        }
+      }
+    });
+
+    const hashIndex = questions.findIndex(question => `#${question.id}` === window.location.hash);
+    if (hashIndex >= 0) state.current = hashIndex;
+    if (!Number.isInteger(state.current) || state.current < 0 || state.current >= questions.length) state.current = 0;
+    window.addEventListener("hashchange", () => {
+      const index = questions.findIndex(question => `#${question.id}` === window.location.hash);
+      if (index >= 0 && index !== state.current) {
+        state.current = index;
+        renderQuestion({ focus: true });
+      }
+    });
+    renderQuestion();
+  </script>
+</body>
+</html>
