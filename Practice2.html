@@ -1,0 +1,1097 @@
+<!doctype html>
+<!-- Standalone file: all styles, scripts, questions, and molecular drawings are embedded. -->
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="CHEM3400H practice question bank for Midterm #2 covering Modules 2–4 and Lecture 17.">
+  <meta name="application-name" content="CHEM3400H Practice Questions for Midterm #2">
+  <title>Practice Questions for Midterm #2 · CHEM3400H</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #17232e;
+      --muted: #566673;
+      --page: #f1f5f6;
+      --paper: #ffffff;
+      --line: #d2dde2;
+      --navy: #123f52;
+      --teal: #0f6d73;
+      --teal-dark: #084f55;
+      --teal-soft: #e5f4f3;
+      --gold: #b57400;
+      --gold-soft: #fff4d9;
+      --answer: #edf7f0;
+      --answer-border: #5c9c72;
+      --correct: #dff2e5;
+      --wrong: #fde7e4;
+      --focus: #f2b705;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      background: var(--page);
+      color: var(--ink);
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 17px;
+      line-height: 1.5;
+    }
+
+    button, input, textarea { font: inherit; }
+
+    :focus-visible {
+      outline: 3px solid var(--focus);
+      outline-offset: 3px;
+    }
+
+    .skip-link {
+      position: absolute;
+      left: 1rem;
+      top: -6rem;
+      z-index: 30;
+      padding: .7rem 1rem;
+      background: #000;
+      color: #fff;
+    }
+
+    .skip-link:focus { top: 1rem; }
+
+    header {
+      padding: 2.3rem 1rem 1.9rem;
+      background: linear-gradient(135deg, var(--navy), var(--teal-dark));
+      color: #fff;
+    }
+
+    .wrap {
+      width: min(980px, calc(100% - 2rem));
+      margin: 0 auto;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(2rem, 6vw, 3.15rem);
+      line-height: 1.08;
+    }
+
+    .subtitle {
+      margin: .5rem 0 0;
+      color: #dff3f2;
+      font-size: 1.05rem;
+    }
+
+    .coverage {
+      margin: .35rem 0 0;
+      color: #fff;
+      font-size: .98rem;
+    }
+
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      background: rgba(255, 255, 255, .97);
+      border-bottom: 1px solid var(--line);
+      box-shadow: 0 2px 8px rgba(23, 35, 46, .06);
+    }
+
+    nav .wrap {
+      display: flex;
+      gap: .45rem;
+      overflow-x: auto;
+      padding-top: .7rem;
+      padding-bottom: .7rem;
+      scrollbar-width: thin;
+    }
+
+    nav a {
+      flex: 0 0 auto;
+      min-height: 42px;
+      padding: .5rem .78rem;
+      border: 1px solid #9fc4c4;
+      border-radius: 999px;
+      color: var(--teal-dark);
+      font-weight: 700;
+      text-decoration: none;
+    }
+
+    nav a:hover { background: var(--teal-soft); }
+    main { padding: 1.25rem 0 4rem; }
+
+    .equation-sheet {
+      margin: 0 0 1rem;
+      padding: 1rem 1.1rem;
+      background: #fff;
+      border-left: 5px solid var(--teal);
+      border-radius: .4rem;
+      box-shadow: 0 2px 8px rgba(31, 50, 64, .04);
+    }
+
+    .equation-sheet h2 {
+      margin: 0 0 .8rem;
+      color: var(--navy);
+      font-size: 1.35rem;
+    }
+
+    .equation-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: .65rem;
+    }
+
+    .equation-card {
+      padding: .7rem .8rem;
+      background: #f7fafb;
+      border: 1px solid var(--line);
+      border-radius: .4rem;
+    }
+
+    .equation-card h3 {
+      margin: 0 0 .3rem;
+      color: var(--teal-dark);
+      font-size: .95rem;
+    }
+
+    .equation-card p { margin: .2rem 0; }
+    .equation-card .formula { font-size: 1.08rem; }
+    .equation-note { color: var(--muted); font-size: .88rem; }
+
+    .progress-card {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: .8rem 1.2rem;
+      align-items: center;
+      margin-bottom: 1.4rem;
+      padding: .9rem 1.1rem;
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: .4rem;
+    }
+
+    .progress-card p { margin: 0; color: var(--muted); }
+
+    .progress-track {
+      grid-column: 1 / -1;
+      height: .7rem;
+      overflow: hidden;
+      background: #e1e8eb;
+      border-radius: 999px;
+    }
+
+    .progress-fill {
+      width: 0;
+      height: 100%;
+      background: var(--teal);
+      border-radius: 999px;
+      transition: width .2s ease;
+    }
+
+    .section {
+      margin-top: 2.3rem;
+      scroll-margin-top: 5.1rem;
+    }
+
+    .section-heading {
+      margin: 0;
+      color: var(--navy);
+      font-size: 1.65rem;
+      line-height: 1.2;
+    }
+
+    .section-note {
+      margin: .2rem 0 .9rem;
+      padding-bottom: .5rem;
+      border-bottom: 3px solid #9fc4c4;
+      color: var(--muted);
+    }
+
+    .question {
+      margin: 0 0 1rem;
+      padding: 1.1rem 1.15rem;
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: .55rem;
+      box-shadow: 0 2px 8px rgba(31, 50, 64, .06);
+    }
+
+    .question h3 {
+      margin: 0 0 .75rem;
+      font-size: 1.08rem;
+      line-height: 1.45;
+    }
+
+    .kind, .difficulty {
+      display: inline-block;
+      margin-right: .4rem;
+      padding: .12rem .45rem;
+      border-radius: .25rem;
+      font-size: .8rem;
+      font-weight: 700;
+      vertical-align: .08rem;
+    }
+
+    .kind {
+      background: var(--teal-soft);
+      color: var(--teal-dark);
+    }
+
+    .difficulty {
+      background: #edf0f2;
+      color: #4f5d66;
+    }
+
+    .difficulty.challenge {
+      background: var(--gold-soft);
+      color: #754a00;
+    }
+
+    .polarity-note {
+      margin-top: .65rem !important;
+      padding-top: .65rem;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font-size: .95rem;
+    }
+
+    .compound-reference {
+      margin: .75rem 0 1rem;
+      padding: .8rem;
+      background: #f7fafb;
+      border: 1px solid #b9cbd2;
+      border-radius: .45rem;
+    }
+
+    .compound-reference h4 {
+      margin: 0 0 .65rem;
+      color: var(--navy);
+      font-size: .95rem;
+    }
+
+    .compound-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: .65rem;
+    }
+
+    .compound-card {
+      display: grid;
+      grid-template-columns: 108px 1fr;
+      gap: .7rem;
+      align-items: center;
+      min-height: 118px;
+      padding: .65rem;
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: .4rem;
+    }
+
+    .structure-box {
+      display: grid;
+      place-items: center;
+      min-height: 92px;
+      color: #243845;
+      background: #fbfcfc;
+      border: 1px solid #e0e7ea;
+      border-radius: .3rem;
+    }
+
+    .structure-svg {
+      width: 100%;
+      height: 88px;
+      overflow: visible;
+    }
+
+    .structure-svg text {
+      fill: currentColor;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 18px;
+      font-weight: 700;
+    }
+
+    .compound-name {
+      display: block;
+      margin-bottom: .15rem;
+      color: var(--navy);
+      font-size: 1rem;
+    }
+
+    .compound-formula,
+    .polarity-index,
+    .polarity-reading {
+      display: block;
+      font-size: .9rem;
+    }
+
+    .polarity-index {
+      margin-top: .25rem;
+      font-weight: 700;
+    }
+
+    .polarity-reading { color: var(--muted); }
+
+    fieldset { margin: .2rem 0 .8rem; padding: 0; border: 0; }
+
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    .choice {
+      display: flex;
+      align-items: flex-start;
+      gap: .65rem;
+      min-height: 44px;
+      margin: .35rem 0;
+      padding: .55rem .65rem;
+      border: 1px solid var(--line);
+      border-radius: .4rem;
+      cursor: pointer;
+    }
+
+    .choice:hover { background: #f7fafb; }
+    .choice:has(input:checked) { background: var(--teal-soft); border-color: var(--teal); }
+    .choice.correct-choice { background: var(--correct); border-color: #4c9564; }
+    .choice.wrong-choice { background: var(--wrong); border-color: #bd6258; }
+
+    .choice input {
+      width: 1.15rem;
+      height: 1.15rem;
+      margin: .15rem 0 0;
+      accent-color: var(--teal);
+    }
+
+    .response-label {
+      display: block;
+      margin: .3rem 0 .35rem;
+      font-weight: 700;
+    }
+
+    textarea {
+      display: block;
+      width: 100%;
+      min-height: 118px;
+      resize: vertical;
+      padding: .7rem;
+      border: 2px solid #94a6b0;
+      border-radius: .4rem;
+      background: #fff;
+      color: var(--ink);
+    }
+
+    .attempt-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: .8rem;
+      margin-top: .75rem;
+    }
+
+    .attempt-status { color: var(--muted); font-size: .94rem; }
+
+    .reveal-button {
+      flex: 0 0 auto;
+      min-height: 44px;
+      padding: .6rem .9rem;
+      border: 2px solid var(--teal);
+      border-radius: .4rem;
+      background: #fff;
+      color: var(--teal-dark);
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .reveal-button:hover:not(:disabled) { background: var(--teal-soft); }
+
+    .reveal-button:disabled {
+      border-color: #aeb8bf;
+      color: #737f88;
+      cursor: not-allowed;
+      opacity: .75;
+    }
+
+    .answer-panel {
+      margin-top: .85rem;
+      padding: .8rem .9rem;
+      border: 1px solid var(--answer-border);
+      border-left-width: 5px;
+      border-radius: .4rem;
+      background: var(--answer);
+    }
+
+    .answer-panel[hidden] { display: none; }
+    .answer-panel p { margin: .3rem 0; }
+    .formula { font-family: "Times New Roman", Times, serif; font-size: 1.05em; }
+
+    .noscript {
+      margin: 1rem auto;
+      padding: 1rem;
+      background: #fff4d9;
+      border: 2px solid #b57400;
+      border-radius: .4rem;
+    }
+
+    footer {
+      padding: 1.25rem 1rem;
+      background: #e1e8eb;
+      color: var(--muted);
+      text-align: center;
+      font-size: .94rem;
+    }
+
+    @media (max-width: 640px) {
+      body { font-size: 16px; }
+      .wrap { width: min(100% - 1rem, 980px); }
+      header { padding: 1.7rem .5rem 1.4rem; }
+      .question { padding: 1rem; }
+      .attempt-row { align-items: stretch; flex-direction: column; }
+      .reveal-button { width: 100%; }
+      .progress-card { grid-template-columns: 1fr; }
+      .progress-track { grid-column: 1; }
+      .compound-card { grid-template-columns: 92px 1fr; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      .progress-fill { transition: none; }
+    }
+
+    @media print {
+      body { background: #fff; font-size: 11pt; }
+      header { padding: 0 0 1rem; background: #fff; color: #000; }
+      .subtitle, .coverage { color: #000; }
+      nav, .progress-card, .attempt-row, .answer-panel, footer { display: none !important; }
+      .wrap { width: 100%; }
+      .question { box-shadow: none; break-inside: avoid; }
+      textarea { min-height: 70px; }
+      .section-heading { color: #000; }
+      .section { scroll-margin-top: 0; }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to practice questions</a>
+
+  <header>
+    <div class="wrap">
+      <h1>Practice Questions for Midterm #2</h1>
+      <p class="subtitle">CHEM3400H · Application and reasoning practice</p>
+      <p class="coverage">Module 2 refresher · Module 3 · Module 4</p>
+    </div>
+  </header>
+
+  <nav aria-label="Question bank sections">
+    <div class="wrap" id="section-nav"></div>
+  </nav>
+
+  <main id="main" class="wrap">
+    <section class="equation-sheet" aria-labelledby="equation-heading">
+      <h2 id="equation-heading">Useful equations and relationships</h2>
+      <div class="equation-grid">
+        <div class="equation-card">
+          <h3>Retention and selectivity</h3>
+          <p class="formula">k′ = (t<sub>R</sub> − t<sub>M</sub>)/t<sub>M</sub></p>
+          <p class="formula">α = k′<sub>2</sub>/k′<sub>1</sub> &nbsp; (k′<sub>2</sub> &gt; k′<sub>1</sub>)</p>
+        </div>
+        <div class="equation-card">
+          <h3>Resolution</h3>
+          <p class="formula">R<sub>s</sub> = 2(t<sub>R,2</sub> − t<sub>R,1</sub>)/(w<sub>1</sub> + w<sub>2</sub>)</p>
+          <p class="equation-note">Baseline resolution is commonly near R<sub>s</sub> = 1.5.</p>
+        </div>
+        <div class="equation-card">
+          <h3>Efficiency</h3>
+          <p class="formula">N = 16(t<sub>R</sub>/w<sub>b</sub>)<sup>2</sup></p>
+          <p class="formula">N = 5.54(t<sub>R</sub>/w<sub>1/2</sub>)<sup>2</sup></p>
+          <p class="formula">H = L/N</p>
+        </div>
+        <div class="equation-card">
+          <h3>van Deemter</h3>
+          <p class="formula">H = A + B/u + Cu</p>
+          <p class="equation-note">Smaller H means a more efficient column.</p>
+        </div>
+        <div class="equation-card">
+          <h3>Flow and GC programs</h3>
+          <p class="formula">u = F/A = 4F/(πd<sub>i</sub><sup>2</sup>)</p>
+          <p class="formula">t<sub>ramp</sub> = ΔT/(ramp rate)</p>
+          <p class="equation-note">Total program time = holds + ramp times.</p>
+        </div>
+        <div class="equation-card">
+          <h3>HPLC gradients and injection</h3>
+          <p class="formula">t<sub>dwell</sub> = V<sub>d</sub>/F</p>
+          <p class="formula">m<sub>injected</sub> = C × V</p>
+        </div>
+        <div class="equation-card">
+          <h3>Acid–base relationships</h3>
+          <p class="formula">pH = pK<sub>a</sub> + log([A<sup>−</sup>]/[HA])</p>
+          <p class="formula">pH = pK<sub>a</sub> + log([B]/[BH<sup>+</sup>])</p>
+        </div>
+        <div class="equation-card">
+          <h3>Proteins in ion exchange</h3>
+          <p class="formula">pH &gt; pI → net negative</p>
+          <p class="formula">pH &lt; pI → net positive</p>
+        </div>
+      </div>
+    </section>
+
+    <div class="progress-card" aria-live="polite">
+      <p><strong id="attempt-count">0 of 44 attempted</strong></p>
+      <p id="reveal-count">0 answers revealed</p>
+      <div class="progress-track" role="progressbar" aria-label="Questions attempted" aria-valuemin="0" aria-valuemax="44" aria-valuenow="0">
+        <div class="progress-fill"></div>
+      </div>
+    </div>
+
+    <div id="question-bank"></div>
+
+    <noscript><p class="noscript">JavaScript must be enabled to use the answer fields and reveal buttons.</p></noscript>
+  </main>
+
+  <footer>CHEM3400H · Practice Questions for Midterm #2</footer>
+
+  <script>
+    const sections = [
+      {
+        id: 'module-2', short: 'Module 2', title: 'Module 2 · Chromatographic Fundamentals',
+        note: 'Retention, efficiency, resolution, and van Deemter reasoning',
+        questionSections: ['module-2']
+      },
+      {
+        id: 'module-3', short: 'Module 3', title: 'Module 3 · Gas Chromatography',
+        note: 'Instrumentation, carrier gas, injection, columns, detectors, applications, and troubleshooting',
+        questionSections: ['lecture-9', 'lecture-10', 'lecture-11', 'lecture-12']
+      },
+      {
+        id: 'module-4', short: 'Module 4', title: 'Module 4 · Liquid and Ion-Exchange Chromatography',
+        note: 'HPLC instrumentation, columns, detectors, method development, troubleshooting, and ion exchange',
+        questionSections: ['lecture-13', 'lecture-14', 'lecture-15', 'lecture-16', 'lecture-17']
+      }
+    ];
+
+    const compoundLibrary = {
+      benzene: {
+        name: 'Benzene', formula: 'C₆H₆', index: 'XlogP 2.1', reading: 'Nonpolar; less hydrophobic of this pair',
+        structure: `<svg class="structure-svg" viewBox="0 0 120 96" role="img" aria-label="Skeletal structure of benzene">
+          <polygon points="60,10 99,32 99,72 60,94 21,72 21,32" fill="none" stroke="currentColor" stroke-width="3"/>
+          <circle cx="60" cy="52" r="25" fill="none" stroke="currentColor" stroke-width="2"/>
+        </svg>`
+      },
+      naphthalene: {
+        name: 'Naphthalene', formula: 'C₁₀H₈', index: 'XlogP 3.3', reading: 'More hydrophobic than benzene',
+        structure: `<svg class="structure-svg" viewBox="0 0 170 96" role="img" aria-label="Skeletal structure of naphthalene">
+          <polygon points="20,48 40,13 80,13 100,48 80,83 40,83" fill="none" stroke="currentColor" stroke-width="3"/>
+          <polygon points="100,48 80,13 120,13 140,48 120,83 80,83" fill="none" stroke="currentColor" stroke-width="3"/>
+          <line x1="43" y1="20" x2="69" y2="20" stroke="currentColor" stroke-width="2"/>
+          <line x1="29" y1="49" x2="42" y2="72" stroke="currentColor" stroke-width="2"/>
+          <line x1="73" y1="76" x2="91" y2="46" stroke="currentColor" stroke-width="2"/>
+          <line x1="91" y1="20" x2="117" y2="20" stroke="currentColor" stroke-width="2"/>
+          <line x1="130" y1="47" x2="117" y2="70" stroke="currentColor" stroke-width="2"/>
+        </svg>`
+      },
+      'formic-acid': {
+        name: 'Formic acid', formula: 'CH₂O₂', index: 'logP −0.54', reading: 'Polar neutral molecule; ionizes above its pKa',
+        structure: `<svg class="structure-svg" viewBox="0 0 150 96" role="img" aria-label="Structural formula of formic acid">
+          <text x="8" y="57">H</text><line x1="28" y1="51" x2="55" y2="51" stroke="currentColor" stroke-width="3"/>
+          <text x="61" y="57">C</text><line x1="76" y1="43" x2="100" y2="22" stroke="currentColor" stroke-width="3"/>
+          <line x1="80" y1="48" x2="104" y2="27" stroke="currentColor" stroke-width="2"/><text x="109" y="26">O</text>
+          <line x1="78" y1="54" x2="103" y2="67" stroke="currentColor" stroke-width="3"/><text x="109" y="75">OH</text>
+        </svg>`
+      },
+      ammonium: {
+        name: 'Ammonium ion', formula: 'NH₄⁺', index: 'logP: not applicable', reading: 'Ionic buffer component',
+        structure: `<svg class="structure-svg" viewBox="0 0 130 96" role="img" aria-label="Structure of the ammonium ion">
+          <text x="57" y="57">N</text><text x="59" y="19">H</text><text x="60" y="91">H</text><text x="15" y="57">H</text><text x="104" y="57">H</text>
+          <line x1="65" y1="25" x2="65" y2="40" stroke="currentColor" stroke-width="3"/><line x1="65" y1="62" x2="65" y2="76" stroke="currentColor" stroke-width="3"/>
+          <line x1="34" y1="51" x2="53" y2="51" stroke="currentColor" stroke-width="3"/><line x1="78" y1="51" x2="98" y2="51" stroke="currentColor" stroke-width="3"/>
+          <text x="91" y="24">+</text>
+        </svg>`
+      },
+      phosphate: {
+        name: 'Phosphate ion', formula: 'PO₄³⁻', index: 'logP: not applicable', reading: 'Highly ionic; nonvolatile for LC–MS',
+        structure: `<svg class="structure-svg" viewBox="0 0 140 96" role="img" aria-label="Simplified structure of the phosphate ion">
+          <text x="64" y="57">P</text><text x="64" y="17">O</text><text x="65" y="94">O</text><text x="15" y="57">O</text><text x="113" y="57">O</text>
+          <line x1="71" y1="23" x2="71" y2="40" stroke="currentColor" stroke-width="3"/><line x1="71" y1="62" x2="71" y2="79" stroke="currentColor" stroke-width="3"/>
+          <line x1="35" y1="51" x2="60" y2="51" stroke="currentColor" stroke-width="3"/><line x1="82" y1="51" x2="108" y2="51" stroke="currentColor" stroke-width="3"/>
+          <text x="104" y="22">3−</text>
+        </svg>`
+      },
+      sodium: {
+        name: 'Sodium ion', formula: 'Na⁺', index: 'logP: not applicable', reading: 'Monatomic cation; charge +1',
+        structure: `<svg class="structure-svg" viewBox="0 0 120 96" role="img" aria-label="Sodium ion"><text x="38" y="60" style="font-size:34px">Na⁺</text></svg>`
+      },
+      calcium: {
+        name: 'Calcium ion', formula: 'Ca²⁺', index: 'logP: not applicable', reading: 'Monatomic cation; charge +2',
+        structure: `<svg class="structure-svg" viewBox="0 0 120 96" role="img" aria-label="Calcium ion"><text x="34" y="60" style="font-size:34px">Ca²⁺</text></svg>`
+      },
+      aluminum: {
+        name: 'Aluminum ion', formula: 'Al³⁺', index: 'logP: not applicable', reading: 'Monatomic cation; charge +3',
+        structure: `<svg class="structure-svg" viewBox="0 0 120 96" role="img" aria-label="Aluminum ion"><text x="38" y="60" style="font-size:34px">Al³⁺</text></svg>`
+      }
+    };
+
+    const questions = [
+      {
+        section: 'module-2', id: 'm2-1', number: 'M2.1', type: 'mc', difficulty: 'Core',
+        prompt: 'A peak elutes at <span class="formula">t<sub>R</sub> = 8.40 min</span>, while the unretained marker elutes at <span class="formula">t<sub>M</sub> = 1.40 min</span>. What is the retention factor?',
+        choices: ['3.0', '5.0', '6.0', '7.0'], correct: 1,
+        explanation: '<span class="formula">k′ = (t<sub>R</sub> − t<sub>M</sub>)/t<sub>M</sub> = (8.40 − 1.40)/1.40 = 5.0</span>.'
+      },
+      {
+        section: 'module-2', id: 'm2-2', number: 'M2.2', type: 'mc', difficulty: 'Core',
+        prompt: 'Two peaks elute at 7.10 and 7.72 min. Their baseline widths are 0.28 and 0.34 min. What is their resolution?',
+        choices: ['0.50', '1.00', '1.50', '2.00'], correct: 3,
+        explanation: '<span class="formula">R<sub>s</sub> = 2(7.72 − 7.10)/(0.28 + 0.34) = 1.24/0.62 = 2.00</span>. This is above the usual baseline-resolution target of 1.5.'
+      },
+      {
+        section: 'module-2', id: 'm2-3', number: 'M2.3', type: 'written', difficulty: 'Challenge',
+        prompt: 'A peak has <span class="formula">t<sub>R</sub> = 6.40 min</span> and half-height width <span class="formula">w<sub>1/2</sub> = 0.16 min</span> on a 12.0 cm column. Calculate <span class="formula">N</span> and <span class="formula">H</span> in µm. Compare this column with one having <span class="formula">H = 20 µm</span>.',
+        answer: '<span class="formula">N = 5.54(6.40/0.16)<sup>2</sup> = 8864</span>. <span class="formula">H = 12.0 cm/8864 = 0.001354 cm = 13.5 µm</span>. The 12.0 cm column is more efficient because 13.5 µm is the smaller plate height.'
+      },
+      {
+        section: 'module-2', id: 'm2-4', number: 'M2.4', type: 'mc', difficulty: 'Challenge',
+        prompt: 'If plate number is increased by a factor of four while retention and selectivity stay constant, resolution is expected to change by approximately what factor?',
+        choices: ['One-half', 'No change', 'Two', 'Four'], correct: 2,
+        explanation: 'Resolution depends on the square root of plate number. Therefore, <span class="formula">√4 = 2</span>, not four.'
+      },
+      {
+        section: 'module-2', id: 'm2-5', number: 'M2.5', type: 'written', difficulty: 'Core',
+        prompt: 'A method change doubles the retention factors of two peaks, but their selectivity factor stays at 1.03. Explain what this tells you about the separation and name a change more likely to improve the critical pair.',
+        answer: 'Both peaks will be retained longer, but their relative separation has not changed much because <span class="formula">α</span> is still 1.03. A different stationary phase, a change in pH for ionizable analytes, a different organic solvent, or a suitable temperature change may improve selectivity.'
+      },
+      {
+        section: 'module-2', id: 'm2-6', number: 'M2.6', type: 'mc', difficulty: 'Core',
+        prompt: 'A column is operated far above its optimum linear velocity. Which van Deemter contribution is most likely causing the rapid rise in plate height?',
+        choices: ['Longitudinal diffusion only', 'Resistance to mass transfer', 'The dead time', 'The detector response factor'], correct: 1,
+        explanation: 'At high velocity, solutes do not equilibrate rapidly enough between phases. The mass-transfer term increases with velocity and broadens peaks.'
+      },
+
+      {
+        section: 'lecture-9', id: 'l9-1', number: '9.1', type: 'mc', difficulty: 'Challenge',
+        prompt: 'The same volumetric flow is applied to 0.53 mm and 0.25 mm capillary columns. Approximately how much faster is the average gas velocity in the 0.25 mm column?',
+        choices: ['1.4 times', '2.1 times', '4.5 times', '8.9 times'], correct: 2,
+        explanation: 'Velocity is approximately proportional to <span class="formula">1/d<sup>2</sup></span> at the same flow. <span class="formula">(0.53/0.25)<sup>2</sup> ≈ 4.5</span>.'
+      },
+      {
+        section: 'lecture-9', id: 'l9-2', number: '9.2', type: 'mc', difficulty: 'Core',
+        prompt: 'A clean sample contains thermally labile, high-boiling analytes at a concentration high enough for detection. Which injection approach best avoids exposure to a hot inlet liner?',
+        choices: ['High-ratio split injection', 'Splitless injection with a hotter inlet', 'Headspace injection', 'Cool on-column injection'], correct: 3,
+        explanation: 'Cool on-column injection places the liquid directly into the cool column inlet. It can reduce hot-inlet decomposition and volatility discrimination, but it requires a clean sample.'
+      },
+      {
+        section: 'lecture-9', id: 'l9-3', number: '9.3', type: 'written', difficulty: 'Challenge',
+        prompt: 'A GC program holds at 60 °C for 2.0 min, ramps to 140 °C at 8.0 °C/min, then ramps to 260 °C at 20 °C/min and holds for 4.0 min. Calculate the total programmed time.',
+        answer: 'First ramp: <span class="formula">(140 − 60)/8.0 = 10.0 min</span>. Second ramp: <span class="formula">(260 − 140)/20 = 6.0 min</span>. Total time = <span class="formula">2.0 + 10.0 + 6.0 + 4.0 = 22.0 min</span>.'
+      },
+      {
+        section: 'lecture-9', id: 'l9-4', number: '9.4', type: 'written', difficulty: 'Core',
+        prompt: 'In a splitless method, the split vent accidentally opens much earlier than intended. Predict the main effect on peak response and explain why.',
+        answer: 'Peak response will usually decrease because part of the vaporized sample leaves through the split vent before transfer to the column is complete. The loss occurs at the inlet, even if the detector is working normally.'
+      },
+
+      {
+        section: 'lecture-10', id: 'l10-1', number: '10.1', type: 'mc', difficulty: 'Core',
+        prompt: 'Compared with a thinner film of the same stationary phase, a thicker GC film most often gives which result?',
+        choices: ['More retention and capacity for very volatile solutes', 'Less retention for every compound', 'No change in mass transfer', 'A change from capillary to packed-column operation'], correct: 0,
+        explanation: 'A thicker film can retain volatile compounds longer and increase capacity. It can also increase mass-transfer resistance and may increase bleed, especially at high temperature.'
+      },
+      {
+        section: 'lecture-10', id: 'l10-2', number: '10.2', type: 'mc', difficulty: 'Core',
+        prompt: 'What is a practical advantage of an immobilized GC stationary phase over a physically coated phase?',
+        choices: ['It eliminates the need for carrier gas', 'It makes every analyte elute in boiling-point order', 'It is generally more resistant to solvent rinsing', 'It cannot produce column bleed'], correct: 2,
+        explanation: 'Immobilization chemically anchors the stationary phase, making it more resistant to solvent rinsing. It does not remove temperature limits or guarantee zero bleed.'
+      },
+      {
+        section: 'lecture-10', id: 'l10-3', number: '10.3', type: 'written', difficulty: 'Challenge',
+        prompt: 'A mixture contains several compounds that overlap on a nonpolar phase, but their polar functional groups differ. Propose a small stationary-phase screening set and explain what information it provides.',
+        answer: 'A sensible screen could compare a nonpolar, an intermediate-polarity, and a more polar phase. Comparing the chromatograms shows whether added polar interactions change elution order or create useful selectivity for the overlapping compounds. The purpose is to change chemistry, not simply run longer.'
+      },
+      {
+        section: 'lecture-10', id: 'l10-4', number: '10.4', type: 'written', difficulty: 'Core',
+        prompt: 'A 30 m GC column is trimmed to remove a contaminated inlet section. Predict the direction of change for dead time, analyte retention times, and plate number. Would trimming normally reverse the elution order?',
+        answer: 'The shorter column usually gives a shorter dead time, earlier analyte retention times, and a lower total plate number. Elution order normally remains the same because the stationary-phase chemistry has not changed, although a poorly resolved pair may become less resolved.'
+      },
+
+      {
+        section: 'lecture-11', id: 'l11-1', number: '11.1', type: 'mc', difficulty: 'Core',
+        prompt: 'A laboratory must measure permanent gases and would like a broadly responding, non-destructive GC detector. Which detector is the best starting choice?',
+        choices: ['FID', 'TCD', 'ECD', 'Fluorescence detector'], correct: 1,
+        explanation: 'A thermal-conductivity detector is broadly responding and non-destructive. It is less sensitive than many selective detectors but is useful for permanent gases.'
+      },
+      {
+        section: 'lecture-11', id: 'l11-2', number: '11.2', type: 'mc', difficulty: 'Core',
+        prompt: 'A sample contains many hydrocarbons and a small amount of a strongly electron-capturing halogenated compound. Which detector gives the most selective signal for the halogenated target?',
+        choices: ['TCD', 'FID', 'Nitrogen-phosphorus detector', 'ECD'], correct: 3,
+        explanation: 'The electron-capture detector is highly sensitive to many electron-capturing compounds, especially halogenated analytes, while responding much less to most hydrocarbons.'
+      },
+      {
+        section: 'lecture-11', id: 'l11-3', number: '11.3', type: 'mc', difficulty: 'Challenge',
+        prompt: 'In GC–MS, why might an extracted-ion chromatogram reveal a target that is hard to see in the total-ion chromatogram?',
+        choices: ['It changes the column stationary phase', 'It increases the injected mass', 'It displays selected diagnostic ions and reduces unrelated signal', 'It makes the detector non-destructive'], correct: 2,
+        explanation: 'An extracted-ion chromatogram plots only selected mass-to-charge signals. Removing unrelated ions can make the target easier to distinguish in a complex background.'
+      },
+      {
+        section: 'lecture-11', id: 'l11-4', number: '11.4', type: 'written', difficulty: 'Challenge',
+        prompt: 'A method splits one GC column effluent between an FID and an ECD. What complementary information can the two signals provide, and what important information is still missing?',
+        answer: 'The FID gives a strong response for many organic compounds, especially hydrocarbons, while the ECD highlights strongly electron-capturing compounds such as many halogenated analytes. Matching retention times across the signals adds evidence, but neither detector alone provides structural confirmation like a mass spectrum.'
+      },
+
+      {
+        section: 'lecture-12', id: 'l12-1', number: '12.1', type: 'mc', difficulty: 'Core',
+        prompt: 'A peak becomes increasingly fronted as the injected analyte mass rises, while a tenfold dilution gives a nearly symmetric peak. What is the most likely cause?',
+        choices: ['Column overload', 'An inactive detector', 'Too little sample', 'A larger selectivity factor'], correct: 0,
+        explanation: 'Improvement after dilution is strong evidence of overload. The stationary phase cannot retain the concentrated band uniformly, so the front of the peak moves faster.'
+      },
+      {
+        section: 'lecture-12', id: 'l12-2', number: '12.2', type: 'mc', difficulty: 'Core',
+        prompt: 'A blank run immediately after a concentrated standard contains a small peak at the standard’s retention time. The peak becomes smaller in a second blank. What does this pattern support?',
+        choices: ['A permanently changed stationary phase', 'Carryover from the concentrated standard', 'A lower carrier-gas velocity', 'An incorrect response factor'], correct: 1,
+        explanation: 'A peak that decays through successive blanks is characteristic of residual sample being washed from the syringe, inlet, tubing, or column.'
+      },
+      {
+        section: 'lecture-12', id: 'l12-3', number: '12.3', type: 'written', difficulty: 'Challenge',
+        prompt: 'A blank GC temperature program shows little signal at first, followed by a strong baseline rise near the upper temperature limit. Give two plausible causes and one controlled check for each.',
+        answer: 'Possible causes include column bleed from high temperature or phase damage, and oxygen or moisture entering through a leak or depleted purifier. Compare a lower final temperature or properly conditioned column for bleed; separately check carrier-gas purity, traps, and leaks. A blank is useful because it shows the effect is not caused by an injected analyte.'
+      },
+      {
+        section: 'lecture-12', id: 'l12-4', number: '12.4', type: 'written', difficulty: 'Challenge',
+        prompt: 'All GC peaks alternate between earlier and later retention times, and the inlet-pressure trace fluctuates at the same time. What part of the system should be investigated first, and why?',
+        answer: 'Investigate carrier-gas delivery and inlet pressure or flow control first, including leaks, regulator or electronic control, and restrictions. A system-wide retention shift synchronized with pressure points to changing mobile-phase velocity rather than a different chemical interaction for one analyte.'
+      },
+
+      {
+        section: 'lecture-13', id: 'l13-1', number: '13.1', type: 'mc', difficulty: 'Core',
+        prompt: 'Why do many HPLC pumps use two pistons operating out of phase?',
+        choices: ['To change column chemistry during a run', 'To eliminate the need for degassing', 'To maintain flow while reducing pressure and flow pulsation', 'To detect analytes before the column'], correct: 2,
+        explanation: 'As one piston refills, the other delivers solvent. Coordinated operation gives a steadier high-pressure flow than a single piston could provide.'
+      },
+      {
+        section: 'lecture-13', id: 'l13-2', number: '13.2', type: 'mc', difficulty: 'Core',
+        prompt: 'Which statement correctly separates the purposes of mobile-phase degassing and filtration?',
+        choices: ['Both steps remove only dissolved salts', 'Degassing removes particles; filtration removes dissolved gas', 'Filtration prevents detector absorbance; degassing sets pH', 'Degassing limits bubbles; filtration removes particles'], correct: 3,
+        explanation: 'Degassing reduces bubble formation and pump cavitation. Filtration removes particles that could block frits, valves, tubing, or the column.'
+      },
+      {
+        section: 'lecture-13', id: 'l13-3', number: '13.3', type: 'written', difficulty: 'Challenge',
+        prompt: 'A gradient is programmed to begin at 2.0 min. The flow is 0.50 mL/min and the dwell volume is 1.00 mL. When does the changed composition reach the column? Repeat for an instrument with a 0.25 mL dwell volume.',
+        answer: 'The dwell delay is <span class="formula">V<sub>d</sub>/F</span>. For 1.00 mL, the delay is <span class="formula">1.00/0.50 = 2.0 min</span>, so the gradient reaches the column at 4.0 min. For 0.25 mL, the delay is 0.50 min, so it reaches the column at 2.50 min.'
+      },
+      {
+        section: 'lecture-13', id: 'l13-4', number: '13.4', type: 'mc', difficulty: 'Challenge',
+        prompt: 'Injection A is 5 µL at 2.0 mg/mL. Injection B is 20 µL at 0.50 mg/mL in the same diluent. Which statement is best?',
+        choices: ['B injects four times more analyte mass', 'The masses are equal, but B introduces a larger plug that may broaden early peaks', 'A and B must give identical peak shapes', 'A injects four times more analyte mass'], correct: 1,
+        explanation: 'Each injection contains 10 µg. The larger volume in B can still create extra-volume or focusing problems even though analyte mass is unchanged.'
+      },
+
+      {
+        section: 'lecture-14', id: 'l14-1', number: '14.1', type: 'mc', difficulty: 'Core',
+        prompt: 'On a reversed-phase C18 column, benzene and naphthalene are analyzed under the same conditions. Which compound is generally expected to elute later?',
+        compounds: ['benzene', 'naphthalene'],
+        choices: ['Benzene, because it is smaller', 'Benzene, because it is less hydrophobic', 'They must co-elute', 'Naphthalene, because it is more hydrophobic'], correct: 3,
+        explanation: 'In reversed phase, the more hydrophobic compound generally interacts more strongly with the nonpolar stationary phase. Naphthalene has the larger XlogP value (3.3 versus 2.1), so it is expected to be retained longer.'
+      },
+      {
+        section: 'lecture-14', id: 'l14-2', number: '14.2', type: 'mc', difficulty: 'Core',
+        prompt: 'What is the usual combined effect of decreasing HPLC particle size while keeping other column dimensions similar?',
+        choices: ['Lower plate height and higher back-pressure', 'Higher plate height and lower back-pressure', 'No change in efficiency or pressure', 'Lower efficiency and no pressure change'], correct: 0,
+        explanation: 'Smaller particles shorten diffusion paths and can improve efficiency, but their tighter flow paths create substantially more back-pressure.'
+      },
+      {
+        section: 'lecture-14', id: 'l14-3', number: '14.3', type: 'written', difficulty: 'Core',
+        prompt: 'After repeated injections of a dirty extract, pressure increases and peak shapes worsen. Explain how a guard column could help and what limitation it has.',
+        answer: 'A guard column can trap particles and strongly retained matrix before they reach the analytical column, so it is cheaper to replace when contaminated. It does not correct poor sample preparation indefinitely, and an overloaded or blocked guard column can itself raise pressure and distort peaks.'
+      },
+      {
+        section: 'lecture-14', id: 'l14-4', number: '14.4', type: 'written', difficulty: 'Challenge',
+        prompt: 'A weak acid has <span class="formula">pK<sub>a</sub> = 4.0</span>. Compare its expected C18 retention at pH 2 and pH 7, assuming both pH values are allowed for the column.',
+        answer: 'At pH 2, the weak acid is mainly neutral and is usually more hydrophobic, so C18 retention is stronger. At pH 7, it is mainly anionic and more comfortable in the aqueous mobile phase, so retention is usually weaker. The exact result still depends on the complete molecule and mobile phase.'
+      },
+
+      {
+        section: 'lecture-15', id: 'l15-1', number: '15.1', type: 'mc', difficulty: 'Core',
+        prompt: 'What is the most likely consequence of choosing a UV detection wavelength below the useful cutoff of the mobile-phase solvent?',
+        choices: ['Longer column lifetime', 'High background absorbance and poor noise or drift', 'Lower HPLC pressure', 'Stronger fluorescence'], correct: 1,
+        explanation: 'The solvent absorbs strongly near or below its cutoff. That large background reduces the useful absorbance window and can produce noise, drift, or detector saturation.'
+      },
+      {
+        section: 'lecture-15', id: 'l15-2', number: '15.2', type: 'mc', difficulty: 'Core',
+        prompt: 'Which detector is least compatible with a conventional solvent-composition gradient?',
+        choices: ['Diode-array detector', 'Fluorescence detector', 'Refractive-index detector', 'Mass spectrometer'], correct: 2,
+        explanation: 'A refractive-index detector responds directly to changes in mobile-phase composition. A gradient therefore produces a large baseline change that can overwhelm analyte signals.'
+      },
+      {
+        section: 'lecture-15', id: 'l15-3', number: '15.3', type: 'written', difficulty: 'Challenge',
+        prompt: 'A diode-array detector records a different UV spectrum at the front of a peak than at the back. What does this observation suggest, and what should be done next?',
+        answer: 'The changing spectrum suggests that more than one absorbing species may be co-eluting, although noise or very low signal can also affect the comparison. Change separation conditions or analyze standards to test for coelution; spectral agreement alone is supporting evidence, not absolute identity proof.'
+      },
+      {
+        section: 'lecture-15', id: 'l15-4', number: '15.4', type: 'written', difficulty: 'Challenge',
+        prompt: 'A polar, nonvolatile metabolite has no useful UV chromophore, and identity evidence is required at low concentration. Choose an HPLC detector and a likely ionization approach. State one mobile-phase requirement.',
+        answerCompounds: ['formic-acid', 'ammonium', 'phosphate'],
+        answer: 'LC–MS is appropriate because it can provide sensitive mass-to-charge and fragmentation evidence. Electrospray ionization is a reasonable starting point for a polar or ionic metabolite. Use volatile mobile-phase additives, such as formic acid or an ammonium buffer, and avoid nonvolatile salts such as phosphate.'
+      },
+
+      {
+        section: 'lecture-16', id: 'l16-1', number: '16.1', type: 'mc', difficulty: 'Core',
+        prompt: 'A UV baseline rises in the same reproducible way during every blank gradient, even when no injection is made. Which explanation should be tested first?',
+        choices: ['Different absorbance or contamination in the two mobile phases', 'Column overload by the analyte', 'A response factor that is too small', 'A sample vial that is too full'], correct: 0,
+        explanation: 'Because the rise occurs in an uninjected blank and follows the gradient, first examine solvent absorbance, solvent contamination, mixing, and detector referencing.'
+      },
+      {
+        section: 'lecture-16', id: 'l16-2', number: '16.2', type: 'written', difficulty: 'Challenge',
+        prompt: 'A broad scouting gradient shows crowded peaks from 35–42% organic, followed by no peaks until one strongly retained compound elutes near 90% organic. Propose a sensible next gradient and include one step required before the next injection.',
+        answer: 'Use a shallower gradient through about 35–42% organic to spread the crowded region, followed by a steeper ramp to high organic for the late compound and column wash. Return to the starting composition and allow enough re-equilibration before the next injection.'
+      },
+      {
+        section: 'lecture-16', id: 'l16-3', number: '16.3', type: 'written', difficulty: 'Challenge',
+        prompt: 'A mixture contains a weak acid with <span class="formula">pK<sub>a</sub> = 5.0</span> and a weak base whose conjugate acid has <span class="formula">pK<sub>a</sub> = 9.0</span>. Predict the main charge form of each at pH 3 and explain why changing pH may change reversed-phase selectivity.',
+        answer: 'At pH 3, the weak acid is mainly neutral because pH is below its pKa, while the weak base is mainly protonated and positively charged because pH is far below 9. The neutral acid will often be more retained on C18 than the charged base. Changing pH changes the fractions ionized by different amounts, so their relative retention—and therefore selectivity—can change.'
+      },
+      {
+        section: 'lecture-16', id: 'l16-4', number: '16.4', type: 'mc', difficulty: 'Core',
+        prompt: 'HPLC pressure suddenly falls almost to zero during a run. Which cause is more likely than a blocked inlet frit?',
+        choices: ['A smaller particle size', 'A more viscous solvent', 'Particulate accumulation', 'A leak, empty reservoir, air intake, or loss of pump delivery'], correct: 3,
+        explanation: 'A blockage increases pressure. A sudden major pressure loss points instead to a broken flow path or failure to deliver liquid.'
+      },
+
+      {
+        section: 'lecture-17', id: 'l17-1', number: '17.1', type: 'mc', difficulty: 'Core',
+        prompt: 'Which statement correctly describes a cation-exchange stationary phase?',
+        choices: ['It has fixed positive groups and retains cations', 'It has fixed negative groups and retains cations', 'It has no fixed charge and retains neutral molecules', 'It has fixed negative groups and retains anions'], correct: 1,
+        explanation: 'Ion exchangers are named for the analytes they retain. A cation exchanger uses fixed negative groups to attract positively charged analytes.'
+      },
+      {
+        section: 'lecture-17', id: 'l17-2', number: '17.2', type: 'mc', difficulty: 'Core',
+        prompt: 'A protein has <span class="formula">pI = 5.5</span> and is loaded at pH 7.0 under low-salt conditions. Which starting choice is most logical?',
+        choices: ['The protein is net positive; use a cation exchanger', 'The protein is neutral; use neither exchanger', 'The protein is net negative; use an anion exchanger', 'The protein is net negative; use a cation exchanger'], correct: 2,
+        explanation: 'Above its pI, a protein is generally net negative. An anion exchanger has fixed positive groups that can retain it.'
+      },
+      {
+        section: 'lecture-17', id: 'l17-3', number: '17.3', type: 'mc', difficulty: 'Core',
+        prompt: 'What does “strong” mean in the term strong ion exchanger?',
+        choices: ['Its fixed group remains ionized over a broad pH range', 'It always binds every analyte more tightly', 'It can only be used at high salt concentration', 'It has a physically stronger particle matrix'], correct: 0,
+        explanation: 'Strong and weak describe the ionization behavior of the fixed functional group. Actual retention still depends on analyte charge, pH, ionic strength, and selectivity.'
+      },
+      {
+        section: 'lecture-17', id: 'l17-4', number: '17.4', type: 'mc', difficulty: 'Core',
+        prompt: 'Why does an increasing salt gradient elute bound analytes from an ion-exchange column?',
+        choices: ['Salt makes all analytes neutral', 'Salt permanently removes fixed groups from the resin', 'Salt decreases the column temperature', 'Mobile counter-ions compete with analytes for the fixed charged sites'], correct: 3,
+        explanation: 'As ionic strength rises, more mobile counter-ions compete for the resin sites and displace bound analytes. Weaker-binding analytes generally elute first.'
+      },
+      {
+        section: 'lecture-17', id: 'l17-5', number: '17.5', type: 'written', difficulty: 'Challenge',
+        prompt: 'During ion-exchange loading, the target begins to appear in the flow-through even though the pH and salt concentration should favour binding. Name the likely loading problem and give two possible corrections.',
+        answer: 'The column has likely reached practical breakthrough capacity: accessible exchange sites are becoming occupied. Reduce the sample load, use more resin or a larger column, lower the loading flow if accessibility is limiting, or use a medium with greater suitable capacity. First confirm that pH and conductivity are actually correct.'
+      },
+      {
+        section: 'lecture-17', id: 'l17-6', number: '17.6', type: 'written', difficulty: 'Challenge',
+        prompt: 'Na<sup>+</sup>, Ca<sup>2+</sup>, and Al<sup>3+</sup> are separated on a cation exchanger under the same conditions. Give the simple charge-based elution order and one reason the real order might differ.',
+        compounds: ['sodium', 'calcium', 'aluminum'],
+        answer: 'A simple charge-based prediction is Na<sup>+</sup> first, then Ca<sup>2+</sup>, then Al<sup>3+</sup>, because higher charge often gives stronger electrostatic retention. The real order can differ because hydration, effective hydrated radius, resin selectivity, eluent composition, polarizability, or complex formation also affects affinity.'
+      }
+    ];
+
+    const letter = (index) => String.fromCharCode(65 + index);
+
+    const renderCompoundCards = (compoundIds, heading = 'Compound reference') => {
+      if (!compoundIds || compoundIds.length === 0) return '';
+      return `
+        <aside class="compound-reference" aria-label="${heading}">
+          <h4>${heading}</h4>
+          <div class="compound-grid">
+            ${compoundIds.map((id) => {
+              const compound = compoundLibrary[id];
+              return `
+                <div class="compound-card">
+                  <div class="structure-box">${compound.structure}</div>
+                  <div>
+                    <strong class="compound-name">${compound.name}</strong>
+                    <span class="compound-formula">Formula: ${compound.formula}</span>
+                    <span class="polarity-index">Polarity index: ${compound.index}</span>
+                    <span class="polarity-reading">${compound.reading}</span>
+                  </div>
+                </div>
+              `;
+            }).join('')}
+          </div>
+        </aside>
+      `;
+    };
+
+    const nav = document.getElementById('section-nav');
+    sections.forEach((section) => {
+      const link = document.createElement('a');
+      link.href = `#${section.id}`;
+      link.textContent = section.short;
+      nav.appendChild(link);
+    });
+
+    const bank = document.getElementById('question-bank');
+
+    sections.forEach((section) => {
+      const sectionElement = document.createElement('section');
+      sectionElement.className = 'section';
+      sectionElement.id = section.id;
+      sectionElement.setAttribute('aria-labelledby', `${section.id}-heading`);
+      sectionElement.innerHTML = `
+        <h2 class="section-heading" id="${section.id}-heading">${section.title}</h2>
+        <p class="section-note">${section.note}</p>
+      `;
+
+      questions.filter((question) => section.questionSections.includes(question.section)).forEach((question) => {
+        const article = document.createElement('article');
+        article.className = 'question';
+        article.dataset.questionType = question.type;
+        article.dataset.questionId = question.id;
+
+        const kindText = question.type === 'mc' ? 'Multiple choice' : 'Written';
+        const difficultyClass = question.difficulty === 'Challenge' ? ' challenge' : '';
+        const compoundMarkup = renderCompoundCards(question.compounds);
+        const answerCompoundMarkup = renderCompoundCards(question.answerCompounds, 'Compounds named in the answer');
+        let responseMarkup = '';
+
+        if (question.type === 'mc') {
+          responseMarkup = `
+            <fieldset>
+              <legend class="sr-only">Choose one answer for question ${question.number}</legend>
+              ${question.choices.map((choice, index) => `
+                <label class="choice" data-choice-index="${index}">
+                  <input type="radio" name="${question.id}" value="${index}">
+                  <span>${letter(index)}. ${choice}</span>
+                </label>
+              `).join('')}
+            </fieldset>
+          `;
+        } else {
+          responseMarkup = `
+            <label class="response-label" for="${question.id}-response">Your answer</label>
+            <textarea id="${question.id}-response" aria-describedby="${question.id}-status" placeholder="Write your reasoning or calculation before revealing the answer."></textarea>
+          `;
+        }
+
+        const answerText = question.type === 'mc'
+          ? `<p><strong>Correct answer: ${letter(question.correct)}.</strong> ${question.explanation}</p>`
+          : `<p><strong>Suggested answer:</strong> ${question.answer}</p>`;
+
+        article.innerHTML = `
+          <h3>
+            <span class="kind">${kindText}</span>
+            <span class="difficulty${difficultyClass}">${question.difficulty}</span>
+            ${question.number} ${question.prompt}
+          </h3>
+          ${compoundMarkup}
+          ${responseMarkup}
+          <div class="attempt-row">
+            <span class="attempt-status" id="${question.id}-status">${question.type === 'mc' ? 'Choose an answer' : 'Write a short answer'} to unlock the reveal.</span>
+            <button class="reveal-button" type="button" aria-controls="${question.id}-answer" aria-expanded="false" disabled>Reveal answer</button>
+          </div>
+          <div class="answer-panel" id="${question.id}-answer" tabindex="-1" hidden>${answerText}${answerCompoundMarkup}</div>
+        `;
+
+        sectionElement.appendChild(article);
+      });
+
+      bank.appendChild(sectionElement);
+    });
+
+    const attemptedIds = new Set();
+    const revealedIds = new Set();
+    const attemptCount = document.getElementById('attempt-count');
+    const revealCount = document.getElementById('reveal-count');
+    const progressTrack = document.querySelector('.progress-track');
+    const progressFill = document.querySelector('.progress-fill');
+
+    const updateProgress = () => {
+      const attempted = attemptedIds.size;
+      attemptCount.textContent = `${attempted} of ${questions.length} attempted`;
+      revealCount.textContent = `${revealedIds.size} ${revealedIds.size === 1 ? 'answer' : 'answers'} revealed`;
+      progressTrack.setAttribute('aria-valuemax', String(questions.length));
+      progressTrack.setAttribute('aria-valuenow', String(attempted));
+      progressFill.style.width = `${(attempted / questions.length) * 100}%`;
+    };
+
+    document.querySelectorAll('.question').forEach((article) => {
+      const question = questions.find((item) => item.id === article.dataset.questionId);
+      const button = article.querySelector('.reveal-button');
+      const status = article.querySelector('.attempt-status');
+      const answer = document.getElementById(button.getAttribute('aria-controls'));
+
+      const attempted = () => {
+        if (question.type === 'mc') return Boolean(article.querySelector('input[type="radio"]:checked'));
+        return article.querySelector('textarea').value.trim().length >= 8;
+      };
+
+      const clearChoiceMarking = () => {
+        article.querySelectorAll('.choice').forEach((choice) => choice.classList.remove('correct-choice', 'wrong-choice'));
+      };
+
+      const markChoices = () => {
+        if (question.type !== 'mc' || answer.hidden) return;
+        clearChoiceMarking();
+        const selected = article.querySelector('input[type="radio"]:checked');
+        article.querySelector(`[data-choice-index="${question.correct}"]`).classList.add('correct-choice');
+        if (selected && Number(selected.value) !== question.correct) {
+          selected.closest('.choice').classList.add('wrong-choice');
+          status.textContent = 'Review the explanation and compare it with your choice.';
+        } else {
+          status.textContent = 'Correct. Check the explanation for the reasoning.';
+        }
+      };
+
+      const updateUnlock = () => {
+        const ready = attempted();
+        button.disabled = !ready;
+
+        if (ready) attemptedIds.add(question.id);
+        else attemptedIds.delete(question.id);
+
+        if (!answer.hidden && question.type === 'mc') {
+          markChoices();
+        } else {
+          status.textContent = ready
+            ? 'Attempt recorded. You can reveal the answer.'
+            : question.type === 'mc'
+              ? 'Choose an answer to unlock the reveal.'
+              : 'Write at least a short answer to unlock the reveal.';
+        }
+
+        updateProgress();
+      };
+
+      article.querySelectorAll('input[type="radio"]').forEach((input) => input.addEventListener('change', updateUnlock));
+      const response = article.querySelector('textarea');
+      if (response) response.addEventListener('input', updateUnlock);
+
+      button.addEventListener('click', () => {
+        if (!attempted()) return;
+        const willShow = answer.hidden;
+        answer.hidden = !willShow;
+        button.setAttribute('aria-expanded', String(willShow));
+        button.textContent = willShow ? 'Hide answer' : 'Reveal answer';
+
+        if (willShow) {
+          revealedIds.add(question.id);
+          markChoices();
+          answer.focus();
+        } else {
+          revealedIds.delete(question.id);
+          clearChoiceMarking();
+          status.textContent = 'Attempt recorded. You can reveal the answer.';
+        }
+
+        updateProgress();
+      });
+
+      updateUnlock();
+    });
+
+    updateProgress();
+  </script>
+</body>
+</html>
