@@ -1,0 +1,1355 @@
+<!doctype html>
+<!-- Standalone file: all styles, scripts, questions, answers, equations, and molecular drawings are embedded. -->
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Interactive CHEM4400H Midterm 2 practice question bank covering Lectures 7–16, from SIMS through TOF.">
+  <meta name="application-name" content="CHEM4400H Midterm 2 Practice Question Bank">
+  <title>Practice Questions for Midterm 2 · CHEM4400H</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23800020'/%3E%3Cpath d='M9 43h8V28h7v9h7V16h7v24h7V24h7v19h3' fill='none' stroke='white' stroke-width='4' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #24191d;
+      --muted: #66565c;
+      --page: #ffffff;
+      --paper: #ffffff;
+      --line: #decfd4;
+      --burgundy: #800020;
+      --burgundy-dark: #5b0018;
+      --burgundy-deep: #3f0011;
+      --burgundy-soft: #f8e9ee;
+      --rose: #a52a4d;
+      --rose-soft: #fdf5f7;
+      --gold: #9a6814;
+      --gold-soft: #fff5df;
+      --answer: #f8f1f3;
+      --answer-border: #9d3150;
+      --correct: #e5f4e9;
+      --wrong: #fde9e6;
+      --focus: #d89b25;
+      --shadow: 0 3px 12px rgba(72, 0, 20, .08);
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      min-width: 320px;
+      background: var(--page);
+      color: var(--ink);
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 17px;
+      line-height: 1.5;
+    }
+
+    button, input, textarea { font: inherit; }
+
+    :focus-visible {
+      outline: 3px solid var(--focus);
+      outline-offset: 3px;
+    }
+
+    .skip-link {
+      position: absolute;
+      left: 1rem;
+      top: -6rem;
+      z-index: 30;
+      padding: .7rem 1rem;
+      background: #000;
+      color: #fff;
+    }
+
+    .skip-link:focus { top: 1rem; }
+
+    header {
+      padding: 2.35rem 1rem 2rem;
+      background: linear-gradient(135deg, var(--burgundy-deep), var(--burgundy));
+      color: #fff;
+    }
+
+    .wrap {
+      width: min(1020px, calc(100% - 2rem));
+      margin: 0 auto;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(2rem, 6vw, 3.2rem);
+      line-height: 1.08;
+    }
+
+    .subtitle {
+      margin: .55rem 0 0;
+      color: #ffe6ee;
+      font-size: 1.08rem;
+    }
+
+    .coverage {
+      margin: .35rem 0 0;
+      color: #fff;
+      font-size: .98rem;
+    }
+
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      background: rgba(255, 255, 255, .98);
+      border-bottom: 1px solid var(--line);
+      box-shadow: 0 2px 8px rgba(72, 0, 20, .06);
+    }
+
+    nav .wrap {
+      display: flex;
+      gap: .45rem;
+      overflow-x: auto;
+      padding-top: .7rem;
+      padding-bottom: .7rem;
+      scrollbar-width: thin;
+    }
+
+    nav a {
+      flex: 0 0 auto;
+      min-height: 42px;
+      padding: .5rem .8rem;
+      border: 1px solid #c993a3;
+      border-radius: 999px;
+      color: var(--burgundy-dark);
+      font-weight: 700;
+      text-decoration: none;
+    }
+
+    nav a:hover { background: var(--burgundy-soft); }
+    main { padding: 1.3rem 0 4rem; }
+
+    .equation-sheet {
+      margin: 0 0 1rem;
+      padding: 1rem 1.1rem;
+      background: #fff;
+      border: 1px solid var(--line);
+      border-left: 5px solid var(--burgundy);
+      border-radius: .45rem;
+      box-shadow: var(--shadow);
+    }
+
+    .equation-sheet h2 {
+      margin: 0 0 .8rem;
+      color: var(--burgundy-dark);
+      font-size: 1.35rem;
+    }
+
+    .equation-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(235px, 1fr));
+      gap: .65rem;
+    }
+
+    .equation-card {
+      padding: .72rem .8rem;
+      background: var(--rose-soft);
+      border: 1px solid var(--line);
+      border-radius: .4rem;
+    }
+
+    .equation-card h3 {
+      margin: 0 0 .3rem;
+      color: var(--burgundy-dark);
+      font-size: .95rem;
+    }
+
+    .equation-card p { margin: .2rem 0; }
+    .equation-card .formula { font-size: 1.06rem; }
+    .equation-note { color: var(--muted); font-size: .88rem; }
+
+    .progress-card {
+      display: grid;
+      grid-template-columns: 1fr auto auto;
+      gap: .8rem 1.2rem;
+      align-items: center;
+      margin-bottom: 1.4rem;
+      padding: .9rem 1.1rem;
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: .45rem;
+      box-shadow: var(--shadow);
+    }
+
+    .progress-card p { margin: 0; color: var(--muted); }
+
+    .reset-button {
+      min-height: 40px;
+      padding: .45rem .75rem;
+      border: 1px solid #b47b8b;
+      border-radius: .35rem;
+      background: #fff;
+      color: var(--burgundy-dark);
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .reset-button:hover { background: var(--burgundy-soft); }
+
+    .progress-track {
+      grid-column: 1 / -1;
+      height: .7rem;
+      overflow: hidden;
+      background: #eadde1;
+      border-radius: 999px;
+    }
+
+    .progress-fill {
+      width: 0;
+      height: 100%;
+      background: linear-gradient(90deg, var(--burgundy), var(--rose));
+      border-radius: 999px;
+      transition: width .2s ease;
+    }
+
+    .section {
+      margin-top: 2.35rem;
+      scroll-margin-top: 5.15rem;
+    }
+
+    .section-heading {
+      margin: 0;
+      color: var(--burgundy-dark);
+      font-size: 1.7rem;
+      line-height: 1.2;
+    }
+
+    .section-note {
+      margin: .2rem 0 .9rem;
+      padding-bottom: .55rem;
+      border-bottom: 3px solid #c993a3;
+      color: var(--muted);
+    }
+
+    .question {
+      margin: 0 0 1rem;
+      padding: 1.1rem 1.15rem;
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: .55rem;
+      box-shadow: var(--shadow);
+    }
+
+    .question h3 {
+      margin: 0;
+      font-size: 1.08rem;
+      line-height: 1.45;
+    }
+
+    .question-lead {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(210px, .55fr);
+      gap: .85rem;
+      align-items: start;
+      margin-bottom: .9rem;
+    }
+
+    .kind, .difficulty, .lecture-tag {
+      display: inline-block;
+      margin-right: .35rem;
+      padding: .12rem .45rem;
+      border-radius: .25rem;
+      font-size: .8rem;
+      font-weight: 700;
+      vertical-align: .08rem;
+    }
+
+    .kind { background: var(--burgundy-soft); color: var(--burgundy-dark); }
+    .lecture-tag { background: #eee7e9; color: #5f4e54; }
+    .difficulty { background: #f1edef; color: #5f4e54; }
+    .difficulty.fundamental { background: var(--burgundy-soft); color: var(--burgundy-dark); }
+    .difficulty.challenge { background: var(--gold-soft); color: #704906; }
+
+    .question-equation {
+      overflow: hidden;
+      border: 1px solid #c993a3;
+      border-radius: .4rem;
+      background: var(--rose-soft);
+    }
+
+    .equation-label {
+      display: block;
+      padding: .38rem .58rem;
+      border-bottom: 1px solid var(--line);
+      color: var(--burgundy-dark);
+      font-size: .73rem;
+      font-weight: 800;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+    }
+
+    .equation-content {
+      padding: .65rem .68rem;
+      color: var(--ink);
+      font-family: "Times New Roman", Times, serif;
+      font-size: 1.03rem;
+      line-height: 1.45;
+    }
+
+    .compound-reference {
+      margin: .15rem 0 1rem;
+      padding: .8rem;
+      background: var(--rose-soft);
+      border: 1px solid #cba6b1;
+      border-radius: .45rem;
+    }
+
+    .compound-reference h4 {
+      margin: 0 0 .65rem;
+      color: var(--burgundy-dark);
+      font-size: .95rem;
+    }
+
+    .compound-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: .65rem;
+    }
+
+    .compound-card {
+      display: grid;
+      grid-template-columns: 160px 1fr;
+      gap: .8rem;
+      align-items: center;
+      min-height: 125px;
+      padding: .65rem;
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: .4rem;
+    }
+
+    .structure-box {
+      display: grid;
+      place-items: center;
+      min-height: 100px;
+      color: #26181d;
+      background: #fff;
+      border: 1px solid #eadde1;
+      border-radius: .3rem;
+    }
+
+    .structure-svg {
+      width: 100%;
+      height: 96px;
+      overflow: visible;
+    }
+
+    .structure-svg text {
+      fill: currentColor;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 17px;
+      font-weight: 700;
+    }
+
+    .compound-name { display: block; margin-bottom: .2rem; color: var(--burgundy-dark); font-size: 1rem; }
+    .compound-formula, .compound-note { display: block; font-size: .9rem; }
+    .compound-note { margin-top: .25rem; color: var(--muted); }
+
+    fieldset { margin: .2rem 0 .8rem; padding: 0; border: 0; }
+
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    .choice {
+      display: flex;
+      align-items: flex-start;
+      gap: .65rem;
+      min-height: 44px;
+      margin: .35rem 0;
+      padding: .55rem .65rem;
+      border: 1px solid var(--line);
+      border-radius: .4rem;
+      cursor: pointer;
+    }
+
+    .choice:hover { background: var(--rose-soft); }
+    .choice:has(input:checked) { background: var(--burgundy-soft); border-color: var(--burgundy); }
+    .choice.correct-choice { background: var(--correct); border-color: #4d9463; }
+    .choice.wrong-choice { background: var(--wrong); border-color: #be6259; }
+
+    .choice input {
+      width: 1.15rem;
+      height: 1.15rem;
+      margin: .15rem 0 0;
+      accent-color: var(--burgundy);
+    }
+
+    .response-label { display: block; margin: .3rem 0 .35rem; font-weight: 700; }
+
+    textarea {
+      display: block;
+      width: 100%;
+      min-height: 118px;
+      resize: vertical;
+      padding: .7rem;
+      border: 2px solid #a98d96;
+      border-radius: .4rem;
+      background: #fff;
+      color: var(--ink);
+    }
+
+    textarea:focus { border-color: var(--burgundy); }
+
+    .attempt-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: .8rem;
+      margin-top: .75rem;
+    }
+
+    .attempt-status { color: var(--muted); font-size: .94rem; }
+
+    .reveal-button {
+      flex: 0 0 auto;
+      min-height: 44px;
+      padding: .6rem .9rem;
+      border: 2px solid var(--burgundy);
+      border-radius: .4rem;
+      background: #fff;
+      color: var(--burgundy-dark);
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .reveal-button:hover:not(:disabled) { background: var(--burgundy-soft); }
+
+    .reveal-button:disabled {
+      border-color: #b9aeb2;
+      color: #807379;
+      cursor: not-allowed;
+      opacity: .76;
+    }
+
+    .answer-panel {
+      margin-top: .85rem;
+      padding: .8rem .9rem;
+      border: 1px solid var(--answer-border);
+      border-left-width: 5px;
+      border-radius: .4rem;
+      background: var(--answer);
+    }
+
+    .answer-panel[hidden] { display: none; }
+    .answer-panel p { margin: .3rem 0; }
+    .formula { font-family: "Times New Roman", Times, serif; font-size: 1.05em; }
+
+    .noscript {
+      margin: 1rem auto;
+      padding: 1rem;
+      background: var(--gold-soft);
+      border: 2px solid var(--gold);
+      border-radius: .4rem;
+    }
+
+    footer {
+      padding: 1.35rem 1rem;
+      background: #faf5f7;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      text-align: center;
+      font-size: .94rem;
+    }
+
+    footer strong { color: var(--burgundy-dark); }
+
+    @media (max-width: 720px) {
+      body { font-size: 16px; }
+      .wrap { width: min(100% - 1rem, 1020px); }
+      header { padding: 1.7rem .5rem 1.4rem; }
+      .question { padding: 1rem; }
+      .question-lead { grid-template-columns: 1fr; }
+      .attempt-row { align-items: stretch; flex-direction: column; }
+      .reveal-button { width: 100%; }
+      .progress-card { grid-template-columns: 1fr; }
+      .progress-track { grid-column: 1; }
+      .compound-card { grid-template-columns: 125px 1fr; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      .progress-fill { transition: none; }
+    }
+
+    @media print {
+      body { background: #fff; font-size: 11pt; }
+      header { padding: 0 0 1rem; background: #fff; color: #000; }
+      .subtitle, .coverage { color: #000; }
+      nav, .progress-card, .attempt-row, .answer-panel, footer { display: none !important; }
+      .wrap { width: 100%; }
+      .question { box-shadow: none; break-inside: avoid; }
+      textarea { min-height: 70px; }
+      .section-heading { color: #000; }
+      .section { scroll-margin-top: 0; }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to practice questions</a>
+
+  <header>
+    <div class="wrap">
+      <h1>Practice Questions for Midterm 2</h1>
+      <p class="subtitle">CHEM4400H · Fundamental concepts, application, calculation, and instrument-selection practice</p>
+      <p class="coverage">Lectures 7–16 · SIMS through time-of-flight mass spectrometry</p>
+    </div>
+  </header>
+
+  <nav aria-label="Question bank sections">
+    <div class="wrap" id="section-nav"></div>
+  </nav>
+
+  <main id="main" class="wrap">
+    <section class="equation-sheet" aria-labelledby="equation-heading">
+      <h2 id="equation-heading">Useful equations and relationships</h2>
+      <div class="equation-grid">
+        <div class="equation-card">
+          <h3>SIMS depth and mass resolution</h3>
+          <p class="formula">d = (D<sub>crater</sub>/t<sub>crater</sub>)t</p>
+          <p class="formula">R = m/Δm</p>
+        </div>
+        <div class="equation-card">
+          <h3>Calibration</h3>
+          <p class="formula">C = (R<sub>signal</sub> − b)/s</p>
+          <p class="equation-note">Correct the calculated concentration for any dilution.</p>
+        </div>
+        <div class="equation-card">
+          <h3>Aggregation and charge</h3>
+          <p class="formula">m/z = (nM + zH)/z</p>
+          <p class="equation-note">n is the number of analyte molecules in the cluster.</p>
+        </div>
+        <div class="equation-card">
+          <h3>ESI Rayleigh limit</h3>
+          <p class="formula">q<sub>R</sub> = 8π√(ε<sub>0</sub>γR<sup>3</sup>)</p>
+          <p class="equation-note">q<sub>R</sub> ∝ γ<sup>1/2</sup>R<sup>3/2</sup>.</p>
+        </div>
+        <div class="equation-card">
+          <h3>Adjacent ESI charge states</h3>
+          <p class="formula">z = (m<sub>2</sub> − H)/(m<sub>2</sub> − m<sub>1</sub>)</p>
+          <p class="formula">M = z(m<sub>1</sub> − H)</p>
+        </div>
+        <div class="equation-card">
+          <h3>Magnetic sector</h3>
+          <p class="formula">m/z = eB<sup>2</sup>r<sup>2</sup>/(2uV<sub>S</sub>)</p>
+          <p class="equation-note">At fixed r: m/z ∝ B<sup>2</sup>/V<sub>S</sub>.</p>
+        </div>
+        <div class="equation-card">
+          <h3>Electrostatic sector</h3>
+          <p class="formula">r<sub>e</sub> = 2V<sub>S</sub>/E</p>
+          <p class="equation-note">An ideal ESA selects kinetic energy per charge, not mass.</p>
+        </div>
+        <div class="equation-card">
+          <h3>Time of flight</h3>
+          <p class="formula">t = L√(m/2zeV)</p>
+          <p class="formula">R ≈ t/(2Δt)</p>
+        </div>
+      </div>
+    </section>
+
+    <div class="progress-card" aria-live="polite">
+      <p><strong id="attempt-count">0 of 60 attempted</strong></p>
+      <p id="reveal-count">0 answers revealed</p>
+      <button class="reset-button" id="reset-button" type="button">Reset practice</button>
+      <div class="progress-track" role="progressbar" aria-label="Questions attempted" aria-valuemin="0" aria-valuemax="60" aria-valuenow="0">
+        <div class="progress-fill"></div>
+      </div>
+    </div>
+
+    <div id="question-bank"></div>
+
+    <noscript><p class="noscript">JavaScript must be enabled to use the answer fields and reveal buttons.</p></noscript>
+  </main>
+
+  <footer>
+    <strong>CHEM4400H Midterm 2 Practice Question Bank</strong><br>
+    Educational design and development by <strong>PolygonCyber</strong>.
+  </footer>
+
+  <script>
+    const sections = [
+      {
+        id: 'surface-sources', short: 'SIMS & FAB', title: 'Lectures 7–8 · SIMS and FAB',
+        note: 'Depth profiling, secondary-ion polarity, energy acceptance, neutral-beam formation, and matrix-assisted particle bombardment',
+        lectures: ['L7', 'L8']
+      },
+      {
+        id: 'ionization', short: 'Ionization', title: 'Lectures 9–13 · ICP-MS, MALDI, ESI, APCI, and Source Selection',
+        note: 'Quantitation, interference control, charge-state interpretation, desorption and ionization mechanisms, and method selection',
+        lectures: ['L9', 'L10', 'L11', 'L12', 'L13']
+      },
+      {
+        id: 'sectors', short: 'Sector Analyzers', title: 'Lectures 14–15 · Magnetic and Electrostatic Sectors',
+        note: 'Field scaling, resolving power, kinetic-energy selection, direction focusing, and double focusing',
+        lectures: ['L14', 'L15']
+      },
+      {
+        id: 'tof', short: 'TOF', title: 'Lecture 16 · Time-of-Flight Mass Spectrometry',
+        note: 'Flight-time scaling, resolving power, orthogonal and delayed extraction, reflectrons, and metastable decay',
+        lectures: ['L16']
+      }
+    ];
+
+    const compoundLibrary = {
+      benzophenone: {
+        name: 'Benzophenone',
+        formula: 'C₁₃H₁₀O',
+        note: 'Thermally stable, moderately polar neutral analyte',
+        structure: `<svg class="structure-svg" viewBox="0 0 250 110" role="img" aria-label="Line-angle structure of benzophenone">
+          <g fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+            <polygon points="12,55 34,17 78,17 100,55 78,93 34,93"/>
+            <line x1="36" y1="25" x2="72" y2="25"/><line x1="22" y1="55" x2="40" y2="85"/><line x1="72" y1="85" x2="90" y2="55"/>
+            <line x1="100" y1="55" x2="124" y2="55"/><line x1="132" y1="50" x2="132" y2="20"/><line x1="140" y1="50" x2="140" y2="20"/>
+            <line x1="140" y1="55" x2="164" y2="55"/>
+            <polygon points="164,55 186,17 230,17 248,55 230,93 186,93"/>
+            <line x1="188" y1="25" x2="224" y2="25"/><line x1="174" y1="55" x2="192" y2="85"/><line x1="224" y1="85" x2="240" y2="55"/>
+          </g>
+          <text x="128" y="15">O</text>
+        </svg>`
+      }
+    };
+
+    const questions = [
+      {
+        lecture: 'L7', number: '7.1', type: 'mc', difficulty: 'Core',
+        prompt: 'A dynamic SIMS run produces a 720 nm crater after 1440 s. A dopant signal reaches its maximum after 300 s. Assuming a constant sputter rate, what depth corresponds to the maximum?',
+        equation: 'd = (D<sub>crater</sub>/t<sub>crater</sub>)t',
+        choices: ['75 nm', '150 nm', '300 nm', '600 nm'], correct: 1,
+        explanation: 'The sputter rate is 720/1440 = 0.50 nm s<sup>−1</sup>. The maximum occurs at 0.50 × 300 = 150 nm.'
+      },
+      {
+        lecture: 'L7', number: '7.2', type: 'mc', difficulty: 'Core',
+        prompt: 'Which surface modification most directly favours negative secondary-ion emission from an electronegative analyte?',
+        equation: 'Cs enrichment ↓ work function → greater electron availability → M<sup>−</sup>',
+        choices: [
+          'Oxygen enrichment that raises the work function',
+          'Cesium enrichment that lowers the work function',
+          'A narrower mass window that changes the sputter yield',
+          'A stronger extraction field that makes every sputtered atom negative'
+        ], correct: 1,
+        explanation: 'Cesium lowers the surface work function and increases electron availability, making electron capture or retention by departing species more probable.'
+      },
+      {
+        lecture: 'L7', number: '7.3', type: 'written', difficulty: 'Challenge',
+        prompt: 'A SIMS measurement must separate peaks at m/z 55.9349 and 55.9539. Calculate the minimum resolving power and explain why unit resolution is not enough.',
+        equation: 'R = m/Δm',
+        answer: 'Δm = 55.9539 − 55.9349 = 0.0190 Da. Using m ≈ 55.94 gives R ≈ 55.94/0.0190 = 2.94 × 10<sup>3</sup>. Unit resolution separates nominal masses, but these two species have the same nominal mass and require exact-mass resolution.'
+      },
+      {
+        lecture: 'L7', number: '7.4', type: 'written', difficulty: 'Challenge',
+        prompt: 'Two secondary-ion species are produced in equal numbers but have different kinetic-energy distributions. Explain why narrowing the analyzer energy window can change their measured intensity ratio, and why quantitative SIMS still needs a matrix-matched standard or relative sensitivity factor.',
+        equation: 'I<sub>measured</sub> = Y<sub>ion</sub> × T(E) × η',
+        answer: 'A narrow energy window transmits different fractions of the two kinetic-energy distributions, so analyzer transmission can change their measured ratio even if equal numbers were formed. Quantitation also remains matrix dependent because secondary-ion yield varies strongly with surface composition and chemistry; a matrix-matched standard or relative sensitivity factor corrects that response bias.'
+      },
+      {
+        lecture: 'L7', number: '7.5', type: 'mc', difficulty: 'Fundamental',
+        prompt: 'What most directly distinguishes static SIMS from dynamic SIMS?',
+        equation: 'static SIMS → low primary-ion fluence; &nbsp; dynamic SIMS → continuous sputtering',
+        choices: [
+          'Static SIMS uses electrons, whereas dynamic SIMS uses ions',
+          'Static SIMS limits accumulated surface damage, whereas dynamic SIMS deliberately erodes the sample',
+          'Static SIMS measures only positive ions, whereas dynamic SIMS measures only negative ions',
+          'Static SIMS has no mass analyzer, whereas dynamic SIMS always uses TOF'
+        ], correct: 1,
+        explanation: 'Static SIMS uses a sufficiently low primary-ion fluence that most of the analyzed surface remains undamaged, making molecular surface information possible. Dynamic SIMS continuously sputters material and is commonly used for elemental analysis and depth profiling.'
+      },
+      {
+        lecture: 'L7', number: '7.6', type: 'written', difficulty: 'Fundamental',
+        prompt: 'Distinguish a primary ion from a secondary ion in SIMS, and state what the recorded mass spectrum represents.',
+        equation: 'primary ion + surface → sputtered neutrals + secondary ions',
+        answer: 'The primary ion belongs to the incident beam that strikes the surface and transfers energy and momentum. Secondary ions are charged sample species ejected from the surface. The mass spectrum records the m/z values and intensities of the extracted secondary ions, not the much larger neutral sputtered fraction.'
+      },
+      {
+        lecture: 'L8', number: '8.1', type: 'mc', difficulty: 'Core',
+        prompt: 'In a FAB source, a fast ion captures an electron and residual charged particles are deflected before the beam reaches the liquid matrix. Why can the neutral beam still desorb material?',
+        equation: 'A<sup>+</sup><sub>fast</sub> + e<sup>−</sup> → A<sub>fast</sub> &nbsp; (momentum largely retained)',
+        choices: [
+          'Electron capture creates all of the translational energy',
+          'The extraction field reaccelerates the neutral atom',
+          'Charge exchange changes charge state while preserving most translational momentum',
+          'The liquid matrix accelerates the neutral atom immediately before impact'
+        ], correct: 2,
+        explanation: 'Charge exchange neutralizes the projectile without removing most of its translational momentum, so the neutral beam can still transfer energy and momentum to the matrix.'
+      },
+      {
+        lecture: 'L8', number: '8.2', type: 'mc', difficulty: 'Core',
+        prompt: 'A viscous liquid matrix is bombarded directly with a Cs<sup>+</sup> primary beam. Which classification is most accurate?',
+        equation: 'ionic primary beam + liquid matrix → liquid SIMS',
+        choices: ['FAB because the sample is liquid', 'Liquid SIMS because the primary beam is ionic', 'MALDI because a matrix is present', 'ICP-MS because cesium is an element'], correct: 1,
+        explanation: 'The primary projectile is an ion, so this is liquid SIMS. FAB uses a fast neutral primary beam.'
+      },
+      {
+        lecture: 'L8', number: '8.3', type: 'written', difficulty: 'Challenge',
+        prompt: 'Positive-ion FAB of a 608 Da analyte in a matrix G of nominal mass 92 Da gives peaks at m/z 185, 277, and 609. Assign all three peaks.',
+        equation: '[nG + H]<sup>+</sup> = n(92) + 1; &nbsp; [M + H]<sup>+</sup> = M + 1',
+        answer: 'm/z 185 is [2G+H]<sup>+</sup>, m/z 277 is [3G+H]<sup>+</sup>, and m/z 609 is the protonated analyte [M+H]<sup>+</sup>. The 92 Da spacing identifies the matrix-cluster series.'
+      },
+      {
+        lecture: 'L8', number: '8.4', type: 'written', difficulty: 'Core',
+        prompt: 'Compare FAB and MALDI by naming the energy-delivery event, the matrix state, and the charge pattern commonly observed for high-mass analytes.',
+        equation: 'FAB: fast neutral impact → desorption; &nbsp; MALDI: hν + matrix → plume + ions',
+        answer: 'FAB transfers energy through impact of a fast neutral beam into a viscous liquid matrix. MALDI uses a pulsed laser absorbed by a co-crystallized solid matrix. Both are soft desorption/ionization methods, but MALDI commonly produces a simple spectrum dominated by singly charged high-mass ions, whereas FAB often shows matrix clusters and is better suited to lower mass ranges.'
+      },
+      {
+        lecture: 'L8', number: '8.5', type: 'mc', difficulty: 'Fundamental',
+        prompt: 'Which feature identifies FAB rather than liquid SIMS?',
+        equation: 'FAB: fast neutral projectile; &nbsp; liquid SIMS: primary-ion projectile',
+        choices: [
+          'FAB uses a fast neutral projectile, whereas liquid SIMS uses a primary-ion beam',
+          'FAB requires a solid crystalline sample, whereas liquid SIMS requires a gas',
+          'FAB produces no analyte ions, whereas liquid SIMS produces only analyte ions',
+          'FAB uses a laser, whereas liquid SIMS uses a magnetic field'
+        ], correct: 0,
+        explanation: 'Both methods can use a viscous liquid matrix. The defining distinction is the projectile: FAB bombards the matrix with fast neutral atoms, whereas liquid SIMS uses an ion beam.'
+      },
+      {
+        lecture: 'L8', number: '8.6', type: 'written', difficulty: 'Fundamental',
+        prompt: 'Give two reasons a viscous liquid matrix is useful in FAB or liquid SIMS.',
+        equation: 'matrix + analyte + impact → desorption/ionization',
+        answer: 'The matrix dissolves or disperses the analyte and provides a continuously renewed liquid surface under bombardment. It also absorbs and distributes much of the impact energy, reducing localized analyte damage while supporting desorption and ionization. Any two clearly explained roles earn full credit.'
+      },
+
+      {
+        lecture: 'L9', number: '9.1', type: 'mc', difficulty: 'Core',
+        prompt: 'An ICP-MS calibration is R = 0.020 + 0.100C, where C is in ppb. A five-fold diluted sample gives R = 0.720. What was the concentration in the original sample?',
+        equation: 'C = (R − b)/s; &nbsp; C<sub>original</sub> = C<sub>diluted</sub> × dilution factor',
+        choices: ['1.4 ppb', '7.0 ppb', '35 ppb', '72 ppb'], correct: 2,
+        explanation: 'The diluted concentration is (0.720 − 0.020)/0.100 = 7.0 ppb. Multiplying by five gives 35 ppb in the original sample.'
+      },
+      {
+        lecture: 'L9', number: '9.2', type: 'mc', difficulty: 'Core',
+        prompt: 'At unit resolution, a polyatomic interference overlaps an analyte isotope. Which strategy specifically exploits the greater collisional energy loss of the polyatomic ion?',
+        equation: 'E<sub>after collisions</sub>(polyatomic) &lt; E<sub>after collisions</sub>(atomic analyte)',
+        choices: [
+          'Use a higher-resolution analyzer to separate exact masses',
+          'Use helium collision mode followed by an energy barrier',
+          'Use reaction chemistry to move one species to another m/z',
+          'Increase plasma power and report the raw signal'
+        ], correct: 1,
+        explanation: 'In kinetic-energy discrimination, larger polyatomic ions undergo more collisions and lose more kinetic energy, allowing an energy barrier to reject them preferentially.'
+      },
+      {
+        lecture: 'L9', number: '9.3', type: 'written', difficulty: 'Core',
+        prompt: 'The analyte and internal-standard signals are both suppressed by 40%, but their ratio is unchanged. Explain what the ratio corrects and one important limitation of relying on it.',
+        equation: 'R = I<sub>analyte</sub>/I<sub>internal standard</sub>',
+        answer: 'The ratio can compensate for shared changes in sample transport, nebulization, plasma loading, transmission, or detector response because the common factor cancels. It does not prove that spectral interferences are absent, and it fails when the analyte and internal standard do not experience the matrix effect similarly.'
+      },
+      {
+        lecture: 'L9', number: '9.4', type: 'written', difficulty: 'Challenge',
+        prompt: 'A blank gives R = 0.010, a 5.0 ppb standard gives 0.410, and a 10.0 ppb standard gives 0.810. A two-fold diluted sample gives R = 0.610. Determine the original concentration and name one quality-control check.',
+        equation: 's = ΔR/ΔC; &nbsp; C = (R − b)/s',
+        answer: 'The slope is (0.810 − 0.410)/(10.0 − 5.0) = 0.080 ratio units per ppb, with b = 0.010. The diluted sample is (0.610 − 0.010)/0.080 = 7.5 ppb, so the original sample is 15 ppb. A spike recovery, duplicate, continuing calibration check, blank, or verified interference-control measurement would test the result.'
+      },
+      {
+        lecture: 'L9', number: '9.5', type: 'mc', difficulty: 'Fundamental',
+        prompt: 'What is the central role of the plasma in ICP-MS?',
+        equation: 'sample aerosol → desolvation → vaporization → atomization → M<sup>+</sup>',
+        choices: [
+          'To separate ions according to m/z',
+          'To convert the introduced sample into gas-phase atoms and predominantly positive elemental ions',
+          'To measure ion arrival time directly',
+          'To collect every neutral atom on the detector'
+        ], correct: 1,
+        explanation: 'The hot plasma desolvates, vaporizes, atomizes, and ionizes the introduced aerosol. The mass analyzer and detector perform the later separation and measurement steps.'
+      },
+      {
+        lecture: 'L9', number: '9.6', type: 'written', difficulty: 'Fundamental',
+        prompt: 'Distinguish a spectral interference from a nonspectral interference in ICP-MS and give one general way to address each.',
+        equation: 'measured signal = analyte response + overlap + matrix-dependent response',
+        answer: 'A spectral interference is another ion at the same or unresolved m/z as the analyte; it can be addressed by higher resolution, another isotope, or collision/reaction chemistry. A nonspectral interference changes transport, ionization, transmission, or detector response without being an overlapping peak; dilution, matrix matching, internal standardization, or standard addition can help.'
+      },
+      {
+        lecture: 'L10', number: '10.1', type: 'mc', difficulty: 'Core',
+        prompt: 'A MALDI analyte has neutral mass M = 12,000 Da. Peaks appear near m/z 6,001 and 24,001. Which assignments are consistent with charge and aggregation?',
+        equation: 'm/z = (nM + zH)/z',
+        choices: [
+          'm/z 6,001 is [M+2H]<sup>2+</sup> and m/z 24,001 is [2M+H]<sup>+</sup>',
+          'm/z 6,001 is [M+H]<sup>+</sup> and m/z 24,001 is [2M+2H]<sup>2+</sup>',
+          'm/z 6,001 is [2M+H]<sup>+</sup> and m/z 24,001 is [M+2H]<sup>2+</sup>',
+          'Both peaks are consecutive charge states of one monomer'
+        ], correct: 0,
+        explanation: 'Half the monomer mass indicates a 2+ monomer, while twice the monomer mass indicates a singly charged dimer.'
+      },
+      {
+        lecture: 'L10', number: '10.2', type: 'mc', difficulty: 'Challenge',
+        prompt: 'A MALDI spectrum acquired far above the useful fluence window shows increased matrix background and metastable signal. Which interpretation is most accurate?',
+        equation: 'laser fluence ↑ → plume density and internal energy ↑',
+        choices: [
+          'The reflectron caused the extra fragmentation',
+          'Excess fluence increased desorption density and internal energy; a reflectron can analyze the products but does not create them',
+          'The analyte became doubly charged only because the laser was stronger',
+          'Post-source fragments must have formed before acceleration'
+        ], correct: 1,
+        explanation: 'Excess fluence can increase background, prompt fragmentation, and metastable decay. A reflectron reveals kinetic-energy differences; it does not cause the decay.'
+      },
+      {
+        lecture: 'L10', number: '10.3', type: 'written', difficulty: 'Challenge',
+        prompt: 'A MALDI analyte has neutral mass M = 18,000 Da. Peaks occur near m/z 9,001 and 36,001. Assign both peaks and give two consequences of operating far above the useful fluence window.',
+        equation: 'm/z = (nM + zH)/z',
+        answer: 'm/z 9,001 is [M+2H]<sup>2+</sup>, and m/z 36,001 is [2M+H]<sup>+</sup>. Excessive fluence can raise matrix-ion background, increase plume density and ion–molecule interactions, add analyte internal energy, increase prompt fragmentation, and increase metastable decay.'
+      },
+      {
+        lecture: 'L10', number: '10.4', type: 'written', difficulty: 'Core',
+        prompt: 'Explain why operating only modestly above the MALDI desorption threshold often gives better analytical performance than using the maximum available laser fluence.',
+        equation: 'useful signal/noise ≠ maximum desorbed mass; &nbsp; optimize near threshold',
+        answer: 'Near threshold, ion yield rises strongly while chemical background, internal energy, fragmentation, space-charge effects, and shot-to-shot instability remain manageable. Much higher fluence may produce more material but a poorer spectrum, so the optimum is a signal-to-noise and reproducibility compromise rather than the maximum energy setting.'
+      },
+      {
+        lecture: 'L10', number: '10.5', type: 'mc', difficulty: 'Fundamental',
+        prompt: 'Which pair best describes the main functions of the MALDI matrix?',
+        equation: 'matrix + hν → excited plume → analyte ions',
+        choices: [
+          'Absorb the laser energy and isolate the analyte within a large matrix excess',
+          'Separate ions by m/z and count them at the detector',
+          'Make every analyte multiply charged and eliminate all background',
+          'Provide a continuous primary-ion beam and etch a depth profile'
+        ], correct: 0,
+        explanation: 'The matrix absorbs the laser wavelength, helps mediate desorption and ionization, and dilutes the analyte within the solid preparation. It is not the mass analyzer or detector.'
+      },
+      {
+        lecture: 'L10', number: '10.6', type: 'written', difficulty: 'Fundamental',
+        prompt: 'Why is the frequent production of singly charged ions useful when interpreting a MALDI spectrum?',
+        equation: 'M + H<sup>+</sup> → [M+H]<sup>+</sup>',
+        answer: 'For a singly charged ion, the observed m/z is close to the neutral molecular mass plus the mass of the added charge carrier. This makes molecular-mass interpretation comparatively direct and reduces the charge-state complexity that can occur in multiply charged spectra.'
+      },
+      {
+        lecture: 'L11', number: '11.1', type: 'mc', difficulty: 'Challenge',
+        prompt: 'An ESI droplet loses solvent until its radius is one-half of its original value while its charge is momentarily unchanged. By what factor does q/q<sub>R</sub> increase?',
+        equation: 'q<sub>R</sub> ∝ R<sup>3/2</sup>',
+        choices: ['0.50', '1.41', '2.00', '2.83'], correct: 3,
+        explanation: 'Halving R lowers q<sub>R</sub> to (0.5)<sup>3/2</sup> = 0.3536 of its original value. With q unchanged, q/q<sub>R</sub> increases by 1/0.3536 = 2.83.'
+      },
+      {
+        lecture: 'L11', number: '11.2', type: 'mc', difficulty: 'Challenge',
+        prompt: 'Adjacent ESI peaks occur at m<sub>1</sub> = 1000.0073 and m<sub>2</sub> = 1111.0073, where m<sub>1</sub> is the lower-m/z peak and H = 1.0073 Da. Which result is correct?',
+        equation: 'z = (m<sub>2</sub> − H)/(m<sub>2</sub> − m<sub>1</sub>); &nbsp; M = z(m<sub>1</sub> − H)',
+        choices: [
+          'm<sub>1</sub> is 10+, m<sub>2</sub> is 9+, and M = 9,990 Da',
+          'm<sub>1</sub> is 9+, m<sub>2</sub> is 8+, and M = 9,990 Da',
+          'm<sub>1</sub> is 10+, m<sub>2</sub> is 9+, and M = 10,000 Da',
+          'm<sub>1</sub> is 11+, m<sub>2</sub> is 10+, and M = 11,100 Da'
+        ], correct: 0,
+        explanation: 'The adjacent-peak equation gives z = 10 for the lower-m/z peak. M = 10(1000.0073 − 1.0073) = 9,990 Da, and the next peak is 9+.'
+      },
+      {
+        lecture: 'L11', number: '11.3', type: 'written', difficulty: 'Core',
+        prompt: 'After a denaturant is added, a protein ESI envelope becomes broader and shifts to lower m/z. Explain the change without invoking a change in covalent molecular mass.',
+        equation: 'm/z = (M + zH)/z; &nbsp; z ↑ → m/z ↓',
+        answer: 'Unfolding exposes more surface area and more chargeable sites, and it can favour higher-charging pathways. A broader set of conformations and charge states therefore appears. The greater z values shift the envelope to lower m/z even though the neutral covalent mass M is unchanged.'
+      },
+      {
+        lecture: 'L11', number: '11.4', type: 'written', difficulty: 'Challenge',
+        prompt: 'At fixed droplet radius, surface tension increases by a factor of four. Predict the change in the Rayleigh-limit charge and explain what that means for droplet stability at the original charge.',
+        equation: 'q<sub>R</sub> ∝ √γ',
+        answer: 'The Rayleigh-limit charge doubles because √4 = 2. If the actual droplet charge remains at its original value, q/q<sub>R</sub> is halved, so the droplet is farther from Coulomb instability and is less likely to undergo immediate fission.'
+      },
+      {
+        lecture: 'L11', number: '11.5', type: 'mc', difficulty: 'Fundamental',
+        prompt: 'Why is ESI commonly described as a soft ionization method?',
+        equation: 'charged droplets → evaporation/fission → desolvated gas-phase ions',
+        choices: [
+          'It always produces only one fragment ion',
+          'It transfers solution species into the gas phase through charged droplets and often preserves molecular-related ions',
+          'It uses the highest-temperature plasma available',
+          'It removes all charge before the analyte reaches the analyzer'
+        ], correct: 1,
+        explanation: 'ESI creates charged droplets and progressively removes solvent. The process often transfers intact ionic or protonated/deprotonated analyte species with less fragmentation than energetic ionization methods.'
+      },
+      {
+        lecture: 'L11', number: '11.6', type: 'written', difficulty: 'Fundamental',
+        prompt: 'What does an ESI charge-state envelope represent, and why can one analyte produce several peaks?',
+        equation: 'm/z = (M + zH)/z',
+        answer: 'A charge-state envelope is a family of peaks from the same molecular species carrying different numbers of charges. Each charge state has a different z and therefore a different m/z even though the neutral molecular mass M is the same.'
+      },
+      {
+        lecture: 'L12', number: '12.1', type: 'mc', difficulty: 'Core',
+        prompt: 'Which species most directly ionizes many neutral analytes in positive APCI?',
+        equation: 'corona discharge → solvent-derived reagent ions; &nbsp; RH<sup>+</sup> + M → R + [M+H]<sup>+</sup>',
+        choices: ['The corona needle itself', 'Solvent-derived reagent ions formed in the discharge cascade', 'Only bare nitrogen radical cations', 'The skimmer cone'], correct: 1,
+        explanation: 'The corona initiates an ion–molecule cascade that forms a reagent-ion pool. Those reagent ions then protonate or otherwise ionize the neutral analyte.'
+      },
+      {
+        lecture: 'L12', number: '12.2', type: 'mc', difficulty: 'Core',
+        prompt: 'Which statement correctly distinguishes APCI from ESI?',
+        equation: 'APCI: liquid → vapour → reagent-ion chemistry; &nbsp; ESI: charged droplets → desolvated ions',
+        choices: [
+          'ESI vaporizes the analyte before ionization, while APCI begins with charged droplets',
+          'APCI vaporizes the effluent and uses gas-phase reagent ions, while ESI transfers charge through droplets',
+          'Both methods require a pulsed laser and a solid matrix',
+          'Both methods ionize only analytes that are already charged in solution'
+        ], correct: 1,
+        explanation: 'APCI separates vaporization from gas-phase reagent-ion chemistry. ESI begins with charged droplets and transfers solution-phase charge into gas-phase ions.'
+      },
+      {
+        lecture: 'L12', number: '12.3', type: 'written', difficulty: 'Core',
+        prompt: 'Negative APCI gives two singly charged adduct peaks at nominal m/z 422 and 446. Their known nominal adduct masses are 35 and 59 Da. Determine the neutral analyte mass and show how the two peaks support the same result.',
+        equation: 'M = (m/z)<sub>adduct</sub> − m<sub>adduct</sub>',
+        answer: 'The first peak gives M = 422 − 35 = 387 Da. The second gives M = 446 − 59 = 387 Da. Agreement between independent adduct assignments supports a neutral nominal mass of 387 Da.'
+      },
+      {
+        lecture: 'L12', number: '12.4', type: 'written', difficulty: 'Challenge',
+        prompt: 'An LC analyte gives weak ESI signal but is thermally stable, moderately polar, and readily vaporized. Explain why APCI is a logical next experiment and identify one risk that should still be checked.',
+        equation: 'M(g) + reagent ion → [M±X]<sup>±</sup>',
+        answer: 'APCI can ionize a neutral analyte through gas-phase reagent-ion chemistry after heated vaporization, so it does not require strong pre-existing solution charge. It is a logical alternative when ESI response is weak. The method should still be checked for thermal decomposition, adduct complexity, source contamination, and loss of very nonvolatile material.'
+      },
+      {
+        lecture: 'L12', number: '12.5', type: 'mc', difficulty: 'Fundamental',
+        prompt: 'What is the main role of the corona discharge in APCI?',
+        equation: 'corona discharge → reagent-ion pool; &nbsp; reagent ion + M → analyte ion',
+        choices: [
+          'It directly measures the analyte mass',
+          'It initiates gas-phase chemistry that creates reagent ions, which then ionize the analyte',
+          'It crystallizes the analyte in a solid matrix',
+          'It reflects high-energy ions back through the flight tube'
+        ], correct: 1,
+        explanation: 'The corona discharge starts a cascade of gas-phase reactions. The resulting reagent-ion population ionizes neutral analyte molecules through proton transfer, charge transfer, adduct formation, or related chemistry.'
+      },
+      {
+        lecture: 'L12', number: '12.6', type: 'written', difficulty: 'Fundamental',
+        prompt: 'Explain why APCI is usually better suited to thermally stable, moderately polar, vaporizable analytes than to very nonvolatile or thermally fragile macromolecules.',
+        equation: 'liquid effluent → heated vapour → ion–molecule reaction',
+        answer: 'APCI requires the analyte to survive heated vaporization before gas-phase ion–molecule reactions occur. Thermally stable, moderately polar, vaporizable analytes meet those requirements. Very nonvolatile species may not enter the gas phase efficiently, while fragile macromolecules may decompose during heating.'
+      },
+      {
+        lecture: 'L13', number: '13.1', type: 'mc', difficulty: 'Core', compounds: ['benzophenone'],
+        prompt: 'Benzophenone is a thermally stable, moderately polar neutral compound that gives weak ESI response from an LC method. Which source should be tested next?',
+        equation: 'vaporizable neutral M + APCI reagent ion → [M+H]<sup>+</sup> or related ion',
+        choices: [
+          'Dynamic SIMS',
+          'MALDI because every neutral small molecule requires a solid matrix',
+          'APCI because gas-phase reagent-ion chemistry follows heated vaporization',
+          'No source can ionize a neutral compound'
+        ], correct: 2,
+        explanation: 'A thermally stable, moderately polar neutral analyte that is compatible with vaporization and responds weakly by ESI is a strong APCI candidate.'
+      },
+      {
+        lecture: 'L13', number: '13.2', type: 'mc', difficulty: 'Core',
+        prompt: 'An intact 150 kDa protein must be measured after liquid-chromatographic separation with high resolving power. Which pairing is the strongest starting choice?',
+        equation: 'ESI: M + zH<sup>+</sup> → [M+zH]<sup>z+</sup>; &nbsp; oa-TOF: continuous beam → pulsed packets',
+        choices: [
+          'Dynamic SIMS with a magnetic sector',
+          'ESI with orthogonal-acceleration reflectron TOF',
+          'FAB with an electrostatic sector alone',
+          'ICP-MS with linear TOF'
+        ], correct: 1,
+        explanation: 'ESI preserves LC compatibility and multiple charging, while orthogonal extraction converts the continuous beam into repeatable packets for high-resolution TOF analysis.'
+      },
+      {
+        lecture: 'L13', number: '13.3', type: 'written', difficulty: 'Challenge',
+        prompt: 'Choose ESI, APCI, or MALDI for: (i) a thermally fragile 80 kDa protein that must remain coupled to LC, (ii) a thermally stable 400 Da moderately polar neutral analyte with weak ESI response, and (iii) a dried polymer sample whose chain-length distribution is required. Justify each choice.',
+        equation: 'source choice = sample state + volatility + polarity + mass range + coupling need',
+        answer: '(i) ESI: it couples directly to LC, avoids prior vaporization, and produces multiple charge states for a high-mass protein. (ii) APCI: the stable, vaporizable neutral analyte can undergo gas-phase reagent-ion chemistry. (iii) MALDI: a dried solid sample and pulsed laser desorption are well suited to polymer-series measurements, often with predominantly singly charged ions.'
+      },
+      {
+        lecture: 'L13', number: '13.4', type: 'written', difficulty: 'Challenge',
+        prompt: 'Explain why pairing ESI with orthogonal-acceleration TOF solves two different analytical problems for a high-mass LC analyte.',
+        equation: 'multiple charging lowers m/z; &nbsp; orthogonal extraction defines t<sub>0</sub> packets',
+        answer: 'ESI multiple charging moves a high neutral mass into an accessible m/z range while maintaining LC compatibility. Orthogonal extraction samples the continuous ESI beam into short, repeatable packets perpendicular to the incoming beam, giving a well-defined start time for TOF measurement and supporting high resolving power.'
+      },
+      {
+        lecture: 'L13', number: '13.5', type: 'mc', difficulty: 'Fundamental',
+        prompt: 'Which information should be considered first when choosing an ionization source?',
+        equation: 'source choice = sample properties + sample introduction + analytical goal',
+        choices: [
+          'Only the colour of the sample',
+          'Sample state, volatility, thermal stability, polarity or chargeability, mass range, and required coupling',
+          'Only the brand of detector',
+          'Only the nominal mass of the most intense expected peak'
+        ], correct: 1,
+        explanation: 'Source selection begins with how the sample can be introduced and ionized without unacceptable loss or damage. The analyte properties, mass range, separation coupling, and desired information all matter.'
+      },
+      {
+        lecture: 'L13', number: '13.6', type: 'written', difficulty: 'Fundamental',
+        prompt: 'Distinguish hard ionization from soft ionization and explain why a soft source is often selected when intact molecular mass is the priority.',
+        equation: 'soft: M → molecular-related ion; &nbsp; hard: M → more extensive fragments',
+        answer: 'Hard ionization deposits enough energy to produce extensive fragmentation, which can provide structural information but may weaken or remove the molecular ion. Soft ionization minimizes fragmentation and tends to preserve a protonated, deprotonated, adducted, or otherwise molecular-related ion, making the intact mass easier to determine.'
+      },
+
+      {
+        lecture: 'L14', number: '14.1', type: 'mc', difficulty: 'Core',
+        prompt: 'In a fixed-radius magnetic sector operated at constant source potential, the magnetic field is decreased by 10%. What fraction of the original m/z is transmitted?',
+        equation: 'm/z ∝ B<sup>2</sup>',
+        choices: ['0.10', '0.90', '0.81', '1.21'], correct: 2,
+        explanation: 'The field becomes 0.90 of its original value, so the selected m/z becomes (0.90)<sup>2</sup> = 0.81 of the original.'
+      },
+      {
+        lecture: 'L14', number: '14.2', type: 'mc', difficulty: 'Core',
+        prompt: 'A sector instrument must separate ions at m/z 27.994915 and 28.006148. Approximately what resolving power is required?',
+        equation: 'R = m/Δm',
+        choices: ['250', '1,250', '2,500', '5,000'], correct: 2,
+        explanation: 'Δm = 0.011233 Da and m ≈ 28, so R ≈ 28/0.011233 = 2,493. A resolving power of about 2,500 is required.'
+      },
+      {
+        lecture: 'L14', number: '14.3', type: 'written', difficulty: 'Challenge',
+        prompt: 'A fixed-radius magnetic sector uses B = 0.500 T, r = 0.250 m, and V<sub>S</sub> = 5.00 kV. Use e/u = 9.6485 × 10<sup>7</sup> C kg<sup>−1</sup>. Calculate the transmitted m/z.',
+        equation: 'm/z = eB<sup>2</sup>r<sup>2</sup>/(2uV<sub>S</sub>)',
+        answer: 'Substitution gives m/z = (9.6485 × 10<sup>7</sup>)(0.500<sup>2</sup>)(0.250<sup>2</sup>)/(2 × 5000) = 150.76. The transmitted nominal m/z is therefore approximately 151.'
+      },
+      {
+        lecture: 'L14', number: '14.4', type: 'written', difficulty: 'Challenge',
+        prompt: 'A sector instrument holds radius fixed. Predict the selected m/z change when B increases by 5% and V<sub>S</sub> increases by 10%.',
+        equation: '(m/z)<sub>new</sub>/(m/z)<sub>old</sub> = (1.05)<sup>2</sup>/1.10',
+        answer: 'The factor is 1.1025/1.10 = 1.00227. The selected m/z increases by only about 0.23%, so the two changes nearly cancel.'
+      },
+      {
+        lecture: 'L14', number: '14.5', type: 'mc', difficulty: 'Fundamental',
+        prompt: 'Why can a magnetic sector separate ions according to m/z?',
+        equation: 'r = mv/(zeB)',
+        choices: [
+          'A magnetic field bends every ion through exactly the same radius',
+          'The radius of the ion path depends on momentum, charge, and magnetic-field strength',
+          'The magnetic field measures neutral molecules directly',
+          'The magnetic field gives every mass a different charge'
+        ], correct: 1,
+        explanation: 'The Lorentz force bends moving ions. After acceleration, ions with different m/z follow different radii at a given magnetic field, allowing spatial mass dispersion or selection.'
+      },
+      {
+        lecture: 'L14', number: '14.6', type: 'written', difficulty: 'Fundamental',
+        prompt: 'Name two instrument variables that can be scanned to transmit different m/z values through a fixed-geometry magnetic sector, and state what is held fixed geometrically.',
+        equation: 'm/z ∝ B<sup>2</sup>/V<sub>S</sub> &nbsp; at fixed r',
+        answer: 'The magnetic field B can be scanned, or the source acceleration potential V<sub>S</sub> can be scanned. The central flight-path radius and sector geometry remain fixed, so changing B or V<sub>S</sub> changes which m/z follows the accepted path.'
+      },
+      {
+        lecture: 'L15', number: '15.1', type: 'mc', difficulty: 'Core',
+        prompt: 'A 50 Da ion and a 500 Da ion enter an ideal electrostatic sector with the same kinetic energy per charge. What happens?',
+        equation: 'r<sub>e</sub> = 2V<sub>S</sub>/E',
+        choices: [
+          'They follow the same nominal path because the ESA selects kinetic energy per charge, not mass',
+          'The 500 Da ion follows a path ten times larger',
+          'The 50 Da ion is transmitted only if it is doubly charged',
+          'They separate by m/z exactly as in a magnetic sector'
+        ], correct: 0,
+        explanation: 'Mass cancels from the ideal ESA central-orbit condition. Ions with the same kinetic energy per charge follow the same nominal path.'
+      },
+      {
+        lecture: 'L15', number: '15.2', type: 'mc', difficulty: 'Core',
+        prompt: 'Why can an electrostatic sector not produce a mass spectrum by itself?',
+        equation: 'ESA selection variable = kinetic energy/charge, not m/z',
+        choices: ['It transmits no ions', 'It selects kinetic energy per charge and provides no independent mass dispersion', 'It works only for negative ions', 'Its electric field is always zero'], correct: 1,
+        explanation: 'An ESA separates ions by kinetic energy per charge. It does not independently disperse ions by mass-to-charge ratio.'
+      },
+      {
+        lecture: 'L15', number: '15.3', type: 'written', difficulty: 'Challenge',
+        prompt: 'Explain how an electrostatic sector and a magnetic sector make complementary contributions to a double-focusing instrument.',
+        equation: 'ESA: energy focusing; &nbsp; magnetic sector: m/z dispersion + direction focusing',
+        answer: 'The electrostatic sector disperses or selects ions by kinetic energy per charge, correcting energy spread. The magnetic sector provides mass dispersion and direction focusing for angular spread. With a matched geometry, ions of the same m/z but small energy and angle differences are brought to a common final image.'
+      },
+      {
+        lecture: 'L15', number: '15.4', type: 'written', difficulty: 'Challenge',
+        prompt: 'An ion source produces both an angular spread and a kinetic-energy spread. State which sector primarily corrects each spread and why a single sector is insufficient for double focusing.',
+        equation: 'Δθ → magnetic direction focusing; &nbsp; ΔE/z → electrostatic energy focusing',
+        answer: 'The magnetic sector supplies direction focusing for ions launched at slightly different angles while also dispersing m/z. The electrostatic sector corrects kinetic-energy-per-charge differences. One sector alone cannot simultaneously provide the matched angular and energy corrections required for double focusing.'
+      },
+      {
+        lecture: 'L15', number: '15.5', type: 'mc', difficulty: 'Fundamental',
+        prompt: 'What property does an electrostatic sector select?',
+        equation: 'ESA selection variable = KE/z',
+        choices: [
+          'Kinetic energy per charge',
+          'Mass alone, independent of charge and energy',
+          'Elemental identity by optical emission',
+          'Ion arrival time only'
+        ], correct: 0,
+        explanation: 'An electrostatic sector bends ions according to kinetic energy per charge. It can energy-focus an ion beam but does not independently provide mass dispersion.'
+      },
+      {
+        lecture: 'L15', number: '15.6', type: 'written', difficulty: 'Fundamental',
+        prompt: 'Why can a kinetic-energy spread reduce resolution even when all ions of interest have the same m/z, and how does an electrostatic sector help?',
+        equation: 'same m/z + different KE → different trajectories unless energy-focused',
+        answer: 'Ions of the same m/z but different kinetic energies can follow different trajectories and reach different focal positions, broadening the image or peak. An electrostatic sector disperses by kinetic energy per charge and, in a matched instrument geometry, brings the desired energy distribution into a common final focus.'
+      },
+
+      {
+        lecture: 'L16', number: '16.1', type: 'mc', difficulty: 'Challenge',
+        prompt: 'Two nearby TOF peaks arrive at t = 40.0 μs with Δt = 10 ns. Is the measured resolving power sufficient to separate peaks 0.20 Da apart at m/z 500 by the simple m/Δm criterion?',
+        equation: 'R<sub>measured</sub> ≈ t/(2Δt); &nbsp; R<sub>required</sub> = m/Δm',
+        choices: [
+          'R = 1,000, and it is sufficient',
+          'R = 2,000, and it is sufficient',
+          'R = 2,500, and it is insufficient',
+          'R = 2,000, while 2,500 is required, so it is insufficient'
+        ], correct: 3,
+        explanation: 'R<sub>measured</sub> = 40,000 ns/(2 × 10 ns) = 2,000. R<sub>required</sub> = 500/0.20 = 2,500, so the measured resolving power is insufficient.'
+      },
+      {
+        lecture: 'L16', number: '16.2', type: 'mc', difficulty: 'Core',
+        prompt: 'In the same TOF instrument, what is the flight-time ratio for singly charged ions at m/z 900 and 100?',
+        equation: 't ∝ √(m/z)',
+        choices: ['1.5', '3.0', '9.0', '81'], correct: 1,
+        explanation: 'The ratio is √(900/100) = √9 = 3.0.'
+      },
+      {
+        lecture: 'L16', number: '16.3', type: 'written', difficulty: 'Core',
+        prompt: 'A singly charged ion at m/z 900 arrives at 45.0 μs. Predict the arrival time of a singly charged ion at m/z 400 under the same conditions and explain the scaling.',
+        equation: 't<sub>2</sub> = t<sub>1</sub>√[(m/z)<sub>2</sub>/(m/z)<sub>1</sub>]',
+        answer: 't<sub>400</sub> = 45.0√(400/900) = 45.0(2/3) = 30.0 μs. Flight time scales with the square root of m/z because all ions receive the same kinetic energy per charge under the stated conditions.'
+      },
+      {
+        lecture: 'L16', number: '16.4', type: 'written', difficulty: 'Challenge',
+        prompt: 'A linear TOF peak remains broad even after the ion-formation pulse is shortened. Identify two remaining source distributions that can broaden it. Then explain which one a reflectron corrects and how orthogonal or delayed extraction addresses a different distribution.',
+        equation: 'Δt<sub>total</sub> ← ΔE, Δx<sub>0</sub>, Δt<sub>0</sub>, angular spread',
+        answer: 'Starting-position spread and kinetic-energy spread can remain after pulse shortening. A reflectron directly corrects the first-order effect of kinetic-energy spread because higher-energy ions penetrate farther and take a longer reflected path. Orthogonal extraction defines repeatable start packets from a continuous beam, while delayed or space-focused extraction can compensate position-dependent timing; these are distinct from reflectron energy focusing.'
+      },
+      {
+        lecture: 'L16', number: '16.5', type: 'mc', difficulty: 'Fundamental',
+        prompt: 'Why must a TOF measurement define a common start time for an ion packet?',
+        equation: 't<sub>flight</sub> = t<sub>arrival</sub> − t<sub>0</sub>',
+        choices: [
+          'Because m/z is inferred from elapsed flight time, so uncertainty in t<sub>0</sub> broadens the measured peak',
+          'Because the detector can measure only one ion in its lifetime',
+          'Because the start time determines the elemental isotope abundance',
+          'Because ions do not need acceleration when t<sub>0</sub> is known'
+        ], correct: 0,
+        explanation: 'TOF converts elapsed time into m/z. If otherwise identical ions begin at uncertain times, their arrival-time distribution broadens even when their true flight times are the same.'
+      },
+      {
+        lecture: 'L16', number: '16.6', type: 'written', difficulty: 'Fundamental',
+        prompt: 'State the purpose of a reflectron in TOF-MS and explain why higher-energy ions travel farther into it.',
+        equation: 'higher KE → deeper reflectron penetration → longer reflected path',
+        answer: 'A reflectron is an electrostatic ion mirror that compensates for initial kinetic-energy spread and lengthens the flight path. Higher-energy ions penetrate farther into the opposing electric field before reversing direction, so they take a longer path. That extra delay allows them to refocus in time with lower-energy ions of the same m/z.'
+      }
+    ];
+
+    const letter = (index) => String.fromCharCode(65 + index);
+
+    const renderCompoundCards = (compoundIds) => {
+      if (!compoundIds || compoundIds.length === 0) return '';
+      return `
+        <aside class="compound-reference" aria-label="Compound structure">
+          <h4>Compound structure</h4>
+          <div class="compound-grid">
+            ${compoundIds.map((id) => {
+              const compound = compoundLibrary[id];
+              return `
+                <div class="compound-card">
+                  <div class="structure-box">${compound.structure}</div>
+                  <div>
+                    <strong class="compound-name">${compound.name}</strong>
+                    <span class="compound-formula">Formula: ${compound.formula}</span>
+                    <span class="compound-note">${compound.note}</span>
+                  </div>
+                </div>
+              `;
+            }).join('')}
+          </div>
+        </aside>
+      `;
+    };
+
+    const nav = document.getElementById('section-nav');
+    sections.forEach((section) => {
+      const link = document.createElement('a');
+      link.href = `#${section.id}`;
+      link.textContent = section.short;
+      nav.appendChild(link);
+    });
+
+    const bank = document.getElementById('question-bank');
+
+    sections.forEach((section) => {
+      const sectionElement = document.createElement('section');
+      sectionElement.className = 'section';
+      sectionElement.id = section.id;
+      sectionElement.setAttribute('aria-labelledby', `${section.id}-heading`);
+      sectionElement.innerHTML = `
+        <h2 class="section-heading" id="${section.id}-heading">${section.title}</h2>
+        <p class="section-note">${section.note}</p>
+      `;
+
+      questions.filter((question) => section.lectures.includes(question.lecture)).forEach((question) => {
+        const article = document.createElement('article');
+        article.className = 'question';
+        article.dataset.questionType = question.type;
+        article.dataset.questionNumber = question.number;
+
+        const kindText = question.type === 'mc' ? 'Multiple choice' : 'Written';
+        const difficultyClass = question.difficulty === 'Challenge'
+          ? ' challenge'
+          : question.difficulty === 'Fundamental'
+            ? ' fundamental'
+            : '';
+        const compoundMarkup = renderCompoundCards(question.compounds);
+        let responseMarkup = '';
+
+        if (question.type === 'mc') {
+          responseMarkup = `
+            <fieldset>
+              <legend class="sr-only">Choose one answer for question ${question.number}</legend>
+              ${question.choices.map((choice, index) => `
+                <label class="choice" data-choice-index="${index}">
+                  <input type="radio" name="q-${question.number}" value="${index}">
+                  <span>${letter(index)}. ${choice}</span>
+                </label>
+              `).join('')}
+            </fieldset>
+          `;
+        } else {
+          responseMarkup = `
+            <label class="response-label" for="q-${question.number}-response">Your answer</label>
+            <textarea id="q-${question.number}-response" aria-describedby="q-${question.number}-status" placeholder="Write your reasoning or calculation before revealing the answer."></textarea>
+          `;
+        }
+
+        const answerText = question.type === 'mc'
+          ? `<p><strong>Correct answer: ${letter(question.correct)}.</strong> ${question.explanation}</p>`
+          : `<p><strong>Suggested answer:</strong> ${question.answer}</p>`;
+
+        article.innerHTML = `
+          <div class="question-lead">
+            <h3>
+              <span class="kind">${kindText}</span>
+              <span class="lecture-tag">${question.lecture}</span>
+              <span class="difficulty${difficultyClass}">${question.difficulty}</span><br>
+              ${question.number} ${question.prompt}
+            </h3>
+            <div class="question-equation" aria-label="Equation or relationship for question ${question.number}">
+              <span class="equation-label">Equation / relationship</span>
+              <div class="equation-content">${question.equation}</div>
+            </div>
+          </div>
+          ${compoundMarkup}
+          ${responseMarkup}
+          <div class="attempt-row">
+            <span class="attempt-status" id="q-${question.number}-status">${question.type === 'mc' ? 'Choose an answer' : 'Write a short answer'} to unlock the reveal.</span>
+            <button class="reveal-button" type="button" aria-controls="q-${question.number}-answer" aria-expanded="false" disabled>Reveal answer</button>
+          </div>
+          <div class="answer-panel" id="q-${question.number}-answer" tabindex="-1" hidden>${answerText}</div>
+        `;
+
+        sectionElement.appendChild(article);
+      });
+
+      bank.appendChild(sectionElement);
+    });
+
+    const attemptedIds = new Set();
+    const revealedIds = new Set();
+    const attemptCount = document.getElementById('attempt-count');
+    const revealCount = document.getElementById('reveal-count');
+    const progressTrack = document.querySelector('.progress-track');
+    const progressFill = document.querySelector('.progress-fill');
+
+    const updateProgress = () => {
+      const attempted = attemptedIds.size;
+      attemptCount.textContent = `${attempted} of ${questions.length} attempted`;
+      revealCount.textContent = `${revealedIds.size} ${revealedIds.size === 1 ? 'answer' : 'answers'} revealed`;
+      progressTrack.setAttribute('aria-valuemax', String(questions.length));
+      progressTrack.setAttribute('aria-valuenow', String(attempted));
+      progressFill.style.width = `${(attempted / questions.length) * 100}%`;
+    };
+
+    document.querySelectorAll('.question').forEach((article) => {
+      const question = questions.find((item) => item.number === article.dataset.questionNumber);
+      const button = article.querySelector('.reveal-button');
+      const status = article.querySelector('.attempt-status');
+      const answer = document.getElementById(button.getAttribute('aria-controls'));
+
+      const attempted = () => {
+        if (question.type === 'mc') return Boolean(article.querySelector('input[type="radio"]:checked'));
+        return article.querySelector('textarea').value.trim().length >= 8;
+      };
+
+      const clearChoiceMarking = () => {
+        article.querySelectorAll('.choice').forEach((choice) => choice.classList.remove('correct-choice', 'wrong-choice'));
+      };
+
+      const markChoices = () => {
+        if (question.type !== 'mc' || answer.hidden) return;
+        clearChoiceMarking();
+        const selected = article.querySelector('input[type="radio"]:checked');
+        article.querySelector(`[data-choice-index="${question.correct}"]`).classList.add('correct-choice');
+        if (selected && Number(selected.value) !== question.correct) {
+          selected.closest('.choice').classList.add('wrong-choice');
+          status.textContent = 'Review the explanation and compare it with your choice.';
+        } else {
+          status.textContent = 'Correct. Check the explanation for the reasoning.';
+        }
+      };
+
+      const updateUnlock = () => {
+        const ready = attempted();
+        button.disabled = !ready;
+
+        if (ready) attemptedIds.add(question.number);
+        else attemptedIds.delete(question.number);
+
+        if (!answer.hidden && question.type === 'mc') {
+          markChoices();
+        } else {
+          status.textContent = ready
+            ? 'Attempt recorded. You can reveal the answer.'
+            : question.type === 'mc'
+              ? 'Choose an answer to unlock the reveal.'
+              : 'Write at least a short answer to unlock the reveal.';
+        }
+
+        updateProgress();
+      };
+
+      article.querySelectorAll('input[type="radio"]').forEach((input) => input.addEventListener('change', updateUnlock));
+      const response = article.querySelector('textarea');
+      if (response) response.addEventListener('input', updateUnlock);
+
+      button.addEventListener('click', () => {
+        if (!attempted()) return;
+        const willShow = answer.hidden;
+        answer.hidden = !willShow;
+        button.setAttribute('aria-expanded', String(willShow));
+        button.textContent = willShow ? 'Hide answer' : 'Reveal answer';
+
+        if (willShow) {
+          revealedIds.add(question.number);
+          markChoices();
+          answer.focus();
+        } else {
+          revealedIds.delete(question.number);
+          clearChoiceMarking();
+          status.textContent = 'Attempt recorded. You can reveal the answer.';
+        }
+
+        updateProgress();
+      });
+
+      updateUnlock();
+    });
+
+    document.getElementById('reset-button').addEventListener('click', () => {
+      document.querySelectorAll('input[type="radio"]').forEach((input) => { input.checked = false; });
+      document.querySelectorAll('textarea').forEach((textarea) => { textarea.value = ''; });
+      document.querySelectorAll('.answer-panel').forEach((panel) => { panel.hidden = true; });
+      document.querySelectorAll('.reveal-button').forEach((button) => {
+        button.disabled = true;
+        button.textContent = 'Reveal answer';
+        button.setAttribute('aria-expanded', 'false');
+      });
+      document.querySelectorAll('.choice').forEach((choice) => choice.classList.remove('correct-choice', 'wrong-choice'));
+      document.querySelectorAll('.question').forEach((article) => {
+        const question = questions.find((item) => item.number === article.dataset.questionNumber);
+        article.querySelector('.attempt-status').textContent = question.type === 'mc'
+          ? 'Choose an answer to unlock the reveal.'
+          : 'Write at least a short answer to unlock the reveal.';
+      });
+      attemptedIds.clear();
+      revealedIds.clear();
+      updateProgress();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    updateProgress();
+  </script>
+</body>
+</html>
