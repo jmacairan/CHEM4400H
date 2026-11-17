@@ -1,0 +1,734 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Quadrupole Stability Explorer · CHEM 4400H</title>
+<style>
+  :root{
+    --ink:#201e1d; --muted:#625c58; --bg:#f4f3f1; --card:#ffffff; --line:#dad5d0;
+    --x:#0088b0; --y:#d6006c; --ok:#1c8748; --okbg:#e3f3e9; --badbg:#fbe9e7;
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{margin:0;background:var(--bg);color:var(--ink);
+    font:17px/1.5 system-ui,-apple-system,"Segoe UI",Helvetica,Arial,sans-serif}
+  header{background:var(--ink);color:#fff;padding:26px 28px 22px}
+  header .kicker{font-size:13px;letter-spacing:.12em;text-transform:uppercase;opacity:.7}
+  header .again{margin:0 0 12px;font-size:22px;font-style:italic;font-weight:600;opacity:1}
+  header h1{margin:4px 0 6px;font-size:32px;line-height:1.15}
+  header p{margin:0;max-width:980px;opacity:.88}
+  main{max-width:1500px;margin:0 auto;padding:22px 20px 60px}
+  section{margin-bottom:34px}
+  h2{font-size:24px;margin:0 0 4px;display:flex;align-items:center;gap:12px}
+  h2 .num{flex:none;width:34px;height:34px;border-radius:50%;background:var(--x);color:#fff;
+    font-size:18px;display:grid;place-items:center}
+  .lead{margin:0 0 14px;color:var(--muted);max-width:1100px}
+  .grid2{display:grid;grid-template-columns:minmax(0,1.12fr) minmax(0,1fr);gap:16px;align-items:start}
+  @media (max-width:980px){.grid2{grid-template-columns:minmax(0,1fr)}}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px 16px}
+  .stack{display:grid;gap:14px}
+  .card h3{margin:0 0 8px;font-size:14px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+  canvas{display:block;width:100%}
+  #stab1,#stab3{aspect-ratio:5/4}
+  .cap{font-size:14px;color:var(--muted);margin:8px 2px 0}
+
+  .ctl{display:grid;grid-template-columns:150px minmax(0,1fr) 108px;gap:6px 12px;align-items:center;margin:6px 0}
+  .ctl label{font-weight:600;font-size:15px}
+  .ctl output{font-variant-numeric:tabular-nums;font-weight:700;text-align:right;font-size:16px}
+  .ctl small{display:block;font-weight:400;color:var(--muted);line-height:1.2}
+  input[type=range]{width:100%;height:28px;margin:0;accent-color:var(--x)}
+  input.dc{accent-color:var(--y)}
+  @media (max-width:560px){.ctl{grid-template-columns:1fr 96px}.ctl input{grid-column:1/-1;grid-row:2}}
+  .btns{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+  button{font:inherit;font-size:14px;font-weight:600;padding:7px 12px;border-radius:999px;
+    border:1px solid var(--line);background:#f7f6f4;color:var(--ink);cursor:pointer}
+  button:hover{background:#ece9e5}
+  button.primary{background:var(--x);border-color:var(--x);color:#fff}
+  button.primary:hover{background:#006f90}
+  details{margin-top:10px;border-top:1px solid var(--line);padding-top:8px}
+  summary{cursor:pointer;font-weight:600;font-size:14px;color:var(--muted)}
+  .chk{display:flex;gap:8px;align-items:center;font-size:14px;color:var(--muted);margin-top:8px}
+
+  .eq{display:grid;grid-template-columns:auto 1fr;gap:10px 14px;align-items:center}
+  .eq .form{font-size:17px;white-space:nowrap}
+  .eq .val{font-size:26px;font-weight:800;font-variant-numeric:tabular-nums}
+  .eq .tag{font-size:13px;font-weight:600;margin-left:8px;padding:2px 8px;border-radius:999px;vertical-align:middle}
+  .tag.dc{background:#fbe4ef;color:#a30052}.tag.rf{background:#dff1f6;color:#006482}
+  .frac{display:inline-flex;flex-direction:column;text-align:center;vertical-align:middle;line-height:1.25;margin:0 3px}
+  .frac>span:first-child{border-bottom:1.5px solid currentColor;padding:0 5px}
+  .frac>span:last-child{padding:0 5px}
+  .verdict{margin-top:12px;padding:10px 12px;border-radius:8px;font-weight:700;font-size:16px}
+  .verdict small{display:block;font-weight:500;font-size:14px;margin-top:2px}
+  .verdict.ok{background:var(--okbg);color:#12592f}
+  .verdict.bad{background:var(--badbg);color:#8c1d12}
+  .verdict.idle{background:#eeece9;color:var(--muted)}
+  .facts{margin:10px 0 0;padding:0;list-style:none;font-size:15px}
+  .facts li{padding:3px 0;border-top:1px dashed var(--line)}
+  .facts b{font-variant-numeric:tabular-nums}
+
+  .traj{display:grid;grid-template-columns:minmax(0,1fr) 168px;gap:12px;align-items:center}
+  @media (max-width:560px){.traj{grid-template-columns:minmax(0,1fr)}}
+  @media (min-width:981px) and (max-width:1250px){.traj{grid-template-columns:minmax(0,1fr)}}
+  .plane{height:112px}
+  #xs{height:168px;width:168px;margin:0 auto}
+  .plab{font-size:13.5px;font-weight:700;margin:6px 0 2px}
+  .plab span{font-weight:500;color:var(--muted)}
+  .xcol{color:var(--x)}.ycol{color:var(--y)}
+
+  #spec{height:452px}
+  #uv3{height:340px}
+  .seg{display:flex;margin:0 0 12px}
+  .seg button{flex:1;border-radius:0;padding:9px 10px;font-size:14.5px}
+  .seg button:first-child{border-radius:8px 0 0 8px}
+  .seg button:last-child{border-radius:0 8px 8px 0;border-left:0}
+  .seg button.on{background:var(--ink);border-color:var(--ink);color:#fff}
+  .seg button small{display:block;font-weight:500;opacity:.8}
+  .try{background:#fff8e6;border:1px solid #ecd9a4;border-radius:10px;padding:10px 14px;font-size:15px;margin-top:14px}
+  .try b{color:#7a5a00}
+  .try ol{margin:4px 0 0 20px;padding:0}
+  footer{font-size:13.5px;color:var(--muted);border-top:1px solid var(--line);padding-top:14px;max-width:1100px}
+</style>
+</head>
+<body>
+<header>
+  <p class="again">Alright. Let's try this again.</p>
+  <div class="kicker">CHEM 4400H · Mass Spectrometry · Quadrupole mass filters</div>
+  <h1>Quadrupole Stability Explorer</h1>
+  <p>The rods carry a DC voltage <b>U</b> and an RF voltage of amplitude <b>V</b>. For each ion these two voltages collapse into two numbers, <b>a</b> and <b>q</b>. Those two numbers alone decide if the ion gets through. The result can be drawn two ways: one universal window in (a, q), or one window per m/z in (U, V). This page shows both.</p>
+</header>
+
+<main>
+
+<!-- ============================ TOOL 1 ============================ -->
+<section>
+  <h2><span class="num">1</span>One ion: a, q and the stability window</h2>
+  <p class="lead">Rod pairs sit at +(U − V cos Ωt) and −(U − V cos Ωt). Pick an m/z and set U and V. The dot shows where that ion lands on the stability diagram. Inside the green window its path stays bounded in both x and y. Outside, the path grows until it hits a rod.</p>
+
+  <div class="grid2">
+    <div class="card">
+      <div class="seg" role="group" aria-label="Choose how the diagram is drawn">
+        <button id="vAQ" class="on">Universal view (a, q)<small>one window for all ions</small></button>
+        <button id="vUV">Voltage view (U, V)<small>one window per m/z</small></button>
+      </div>
+      <canvas id="stab1" aria-label="Stability diagram"></canvas>
+      <p class="cap" id="cap1"></p>
+    </div>
+
+    <div class="stack">
+      <div class="card">
+        <h3>Voltages and ion</h3>
+        <div class="ctl"><label for="mz">Ion m/z</label><input id="mz" type="range" min="10" max="1000" step="1"><output id="mzO"></output></div>
+        <div class="ctl"><label for="U">DC voltage U</label><input id="U" class="dc" type="range" min="0" max="350" step="0.5"><output id="UO"></output></div>
+        <div class="ctl"><label for="V">RF amplitude V <small>(0 to peak)</small></label><input id="V" type="range" min="0" max="2000" step="1"><output id="VO"></output></div>
+        <div class="btns">
+          <button id="p1a">Reset</button>
+          <button id="p1b">Put this ion near the apex</button>
+          <button id="p1c">RF only (U = 0)</button>
+        </div>
+        <label class="chk"><input id="others" type="checkbox" checked> Show other m/z values</label>
+        <details>
+          <summary>Instrument constants (fixed by the hardware)</summary>
+          <div class="ctl"><label for="f">RF frequency</label><input id="f" type="range" min="0.5" max="3" step="0.01"><output id="fO"></output></div>
+          <div class="ctl"><label for="r0">Field radius r<sub>0</sub></label><input id="r0" type="range" min="2" max="10" step="0.05"><output id="r0O"></output></div>
+        </details>
+      </div>
+
+      <div class="card">
+        <h3>The two Mathieu parameters</h3>
+        <div class="eq">
+          <div class="form"><i>a</i> = <span class="frac"><span>8 <i>e</i> <b class="ycol">U</b></span><span>(<i>m/z</i>) <i>r</i><sub>0</sub><sup>2</sup> Ω<sup>2</sup></span></span></div>
+          <div><span class="val" id="aV"></span><span class="tag dc">set by DC</span></div>
+          <div class="form"><i>q</i> = <span class="frac"><span>4 <i>e</i> <b class="xcol">V</b></span><span>(<i>m/z</i>) <i>r</i><sub>0</sub><sup>2</sup> Ω<sup>2</sup></span></span></div>
+          <div><span class="val" id="qV"></span><span class="tag rf">set by RF</span></div>
+        </div>
+        <div class="verdict" id="verdict"></div>
+        <ul class="facts">
+          <li>Slope of the line: a/q = 2U/V = <b id="slope"></b> <span id="slopeNote"></span></li>
+          <li>m/z that pass at this U and V: <b id="win1"></b></li>
+          <li>β<sub>x</sub> = <b id="bx"></b> · β<sub>y</sub> = <b id="by"></b> <small style="color:var(--muted)">(slow "secular" frequency = βΩ/2)</small></li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h3>What this ion does between the rods</h3>
+        <div class="traj">
+          <div>
+            <div class="plab xcol">x–z plane <span>· rods at +U. DC focuses, RF can eject.</span> <span id="xmsg"></span></div>
+            <canvas id="px" class="plane"></canvas>
+            <div class="plab ycol">y–z plane <span>· rods at −U. DC defocuses, RF can rescue.</span> <span id="ymsg"></span></div>
+            <canvas id="py" class="plane"></canvas>
+          </div>
+          <div>
+            <canvas id="xs" aria-label="Rod cross-section"></canvas>
+            <p class="cap" style="text-align:center;margin-top:4px">Looking down the rods</p>
+          </div>
+        </div>
+        <p class="cap">Ion flies left to right for 120 RF cycles. It enters slightly off axis. A cross marks where it hits a rod.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="try"><b>Try this.</b>
+    <ol>
+      <li>Raise only <b>V</b>. The dot slides right. Past the right edge the ion is thrown into the <span class="xcol"><b>x rods</b></span>. This edge removes ions that are too light.</li>
+      <li>Raise only <b>U</b>. The dot climbs. Above the left edge the ion drifts into the <span class="ycol"><b>y rods</b></span>. This edge removes ions that are too heavy.</li>
+      <li>Change only <b>m/z</b>. The dot runs along the line. Only a short piece of the line is inside the window.</li>
+      <li>Set <b>U = 0</b>. The line lies on the q axis. Every ion with q below 0.908 passes. The quadrupole is now an ion guide.</li>
+      <li>Switch to the <b>voltage view</b> and change only <b>m/z</b>. Now the dot stays and the window moves. Same physics, different axes.</li>
+    </ol>
+  </div>
+</section>
+
+<!-- ============================ TOOL 2 ============================ -->
+<section>
+  <h2><span class="num">2</span>From stability window to mass filter</h2>
+  <p class="lead">A real scan keeps the ratio U/V fixed and ramps both voltages together. In the universal view the window stays put and the ions slide outward along the line, heaviest last. In the voltage view each m/z has its own window and the setting climbs the scan line through the tip of each one. Each ion reaches the detector only while it is inside its window. The ratio U/V sets how much of the tip is cut, so it sets the resolution.</p>
+
+  <div class="card" style="margin-bottom:16px">
+    <div class="ctl"><label for="ratio">Ratio U/V <small>(resolution)</small></label><input id="ratio" class="dc" type="range" min="0" max="0.17" step="0.0001"><output id="ratioO"></output></div>
+    <div class="btns" style="margin:0 0 8px">
+      <button data-r="0">RF only</button>
+      <button data-r="0.150">0.150 low</button>
+      <button data-r="0.163">0.163 medium</button>
+      <button data-r="0.1670">0.1670 high</button>
+      <button data-r="0.1690">0.1690 too high</button>
+    </div>
+    <div class="ctl"><label for="Vs">RF amplitude V <small>(scan)</small></label><input id="Vs" type="range" min="0" max="900" step="0.5"><output id="VsO"></output></div>
+    <div class="btns"><button id="play" class="primary">▶ Run the scan</button></div>
+  </div>
+
+  <div class="grid2">
+    <div class="card">
+      <h3>Universal view. One window, the ions move.</h3>
+      <canvas id="stab3" aria-label="Stability diagram with operating line and seven ions"></canvas>
+      <ul class="facts">
+        <li>Slope a/q = 2U/V = <b id="s3"></b> · stable piece of the line: <b id="seg3"></b></li>
+        <li>Pass band right now: <b id="band3"></b></li>
+        <li>Resolving power m/Δm: <b id="R3"></b></li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Voltage view. One window per m/z, the setting moves.</h3>
+      <canvas id="uv3" aria-label="U versus V diagram with one stability window per ion and the scan line"></canvas>
+      <p class="cap" style="margin-bottom:14px">The scan line is U = ratio × V. It cuts the tip of each window in turn. Drag the dot to change V and the ratio. Windows that hold the dot are drawn bold. The V axis lines up with the spectrum below.</p>
+      <canvas id="spec" aria-label="Ions in the beam and the recorded spectrum"></canvas>
+      <p class="cap">Top: the seven ions in the beam on a true m/z axis. The green band is what the filter passes right now. Bottom: detector signal recorded as V is ramped. Colours match the ions. At low resolution each peak is wide and starts early, because the ion enters the window before it reaches the apex.</p>
+    </div>
+  </div>
+
+  <div class="try"><b>Try this.</b>
+    <ol>
+      <li>Run the scan and watch both plots. Left: one window, moving ions. Right: fixed windows, moving setting. They always agree.</li>
+      <li>Press <b>RF only</b> and run the scan. There is no upper mass limit, so the signal is a staircase. Ions drop out from the light end as V rises.</li>
+      <li>Step through <b>low → medium → high</b>. The line cuts closer to the apex on the left and closer to the tips on the right. The pass band narrows and the peaks sharpen.</li>
+      <li>At <b>0.1670</b> the pairs 100/101, 200/202 and 400/404 all separate at the same setting. A line through the origin gives constant m/Δm, so peaks get wider at high mass.</li>
+      <li>Press <b>too high</b>. The line misses the window on the left and passes above every tip on the right. Nothing reaches the detector at any V.</li>
+    </ol>
+  </div>
+</section>
+
+<footer>
+  Credit: PolygonCyber
+</footer>
+</main>
+
+<script>
+(function(){
+'use strict';
+var E=1.602176634e-19, AMU=1.66053906660e-27;
+var QMAX=1.0, AMAX=0.30, MMAX=560;
+var CX='#0088b0', CY='#d6006c', COK='#1c8748', INK='#201e1d', MUT='#625c58';
+function $(id){return document.getElementById(id);}
+
+var DEF={mz:300,U:60,V:460};
+var S={mz:300,U:60,V:460,f:1.2,r0:4.0,others:true,view:'aq',ratio:0.150,Vs:300,playing:false};
+
+/* ---------- Mathieu equation: u'' + (a - 2q cos 2xi) u = 0 ---------- */
+/* Trace of the one-period transfer matrix. |trace| < 2 means bounded motion. */
+function trace(a,q){
+  var N=96,h=Math.PI/N,u1=1,v1=0,u2=0,v2=1,i,x,f0,f1,f2,k1u,k1v,k2u,k2v,k3u,k3v,k4u,k4v;
+  for(i=0;i<N;i++){
+    x=i*h;
+    f0=a-2*q*Math.cos(2*x); f1=a-2*q*Math.cos(2*x+h); f2=a-2*q*Math.cos(2*x+2*h);
+    k1u=v1; k1v=-f0*u1; k2u=v1+h/2*k1v; k2v=-f1*(u1+h/2*k1u);
+    k3u=v1+h/2*k2v; k3v=-f1*(u1+h/2*k2u); k4u=v1+h*k3v; k4v=-f2*(u1+h*k3u);
+    u1+=h/6*(k1u+2*k2u+2*k3u+k4u); v1+=h/6*(k1v+2*k2v+2*k3v+k4v);
+    k1u=v2; k1v=-f0*u2; k2u=v2+h/2*k1v; k2v=-f1*(u2+h/2*k1u);
+    k3u=v2+h/2*k2v; k3v=-f1*(u2+h/2*k2u); k4u=v2+h*k3v; k4v=-f2*(u2+h*k3u);
+    u2+=h/6*(k1u+2*k2u+2*k3u+k4u); v2+=h/6*(k1v+2*k2v+2*k3v+k4v);
+  }
+  return u1+v2;
+}
+/* x motion uses (a, q). y motion uses (-a, -q); the trace does not depend on the sign of q. */
+function stabX(a,q){return Math.abs(trace(a,q))<2;}
+function stabY(a,q){return Math.abs(trace(-a,q))<2;}
+function beta(T){return Math.abs(T)<2?Math.acos(T/2)/Math.PI:NaN;}
+
+/* ---------- Boundaries of the first stability region ---------- */
+var NQ=400,QS=[],BX=[],BY=[],Q0,QA,AA,SA;
+(function(){
+  var i,q,lo,hi,mid,k;
+  lo=0.8;hi=1.0;for(k=0;k<50;k++){mid=(lo+hi)/2;if(stabX(0,mid))lo=mid;else hi=mid;} Q0=lo;
+  for(i=0;i<=NQ;i++){
+    q=i/NQ*QMAX; QS.push(q);
+    if(q<0.05) BX.push(1-q);
+    else if(q>=Q0) BX.push(0);
+    else{lo=0;hi=1-q*q/8;for(k=0;k<44;k++){mid=(lo+hi)/2;if(stabX(mid,q))lo=mid;else hi=mid;}BX.push(lo);}
+    if(q===0) BY.push(0);
+    else{lo=q<0.9?0:0.3;hi=1.0;for(k=0;k<44;k++){mid=(lo+hi)/2;if(stabY(mid,q))lo=mid;else hi=mid;}BY.push(lo);}
+  }
+})();
+
+/* Where a line a = s*q enters and leaves the stable window. */
+function lineWindow(s){
+  if(!(s>=0)||s>0.4) return null;
+  var lo=1e-6,hi=QMAX,mid,k,qhi,qlo;
+  for(k=0;k<46;k++){mid=(lo+hi)/2;if(stabX(s*mid,mid))lo=mid;else hi=mid;} qhi=lo;
+  if(s===0) qlo=0;
+  else{lo=1e-9;hi=QMAX;for(k=0;k<46;k++){mid=(lo+hi)/2;if(stabY(s*mid,mid))hi=mid;else lo=mid;} qlo=hi;}
+  return qlo<qhi?{qlo:qlo,qhi:qhi}:null;
+}
+(function(){ /* apex of the window */
+  var lo=0.30,hi=0.36,mid,k,w;
+  for(k=0;k<46;k++){mid=(lo+hi)/2;if(lineWindow(mid))lo=mid;else hi=mid;}
+  SA=lo; w=lineWindow(lo); QA=(w.qlo+w.qhi)/2; AA=SA*QA;
+})();
+
+/* q = K*V/(m/z), a = 2*K*U/(m/z) with voltages in volts and m/z in Th */
+function K(){var Om=2*Math.PI*S.f*1e6,r=S.r0*1e-3;return 4*E/(AMU*r*r*Om*Om);}
+
+/* ---------- canvas helpers ---------- */
+function fit(cv){
+  var r=cv.getBoundingClientRect(),d=window.devicePixelRatio||1;
+  var w=Math.max(60,Math.round(r.width)),h=Math.max(60,Math.round(r.height));
+  var W=Math.round(w*d),H=Math.round(h*d);
+  if(cv.width!==W||cv.height!==H){cv.width=W;cv.height=H;}
+  var c=cv.getContext('2d'); c.setTransform(d,0,0,d,0,0); c.clearRect(0,0,w,h);
+  return {c:c,w:w,h:h};
+}
+function txt(c,s,x,y,o){
+  o=o||{}; c.font=(o.w||'500')+' '+(o.s||13)+'px system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif';
+  c.fillStyle=o.c||INK; c.textAlign=o.a||'left'; c.textBaseline=o.b||'alphabetic';
+  if(o.halo){c.lineWidth=4;c.strokeStyle='rgba(255,255,255,.9)';c.lineJoin='round';c.strokeText(s,x,y);}
+  c.fillText(s,x,y);
+}
+function fmt(v,n){return isFinite(v)?v.toFixed(n):'∞';}
+
+/* ---------- stability diagram (shared by both tools) ---------- */
+function drawStab(cv){
+  var g=fit(cv),c=g.c,w=g.w,h=g.h,P={l:60,r:18,t:16,b:52};
+  var pw=w-P.l-P.r,ph=h-P.t-P.b,i;
+  function X(q){return P.l+q/QMAX*pw;} function Y(a){return P.t+ph-a/AMAX*ph;}
+  c.save(); c.beginPath(); c.rect(P.l,P.t,pw,ph); c.clip();
+  c.fillStyle='#fff'; c.fillRect(P.l,P.t,pw,ph);
+  /* y-unstable: above the y limit */
+  c.beginPath(); c.moveTo(X(0),Y(0));
+  for(i=0;i<=NQ;i++) c.lineTo(X(QS[i]),Y(BY[i]));
+  c.lineTo(X(QMAX),Y(2)); c.lineTo(X(0),Y(2)); c.closePath(); c.fillStyle='rgba(214,0,108,.075)'; c.fill();
+  /* x-unstable: right of the x limit */
+  c.beginPath(); c.moveTo(X(0),Y(1));
+  for(i=0;i<=NQ&&QS[i]<Q0;i++) c.lineTo(X(QS[i]),Y(BX[i]));
+  c.lineTo(X(Q0),Y(0)); c.lineTo(X(QMAX),Y(0)); c.lineTo(X(QMAX),Y(2)); c.lineTo(X(0),Y(2)); c.closePath();
+  c.fillStyle='rgba(0,136,176,.075)'; c.fill();
+  /* stable window */
+  var tri=[[0,0]];
+  for(i=1;i<=NQ&&QS[i]<Q0;i++) tri.push([QS[i],Math.min(BX[i],BY[i])]);
+  tri.push([QA,AA]); tri.push([Q0,0]); tri.sort(function(p,r){return p[0]-r[0];});
+  c.beginPath(); c.moveTo(X(0),Y(0)); for(i=0;i<tri.length;i++) c.lineTo(X(tri[i][0]),Y(tri[i][1]));
+  c.closePath(); c.fillStyle='rgba(28,135,72,.20)'; c.fill();
+  /* limit curves */
+  c.lineWidth=2.5; c.strokeStyle=CY; c.beginPath();
+  for(i=0;i<=NQ;i++){if(i===0)c.moveTo(X(QS[i]),Y(BY[i]));else c.lineTo(X(QS[i]),Y(BY[i]));} c.stroke();
+  c.strokeStyle=CX; c.beginPath(); c.moveTo(X(0),Y(1));
+  for(i=0;i<=NQ&&QS[i]<Q0;i++) c.lineTo(X(QS[i]),Y(BX[i])); c.lineTo(X(Q0),Y(0)); c.stroke();
+  c.restore();
+  /* axes */
+  c.strokeStyle=INK; c.lineWidth=1.5; c.strokeRect(P.l,P.t,pw,ph);
+  var t;
+  for(t=0;t<=1.0001;t+=0.2){c.beginPath();c.moveTo(X(t),P.t+ph);c.lineTo(X(t),P.t+ph+6);c.stroke();
+    txt(c,t.toFixed(1),X(t),P.t+ph+21,{a:'center',s:13});}
+  for(t=0;t<=0.3001;t+=0.05){c.beginPath();c.moveTo(P.l-6,Y(t));c.lineTo(P.l,Y(t));c.stroke();
+    txt(c,t.toFixed(2),P.l-10,Y(t),{a:'right',b:'middle',s:13});}
+  txt(c,w>=460?'q   (RF term, ∝ V ÷ m/z)':'q  (RF term)',P.l+pw/2,h-8,{a:'center',s:14,w:'700',c:CX});
+  c.save(); c.translate(15,P.t+ph/2); c.rotate(-Math.PI/2);
+  txt(c,w>=460?'a   (DC term, ∝ U ÷ m/z)':'a  (DC term)',0,0,{a:'center',s:14,w:'700',c:CY}); c.restore();
+  /* labels */
+  txt(c,'unstable in y',X(0.07),Y(0.235),{c:CY,w:'700',s:14});
+  if(w>=460) txt(c,'lost to the y rods',X(0.07),Y(0.235)+17,{c:CY,s:12.5});
+  txt(c,'unstable in x',X(0.985),Y(0.085),{c:CX,w:'700',s:14,a:'right'});
+  if(w>=460) txt(c,'lost to the x rods',X(0.985),Y(0.085)+17,{c:CX,s:12.5,a:'right'});
+  txt(c,'STABLE',X(0.60),Y(0.045),{c:'#12592f',w:'800',s:15,a:'center'});
+  c.fillStyle='#12592f'; c.beginPath(); c.arc(X(QA),Y(AA),3.5,0,7); c.fill();
+  txt(c,w>=600?('apex  q = '+QA.toFixed(3)+',  a = '+AA.toFixed(3)):'apex',X(QA)-10,Y(AA)-9,{s:12.5,c:'#12592f',w:'700',a:'right',halo:true});
+  c.strokeStyle=INK; c.beginPath(); c.moveTo(X(Q0),P.t+ph); c.lineTo(X(Q0),P.t+ph+6); c.stroke();
+  txt(c,Q0.toFixed(3),X(Q0),P.t+ph+36,{a:'center',s:12,c:MUT});
+  return {c:c,w:w,h:h,X:X,Y:Y,P:P,pw:pw,ph:ph};
+}
+function drawLine(g,s,win){
+  var c=g.c,qe;
+  c.save(); c.beginPath(); c.rect(g.P.l,g.P.t,g.pw,g.ph); c.clip();
+  c.strokeStyle=INK; c.lineWidth=1.5; c.setLineDash([7,5]); c.beginPath(); c.moveTo(g.X(0),g.Y(0));
+  if(!isFinite(s)) c.lineTo(g.X(0),g.Y(AMAX)); else {qe=s>0?Math.min(QMAX,AMAX/s):QMAX; c.lineTo(g.X(qe),g.Y(s*qe));}
+  c.stroke(); c.setLineDash([]);
+  if(win){c.strokeStyle=COK;c.lineWidth=6;c.lineCap='round';c.beginPath();
+    c.moveTo(g.X(win.qlo),g.Y(s*win.qlo));c.lineTo(g.X(win.qhi),g.Y(s*win.qhi));c.stroke();}
+  c.restore();
+}
+
+/* ---------- voltage diagram: the same window redrawn once per m/z ---------- */
+/* V = q (m/z) / K and U = a (m/z) / 2K, so every window is the (a, q) window scaled by m/z. */
+var WL=[],WR=[];
+(function(){var i;WL.push([0,0]);for(i=1;i<=NQ&&QS[i]<QA;i++)WL.push([QS[i],BY[i]]);WL.push([QA,AA]);
+  WR.push([QA,AA]);for(i=0;i<=NQ;i++)if(QS[i]>QA&&QS[i]<Q0)WR.push([QS[i],BX[i]]);WR.push([Q0,0]);})();
+function nice(max,n){var st=[1,2,5,10,20,25,50,100,200,250,500,1000,2000],i;for(i=0;i<st.length;i++)if(max/st[i]<=n)return st[i];return 5000;}
+function drawUV(cv,o){
+  var g=fit(cv),c=g.c,w=g.w,h=g.h,P={l:o.pl||60,r:o.pr||18,t:16,b:52},pw=w-P.l-P.r,ph=h-P.t-P.b,k=o.k,i,j,io,t;
+  function X(V){return P.l+V/o.VM*pw;} function Y(U){return P.t+ph-U/o.UM*ph;}
+  function edge(arr,m,start){for(j=0;j<arr.length;j++){var x=X(arr[j][0]*m/k),y=Y(arr[j][1]*m/(2*k));if(j===0&&start)c.moveTo(x,y);else c.lineTo(x,y);}}
+  c.fillStyle='#fff'; c.fillRect(P.l,P.t,pw,ph);
+  c.save(); c.beginPath(); c.rect(P.l,P.t,pw,ph); c.clip();
+  for(i=0;i<o.ions.length;i++){
+    io=o.ions[i];
+    c.beginPath(); edge(WL,io.m,true); edge(WR,io.m,false); c.closePath();
+    c.globalAlpha=io.fa; c.fillStyle=io.c; c.fill(); c.globalAlpha=1;
+    c.lineWidth=io.lw; c.lineJoin='round';
+    c.strokeStyle=io.left||io.c; c.beginPath(); edge(WL,io.m,true); c.stroke();
+    c.strokeStyle=io.right||io.c; c.beginPath(); edge(WR,io.m,true); c.stroke();
+  }
+  if(o.ratio!==null){
+    c.strokeStyle=INK; c.lineWidth=1.5; c.setLineDash([7,5]); c.beginPath(); c.moveTo(X(0),Y(0));
+    if(!isFinite(o.ratio)) c.lineTo(X(0),Y(o.UM)); else c.lineTo(X(o.VM),Y(o.ratio*o.VM));
+    c.stroke(); c.setLineDash([]);
+    for(i=0;o.segs&&i<o.segs.length;i++){
+      c.strokeStyle=o.segs[i].c; c.lineWidth=6; c.lineCap='round'; c.beginPath();
+      c.moveTo(X(o.segs[i].V0),Y(o.ratio*o.segs[i].V0)); c.lineTo(X(o.segs[i].V1),Y(o.ratio*o.segs[i].V1)); c.stroke();
+    }
+    c.lineCap='butt';
+  }
+  c.restore();
+  c.strokeStyle=INK; c.lineWidth=1.5; c.strokeRect(P.l,P.t,pw,ph);
+  var sv=nice(o.VM,w<520?5:10),su=nice(o.UM,7);
+  for(t=0;t<=o.VM+1e-6;t+=sv){c.beginPath();c.moveTo(X(t),P.t+ph);c.lineTo(X(t),P.t+ph+6);c.stroke();txt(c,''+t,X(t),P.t+ph+21,{a:'center',s:13});}
+  for(t=0;t<=o.UM+1e-6;t+=su){c.beginPath();c.moveTo(P.l-6,Y(t));c.lineTo(P.l,Y(t));c.stroke();txt(c,''+t,P.l-10,Y(t),{a:'right',b:'middle',s:13});}
+  txt(c,w>=460?'V   (RF amplitude, volts)':'V  (RF, volts)',P.l+pw/2,h-8,{a:'center',s:14,w:'700',c:CX});
+  c.save(); c.translate(15,P.t+ph/2); c.rotate(-Math.PI/2);
+  txt(c,w>=460?'U   (DC voltage, volts)':'U  (DC, volts)',0,0,{a:'center',s:14,w:'700',c:CY}); c.restore();
+  for(i=0;i<o.ions.length;i++){
+    io=o.ions[i]; if(!io.lab) continue;
+    var ax=X(QA*io.m/k),ay=Y(AA*io.m/(2*k));
+    if(ax-P.l<30||ax>P.l+pw-8||ay<P.t+16) continue;
+    txt(c,io.lab,ax,ay-8,{a:'center',s:io.bold?14:12.5,w:io.bold?'800':'700',c:io.lc||io.c,halo:true});
+  }
+  return {c:c,w:w,h:h,X:X,Y:Y,P:P,pw:pw,ph:ph};
+}
+
+/* ---------- ion paths ---------- */
+var CYC=120,SPC=40;
+function path(au,qu,u0){
+  var n=CYC*SPC,h=Math.PI/SPC,out=new Float32Array(n+1),u=u0,v=0,i,x,f0,f1,f2,a1,b1,a2,b2,a3,b3,a4,b4,lost=-1;
+  out[0]=u;
+  for(i=0;i<n;i++){
+    x=i*h; f0=au-2*qu*Math.cos(2*x); f1=au-2*qu*Math.cos(2*x+h); f2=au-2*qu*Math.cos(2*x+2*h);
+    a1=v; b1=-f0*u; a2=v+h/2*b1; b2=-f1*(u+h/2*a1); a3=v+h/2*b2; b3=-f1*(u+h/2*a2); a4=v+h*b3; b4=-f2*(u+h*a3);
+    u+=h/6*(a1+2*a2+2*a3+a4); v+=h/6*(b1+2*b2+2*b3+b4);
+    out[i+1]=u;
+    if(Math.abs(u)>=1){lost=i+1;break;}
+  }
+  return {u:out,n:lost>0?lost:n,lost:lost};
+}
+function drawPlane(cv,tr,col,nmax){
+  var g=fit(cv),c=g.c,w=g.w,h=g.h,rod=11,i,n=CYC*SPC,mid=h/2,amp=h/2-rod;
+  c.fillStyle='#fbfaf9'; c.fillRect(0,0,w,h);
+  c.fillStyle=col; c.globalAlpha=.85; c.fillRect(0,0,w,rod); c.fillRect(0,h-rod,w,rod); c.globalAlpha=1;
+  c.strokeStyle='#c9c4bf'; c.setLineDash([4,4]); c.lineWidth=1; c.beginPath(); c.moveTo(0,mid); c.lineTo(w,mid); c.stroke(); c.setLineDash([]);
+  var end=Math.min(tr.n,nmax);
+  c.strokeStyle=col; c.lineWidth=1.6; c.lineJoin='round'; c.beginPath();
+  for(i=0;i<=end;i++){var x=i/n*w,y=mid-Math.max(-1,Math.min(1,tr.u[i]))*amp; if(i===0)c.moveTo(x,y);else c.lineTo(x,y);}
+  c.stroke();
+  if(tr.lost>0&&tr.lost<=nmax){
+    var lx=tr.lost/n*w,ly=tr.u[tr.lost]>0?rod:h-rod;
+    c.strokeStyle=INK;c.lineWidth=2.5;c.beginPath();c.moveTo(lx-6,ly-6);c.lineTo(lx+6,ly+6);c.moveTo(lx+6,ly-6);c.lineTo(lx-6,ly+6);c.stroke();
+  }
+}
+function drawXS(cv,tx,ty){
+  var g=fit(cv),c=g.c,w=g.w,h=g.h,cx=w/2,cy=h/2,r0=w*0.25,R=1.147*r0,d=r0+R,i;
+  c.fillStyle='#fbfaf9'; c.fillRect(0,0,w,h);
+  c.save(); c.beginPath(); c.rect(0,0,w,h); c.clip();
+  c.globalAlpha=.85;
+  c.fillStyle=CX; c.beginPath(); c.arc(cx-d,cy,R,0,7); c.fill(); c.beginPath(); c.arc(cx+d,cy,R,0,7); c.fill();
+  c.fillStyle=CY; c.beginPath(); c.arc(cx,cy-d,R,0,7); c.fill(); c.beginPath(); c.arc(cx,cy+d,R,0,7); c.fill();
+  c.globalAlpha=1; c.restore();
+  txt(c,'+',9,cy,{c:'#fff',w:'800',s:17,a:'center',b:'middle'}); txt(c,'+',w-9,cy,{c:'#fff',w:'800',s:17,a:'center',b:'middle'});
+  txt(c,'−',cx,10,{c:'#fff',w:'800',s:17,a:'center',b:'middle'}); txt(c,'−',cx,h-9,{c:'#fff',w:'800',s:17,a:'center',b:'middle'});
+  txt(c,'x',w-22,cy-9,{c:CX,w:'700',s:12}); txt(c,'y',cx+8,24,{c:CY,w:'700',s:12});
+  var end=Math.min(tx.n,ty.n);
+  c.strokeStyle='rgba(32,30,29,.55)'; c.lineWidth=1; c.beginPath();
+  for(i=0;i<=end;i++){var x=cx+tx.u[i]*r0,y=cy-ty.u[i]*r0; if(i===0)c.moveTo(x,y);else c.lineTo(x,y);}
+  c.stroke();
+  var ex=cx+tx.u[end]*r0,ey=cy-ty.u[end]*r0,lost=(tx.lost>0||ty.lost>0);
+  if(lost){c.strokeStyle=INK;c.lineWidth=2.5;c.beginPath();c.moveTo(ex-5,ey-5);c.lineTo(ex+5,ey+5);c.moveTo(ex+5,ey-5);c.lineTo(ex-5,ey+5);c.stroke();}
+  else{c.fillStyle=COK;c.beginPath();c.arc(ex,ey,4,0,7);c.fill();}
+}
+
+/* ---------- TOOL 1 ---------- */
+var G1=null, G3=null, REF=[20,50,100,200,400,700,1000];
+function render1(){
+  var k=K(),a=2*k*S.U/S.mz,q=k*S.V/S.mz,s=S.V>0?2*S.U/S.V:(S.U>0?Infinity:0);
+  var win=isFinite(s)?lineWindow(s):null;
+  var none=(S.U===0&&S.V===0);
+  var Tx=trace(a,q),Ty=trace(-a,q),sx=Math.abs(Tx)<2,sy=Math.abs(Ty)<2;
+  $('mzO').textContent=S.mz.toFixed(0); $('UO').textContent=S.U.toFixed(1)+' V'; $('VO').textContent=S.V.toFixed(0)+' V';
+  $('fO').textContent=S.f.toFixed(2)+' MHz'; $('r0O').textContent=S.r0.toFixed(2)+' mm';
+  $('aV').textContent=a.toFixed(3); $('qV').textContent=q.toFixed(3);
+  $('slope').textContent=isFinite(s)?s.toFixed(3):'∞';
+  $('slopeNote').textContent='(the apex is at '+SA.toFixed(3)+')';
+  $('bx').textContent=sx&&!none?beta(Tx).toFixed(2):'none'; $('by').textContent=sy&&!none?beta(Ty).toFixed(2):'none';
+  var w1;
+  if(none) w1='no fields applied';
+  else if(!win) w1='none. The line misses the window.';
+  else if(win.qlo===0) w1='everything above m/z '+(k*S.V/win.qhi).toFixed(1)+' (high-pass)';
+  else w1='m/z '+(k*S.V/win.qhi).toFixed(1)+' to '+(k*S.V/win.qlo).toFixed(1);
+  $('win1').textContent=w1;
+
+  var tx=path(a,q,0.08),ty=path(-a,-q,0.06);
+  var v=$('verdict'),cls,head,sub='';
+  if(none){cls='idle';head='No fields.';sub='With U = 0 and V = 0 the ion just drifts. Nothing focuses it and nothing filters it.';}
+  else if(sx&&sy){cls='ok';head='Stable in x and y. This ion is transmitted.';
+    if(tx.lost>0||ty.lost>0) sub='The motion is bounded, but so close to the edge that the swing exceeds r₀ for this entry position. A real ion entering this far off axis would be lost.';}
+  else if(!sx&&sy){cls='bad';head='Unstable in x. The RF throws it into the x rods.';sub='q is past the right-hand edge. The ion is too light for these voltages.';}
+  else if(sx&&!sy){cls='bad';head='Unstable in y. The DC pulls it into the y rods.';
+    sub=win?'The point is above the left-hand edge. The ion is too heavy for these voltages.':'U/V is too high. The line misses the window, so no m/z can pass.';}
+  else{cls='bad';head='Unstable in both x and y.';sub='The point is above both edges. U is too high for this V.';}
+  v.className='verdict '+cls; v.innerHTML=head+(sub?'<small>'+sub+'</small>':'');
+  function msg(tr,st){
+    if(none) return '';
+    if(tr.lost>0) return '· hits a rod after '+(tr.lost/SPC).toFixed(0)+' RF cycles';
+    return st?'· bounded':'· growing, but not lost within 120 cycles';
+  }
+  $('xmsg').textContent=msg(tx,sx); $('ymsg').textContent=msg(ty,sy);
+  var nmax=Math.min(tx.n,ty.n); /* once one plane hits a rod the ion is gone */
+  drawPlane($('px'),tx,CX,nmax); drawPlane($('py'),ty,CY,nmax); drawXS($('xs'),tx,ty);
+
+  var col=none?MUT:(sx&&sy?COK:(!sx&&sy?CX:(sx&&!sy?CY:INK)));
+  var g,c,i,m,px,py,off=false,lab,right;
+  $('vAQ').className=S.view==='aq'?'on':''; $('vUV').className=S.view==='uv'?'on':'';
+  if(S.view==='uv'){
+    /* voltage view: axes are the two sliders, one window per m/z */
+    $('cap1').textContent='One window per m/z. The axes are the real voltages and the dot is the instrument setting. Drag it to set U and V. An ion passes only when the dot is inside its window. Heavier ions have larger windows, further from the origin. Every window has the same shape, which is why one (a, q) plot covers them all.';
+    var VM1=2000,UM1=350,ions=[],segs=[];
+    if(S.others) for(i=REF.length-1;i>=0;i--){m=REF[i]; if(Math.abs(m-S.mz)/S.mz<0.1) continue; ions.push({m:m,c:'#8f8983',fa:.06,lw:1.2,lab:''+m,lc:MUT});}
+    ions.push({m:S.mz,c:COK,left:CY,right:CX,fa:.22,lw:2.6,lab:'m/z '+S.mz.toFixed(0),lc:'#12592f',bold:true});
+    if(win&&!none) segs.push({V0:S.mz*win.qlo/k,V1:S.mz*win.qhi/k,c:COK});
+    g=drawUV($('stab1'),{k:k,VM:VM1,UM:UM1,ions:ions,ratio:none?null:s/2,segs:segs}); c=g.c;
+    px=g.X(S.V); py=g.Y(S.U);
+    g.inv=function(p){return {V:Math.max(0,(p.x-g.P.l)/g.pw*VM1),U:Math.max(0,(g.P.t+g.ph-p.y)/g.ph*UM1)};};
+    lab='U = '+S.U.toFixed(1)+' V,  V = '+S.V.toFixed(0)+' V';
+  } else {
+    $('cap1').textContent='One window for every ion. The ion is the dot. Drag it to set U and V. Every m/z lies on one straight line through the origin with slope a/q = 2U/V. Heavy ions sit near the origin. Light ions sit far out.';
+    g=drawStab($('stab1')); c=g.c;
+    if(!none) drawLine(g,s,win);
+    c.save(); c.beginPath(); c.rect(g.P.l-1,g.P.t-1,g.pw+2,g.ph+2); c.clip();
+    if(S.others&&!none){
+      for(i=0;i<REF.length;i++){
+        m=REF[i]; if(Math.abs(m-S.mz)/S.mz<0.1) continue;
+        var qq=k*S.V/m,aa=2*k*S.U/m; if(qq>QMAX||aa>AMAX) continue;
+        c.fillStyle='#fff'; c.strokeStyle=MUT; c.lineWidth=1.5; c.beginPath(); c.arc(g.X(qq),g.Y(aa),4.5,0,7); c.fill(); c.stroke();
+        txt(c,''+m,g.X(qq)+8,g.Y(aa)+15,{s:12,c:MUT,halo:true});
+      }
+    }
+    c.restore();
+    off=(q>QMAX||a>AMAX); px=g.X(Math.min(q,QMAX)); py=g.Y(Math.min(a,AMAX));
+    g.inv=function(p){
+      var qd=Math.max(0,Math.min(QMAX,(p.x-g.P.l)/g.pw*QMAX)),ad=Math.max(0,Math.min(AMAX,(g.P.t+g.ph-p.y)/g.ph*AMAX));
+      return {V:qd*S.mz/k,U:ad*S.mz/(2*k)};
+    };
+    lab='m/z '+S.mz.toFixed(0)+(off?' (off the plot)':'');
+  }
+  g.dot={x:px,y:py}; G1=g;
+  c.beginPath(); c.arc(px,py,10,0,7); c.fillStyle=off?'#fff':col; c.fill(); c.lineWidth=3; c.strokeStyle=off?col:'#fff'; c.stroke();
+  c.lineWidth=1.5; c.strokeStyle=INK; c.beginPath(); c.arc(px,py,11.5,0,7); c.stroke();
+  right=px<g.P.l+g.pw-190;
+  if(S.view==='uv') txt(c,lab,px+(right?17:-17),py+24,{w:'800',s:13.5,a:right?'left':'right',halo:true});
+  else txt(c,lab,px+(right?17:-17),py-13,{w:'800',s:14.5,a:right?'left':'right',halo:true});
+}
+
+/* ---------- TOOL 2 ---------- */
+var IONS=[{m:50,I:60,c:'#6b7f8c'},{m:100,I:100,c:'#005f7c'},{m:101,I:70,c:'#35b3d6'},
+          {m:200,I:85,c:'#a30052'},{m:202,I:55,c:'#f06aae'},{m:400,I:75,c:'#b85a00'},{m:404,I:50,c:'#f2a23c'}];
+function vmax(){return MMAX*QA/K();}
+function render3(){
+  var k=K(),s=2*S.ratio,win=lineWindow(s),VM=vmax(),U=S.ratio*S.Vs,i;
+  $('ratioO').textContent=S.ratio.toFixed(4);
+  $('VsO').textContent=S.Vs.toFixed(0)+' V';
+  $('s3').textContent=s.toFixed(4);
+  $('seg3').textContent=win?('q = '+win.qlo.toFixed(3)+' to '+win.qhi.toFixed(3)):'none';
+  var mlo=win?k*S.Vs/win.qhi:NaN,mhi=win?(win.qlo>0?k*S.Vs/win.qlo:Infinity):NaN;
+  var band,R;
+  if(!win){band='nothing passes at any V';R='none';}
+  else if(S.Vs<=0){band='V = 0, no RF yet';R=isFinite(win.qhi/win.qlo)?(((1/win.qlo+1/win.qhi)/2)/(1/win.qlo-1/win.qhi)).toFixed(1):'none';}
+  else if(!isFinite(mhi)){band='everything above m/z '+mlo.toFixed(1)+' (no upper limit)';R='none. RF only is a high-pass filter.';}
+  else{band='m/z '+mlo.toFixed(1)+' to '+mhi.toFixed(1)+'  (Δm = '+(mhi-mlo).toFixed(1)+')';R=(((mlo+mhi)/2)/(mhi-mlo)).toFixed(1);}
+  $('band3').textContent=band; $('R3').textContent=R;
+
+  /* diagram */
+  var g=drawStab($('stab3')),c=g.c;
+  drawLine(g,s,win);
+  c.save(); c.beginPath(); c.rect(g.P.l-1,g.P.t-1,g.pw+2,g.ph+2); c.clip();
+  for(i=IONS.length-1;i>=0;i--){
+    var io=IONS[i],q=k*S.Vs/io.m,a=s*q; if(q>QMAX||a>AMAX) continue;
+    var inside=win&&q>win.qlo&&q<win.qhi&&S.Vs>0;
+    c.beginPath(); c.arc(g.X(q),g.Y(a),inside?9:6.5,0,7); c.fillStyle=io.c; c.globalAlpha=inside?1:.55; c.fill(); c.globalAlpha=1;
+    c.lineWidth=inside?3:1.5; c.strokeStyle=inside?INK:'#fff'; c.stroke();
+  }
+  var lab=[[50,'50'],[100,'100, 101'],[200,'200, 202'],[400,'400, 404']];
+  for(i=0;i<lab.length;i++){
+    var ql=k*S.Vs/lab[i][0],al=s*ql; if(ql>QMAX||al>AMAX||S.Vs<=0) continue;
+    txt(c,lab[i][1],g.X(ql)+10,g.Y(al)+(i%2?20:-12),{s:12.5,w:'700',halo:true});
+  }
+  c.restore();
+  txt(c,'U = '+U.toFixed(1)+' V,  V = '+S.Vs.toFixed(0)+' V',g.P.l+10,g.P.t+22,{s:13.5,w:'700',halo:true});
+
+  /* voltage view: one window per ion, scan line, current setting */
+  var UM3=0.18*VM,uions=[],usegs=[],qi,ins;
+  for(i=IONS.length-1;i>=0;i--){
+    qi=k*S.Vs/IONS[i].m; ins=!!win&&S.Vs>0&&qi>win.qlo&&qi<win.qhi;
+    uions.push({m:IONS[i].m,c:IONS[i].c,fa:ins?.42:.13,lw:ins?3.2:1.6,
+      lab:IONS[i].m===50?'50':(IONS[i].m===100?'100 · 101':(IONS[i].m===200?'200 · 202':(IONS[i].m===400?'400 · 404':''))),lc:INK});
+    if(win) usegs.push({V0:IONS[i].m*win.qlo/k,V1:IONS[i].m*win.qhi/k,c:IONS[i].c});
+  }
+  var gu=drawUV($('uv3'),{k:k,VM:VM,UM:UM3,ions:uions,ratio:S.ratio,segs:usegs,pl:52,pr:16}),cu=gu.c;
+  gu.dot={x:gu.X(S.Vs),y:gu.Y(U)};
+  gu.inv=function(p){return {V:Math.max(0,Math.min(VM,(p.x-gu.P.l)/gu.pw*VM)),U:Math.max(0,(gu.P.t+gu.ph-p.y)/gu.ph*UM3)};};
+  G3=gu;
+  cu.beginPath(); cu.arc(gu.dot.x,gu.dot.y,8,0,7); cu.fillStyle=INK; cu.fill(); cu.lineWidth=3; cu.strokeStyle='#fff'; cu.stroke();
+  cu.lineWidth=1.5; cu.strokeStyle=INK; cu.beginPath(); cu.arc(gu.dot.x,gu.dot.y,9.5,0,7); cu.stroke();
+  txt(cu,'U = '+U.toFixed(1)+' V,  V = '+S.Vs.toFixed(0)+' V',gu.P.l+10,gu.P.t+22,{s:13.5,w:'700',halo:true});
+  txt(cu,'scan line  U = '+S.ratio.toFixed(4)+' × V',gu.P.l+10,gu.P.t+41,{s:12.5,c:MUT,halo:true});
+  if(!win) txt(cu,'The scan line passes above every tip.',gu.P.l+gu.pw-10,gu.P.t+gu.ph-12,{a:'right',s:13,w:'700',c:'#8c1d12',halo:true});
+
+  /* beam + spectrum */
+  var h2=fit($('spec')); c=h2.c; var w=h2.w,h=h2.h,L=52,Rm=16,pw=w-L-Rm;
+  function XM(m){return L+m/MMAX*pw;}
+  var b0=46,b1=164;            /* beam panel: baseline at b1 */
+  var s0=228,s1=h-46;          /* spectrum panel: baseline at s1 */
+  txt(c,'Ions in the beam (true m/z)',L,16,{w:'700',s:13.5});
+  txt(c,'Detector signal during the scan',L,s0-12,{w:'700',s:13.5});
+  /* pass band */
+  if(win&&S.Vs>0){
+    var xa=XM(mlo),xb=XM(Math.min(mhi,MMAX*1.2));
+    c.save(); c.beginPath(); c.rect(L,b0,pw,b1-b0+8); c.clip();
+    c.fillStyle='rgba(28,135,72,.20)'; c.fillRect(xa,b0,Math.max(2,xb-xa),b1-b0);
+    c.strokeStyle=COK; c.lineWidth=2; c.strokeRect(xa,b0,Math.max(2,xb-xa),b1-b0+20); c.restore();
+    txt(c,'pass band',Math.min(Math.max((xa+Math.min(xb,L+pw))/2,L+32),L+pw-32),b0-6,{c:'#12592f',w:'700',s:12.5,a:'center'});
+  }
+  c.strokeStyle=INK; c.lineWidth=1.5; c.beginPath(); c.moveTo(L,b1); c.lineTo(L+pw,b1); c.stroke();
+  var m;
+  for(m=0;m<=MMAX;m+=100){c.beginPath();c.moveTo(XM(m),b1);c.lineTo(XM(m),b1+5);c.stroke();txt(c,''+m,XM(m),b1+19,{a:'center',s:12.5});}
+  txt(c,'m/z',L+pw,b1+34,{a:'right',s:12.5,c:MUT});
+  for(i=0;i<IONS.length;i++){
+    var io2=IONS[i],pass=win&&S.Vs>0&&io2.m>mlo&&io2.m<mhi,x=XM(io2.m),hh=io2.I/100*(b1-b0-22);
+    c.globalAlpha=pass?1:.38; c.strokeStyle=io2.c; c.lineWidth=pass?5:3.5; c.beginPath(); c.moveTo(x,b1); c.lineTo(x,b1-hh); c.stroke(); c.globalAlpha=1;
+  }
+  txt(c,'50',XM(50),b1-60/100*(b1-b0-22)-5,{a:'center',s:11.5,c:MUT});
+  txt(c,'100 · 101',XM(100),b1-(b1-b0-22)-5,{a:'center',s:11.5,c:MUT});
+  txt(c,'200 · 202',XM(201),b1-85/100*(b1-b0-22)-5,{a:'center',s:11.5,c:MUT});
+  txt(c,'400 · 404',XM(402),b1-75/100*(b1-b0-22)-5,{a:'center',s:11.5,c:MUT});
+
+  /* spectrum: for each pixel column, which ions are inside the window at that V */
+  var n=Math.floor(pw),tot=new Float32Array(n+1),col,peak=100,px,Vp,j;
+  var lo=[],hi=[];
+  for(i=0;i<IONS.length;i++){lo.push(win?IONS[i].m*win.qlo/k:1);hi.push(win?IONS[i].m*win.qhi/k:0);}
+  for(px=0;px<=n;px++){Vp=px/n*VM;col=0;for(i=0;i<IONS.length;i++) if(Vp>lo[i]&&Vp<hi[i]) col+=IONS[i].I; tot[px]=col; if(col>peak)peak=col;}
+  var sc=(s1-s0-6)/(peak*1.05);
+  for(px=0;px<=n;px++){
+    Vp=px/n*VM; var base=0;
+    for(i=0;i<IONS.length;i++) if(Vp>lo[i]&&Vp<hi[i]){
+      c.fillStyle=IONS[i].c; c.fillRect(L+px,s1-(base+IONS[i].I)*sc,1.2,IONS[i].I*sc); base+=IONS[i].I;
+    }
+  }
+  c.strokeStyle=INK; c.lineWidth=1.3; c.beginPath(); c.moveTo(L,s1-tot[0]*sc);
+  for(px=1;px<=n;px++){c.lineTo(L+px,s1-tot[px-1]*sc);c.lineTo(L+px,s1-tot[px]*sc);} c.stroke();
+  c.lineWidth=1.5; c.beginPath(); c.moveTo(L,s0); c.lineTo(L,s1); c.lineTo(L+pw,s1); c.stroke();
+  var step=VM>1500?500:(VM>700?100:50),vv;
+  for(vv=0;vv<=VM;vv+=step){var xv=L+vv/VM*pw;c.beginPath();c.moveTo(xv,s1);c.lineTo(xv,s1+5);c.stroke();txt(c,''+vv,xv,s1+19,{a:'center',s:12.5});}
+  txt(c,'RF amplitude V (volts). U follows as U = '+S.ratio.toFixed(4)+' × V',L+pw/2,s1+38,{a:'center',s:13,w:'700',c:CX});
+  c.save(); c.translate(16,(s0+s1)/2); c.rotate(-Math.PI/2); txt(c,'signal',0,0,{a:'center',s:12.5,c:MUT}); c.restore();
+  if(!win) txt(c,'The line misses the stable window. No ions reach the detector.',L+pw/2,(s0+s1)/2,{a:'center',s:14,w:'700',c:'#8c1d12'});
+  /* cursor: nominal m/z = K*V/q_apex lines up with the m/z axis above */
+  var xc=L+Math.min(1,S.Vs/VM)*pw;
+  c.strokeStyle=INK; c.lineWidth=1.5; c.setLineDash([5,4]); c.beginPath(); c.moveTo(xc,b1+38); c.lineTo(xc,s1); c.stroke(); c.setLineDash([]);
+  c.fillStyle=INK; c.beginPath(); c.moveTo(xc-6,s1+1); c.lineTo(xc+6,s1+1); c.lineTo(xc,s1-9); c.closePath(); c.fill();
+}
+
+/* ---------- wiring ---------- */
+var pend=false;
+function renderAll(){render1();render3();}
+function schedule(){if(pend)return;pend=true;requestAnimationFrame(function(){pend=false;renderAll();});}
+function setSliders(){
+  $('mz').value=S.mz;$('U').value=S.U;$('V').value=S.V;$('f').value=S.f;$('r0').value=S.r0;
+  $('ratio').value=S.ratio;var VM=vmax();$('Vs').max=Math.round(VM);if(S.Vs>VM)S.Vs=VM;$('Vs').value=S.Vs;
+}
+function bind(id,key){$(id).addEventListener('input',function(){S[key]=parseFloat(this.value);if(key==='f'||key==='r0')setSliders();schedule();});}
+bind('mz','mz');bind('U','U');bind('V','V');bind('f','f');bind('r0','r0');bind('ratio','ratio');
+$('Vs').addEventListener('input',function(){S.Vs=parseFloat(this.value);stop();schedule();});
+$('others').addEventListener('change',function(){S.others=this.checked;schedule();});
+$('p1a').addEventListener('click',function(){S.mz=DEF.mz;S.U=DEF.U;S.V=DEF.V;S.f=1.2;S.r0=4.0;setSliders();schedule();});
+$('p1b').addEventListener('click',function(){var k=K();S.V=Math.min(2000,Math.round(0.985*QA*S.mz/k));S.U=Math.min(350,Math.round(2*0.975*AA*S.mz/(2*k))/2);setSliders();schedule();});
+$('p1c').addEventListener('click',function(){S.U=0;setSliders();schedule();});
+Array.prototype.forEach.call(document.querySelectorAll('button[data-r]'),function(b){
+  b.addEventListener('click',function(){S.ratio=parseFloat(b.getAttribute('data-r'));setSliders();schedule();});});
+
+/* scan animation */
+var last=0;
+function stop(){S.playing=false;$('play').textContent='▶ Run the scan';}
+function tick(ts){
+  if(!S.playing)return;
+  var VM=vmax(); if(last)S.Vs+=(ts-last)/12000*VM; last=ts;
+  if(S.Vs>=VM){S.Vs=VM;stop();}
+  $('Vs').value=S.Vs; render3();
+  if(S.playing)requestAnimationFrame(tick);
+}
+$('play').addEventListener('click',function(){
+  if(S.playing){stop();return;}
+  if(S.Vs>=vmax()-1)S.Vs=0;
+  S.playing=true;last=0;this.textContent='❚❚ Pause';requestAnimationFrame(tick);
+});
+
+/* drag the dot: works on any diagram that reports {dot, inv, P, pw, ph} */
+function makeDrag(cv,getG,apply){
+  var drag=false;
+  function pos(e){var r=cv.getBoundingClientRect();return {x:e.clientX-r.left,y:e.clientY-r.top};}
+  function near(p){var G=getG();return !!G&&Math.hypot(p.x-G.dot.x,p.y-G.dot.y)<34;}
+  function inPlot(p){var G=getG();return !!G&&p.x>=G.P.l-12&&p.x<=G.P.l+G.pw+12&&p.y>=G.P.t-12&&p.y<=G.P.t+G.ph+12;}
+  cv.addEventListener('pointerdown',function(e){
+    var p=pos(e); if(!inPlot(p))return;
+    if(e.pointerType==='touch'&&!near(p))return;   /* leave room to scroll on touch screens */
+    drag=true; try{cv.setPointerCapture(e.pointerId);}catch(err){} apply(getG().inv(p)); e.preventDefault();
+  });
+  cv.addEventListener('pointermove',function(e){ if(drag){apply(getG().inv(pos(e)));} else {cv.style.cursor=near(pos(e))?'grab':(inPlot(pos(e))?'crosshair':'default');} });
+  function end(){drag=false;}
+  cv.addEventListener('pointerup',end); cv.addEventListener('pointercancel',end);
+  cv.addEventListener('touchstart',function(e){
+    var t=e.touches[0],r=cv.getBoundingClientRect(); if(t&&near({x:t.clientX-r.left,y:t.clientY-r.top}))e.preventDefault();
+  },{passive:false});
+}
+makeDrag($('stab1'),function(){return G1;},function(r){
+  S.V=Math.min(2000,Math.round(r.V)); S.U=Math.min(350,Math.round(r.U*2)/2); setSliders(); schedule();
+});
+makeDrag($('uv3'),function(){return G3;},function(r){
+  stop(); S.Vs=Math.round(r.V*2)/2;
+  if(r.V>8) S.ratio=Math.round(Math.max(0,Math.min(0.17,r.U/r.V))*1e4)/1e4;
+  setSliders(); schedule();
+});
+$('vAQ').addEventListener('click',function(){S.view='aq';schedule();});
+$('vUV').addEventListener('click',function(){S.view='uv';schedule();});
+
+window.addEventListener('resize',schedule);
+setSliders(); renderAll();
+/* expose a few numbers for checking */
+window.__quad={trace:trace,lineWindow:lineWindow,K:K,S:S,apex:function(){return {q:QA,a:AA,s:SA,q0:Q0};}};
+})();
+</script>
+</body>
+</html>
