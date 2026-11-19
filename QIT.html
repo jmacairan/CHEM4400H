@@ -1,0 +1,473 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CHEM 4400 · Three-Dimensional Ion Trap Explorer</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --trent: #0b4f35;
+      --trent-dark: #082f22;
+      --green: #257a4a;
+      --green-2: #3aad72;
+      --green-soft: #eaf6ef;
+      --ink: #10281d;
+      --muted: #5c6d64;
+      --line: #d8e3dc;
+      --paper: #f7faf8;
+      --panel: #ffffff;
+      --blue: #476f82;
+      --rose: #bd3b65;
+      --gold: #d99b00;
+      --shadow: 0 18px 50px rgba(8, 47, 34, .12);
+    }
+    * { box-sizing: border-box; }
+    html, body { min-height: 100%; }
+    body {
+      margin: 0;
+      background:
+        radial-gradient(circle at 88% 8%, rgba(58, 173, 114, .14), transparent 34rem),
+        linear-gradient(180deg, #fff 0%, var(--paper) 100%);
+      color: var(--ink);
+      font-family: Arial, Helvetica, sans-serif;
+    }
+    button, input, select { font: inherit; }
+    button, select, input[type="range"] { touch-action: manipulation; }
+    button:focus-visible, select:focus-visible, input:focus-visible { outline: 3px solid rgba(58, 173, 114, .42); outline-offset: 3px; }
+    .app { width: min(1540px, calc(100% - 40px)); margin: 0 auto; padding: 28px 0 36px; }
+    .topbar { display: flex; justify-content: space-between; align-items: center; gap: 24px; margin-bottom: 24px; }
+    .course { color: var(--green); font-size: .78rem; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; }
+    .wordmark { color: var(--trent); font-family: Georgia, serif; font-size: 1.02rem; letter-spacing: .12em; white-space: nowrap; }
+    h1 { margin: 8px 0 0; max-width: 980px; font-size: clamp(2.2rem, 4.4vw, 4.6rem); line-height: .98; letter-spacing: -.055em; }
+    .subtitle { margin: 16px 0 0; max-width: 930px; color: var(--muted); font-size: clamp(1rem, 1.4vw, 1.24rem); line-height: 1.5; }
+    .workspace { display: grid; grid-template-columns: 390px minmax(0, 1fr); gap: 22px; align-items: stretch; }
+    .controls, .simulator { background: rgba(255, 255, 255, .92); border: 1px solid rgba(11, 79, 53, .12); border-radius: 28px; box-shadow: var(--shadow); }
+    .controls { padding: 26px; display: flex; flex-direction: column; gap: 23px; }
+    .simulator { min-width: 0; padding: 20px 20px 16px; position: relative; }
+    .label { display: block; margin-bottom: 10px; color: var(--green); font-size: .78rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; }
+    .stage-list { display: grid; grid-template-columns: 1fr 1fr; gap: 9px; }
+    .stage-list button, .compact-actions button {
+      min-height: 44px;
+      border: 1px solid #a9cdb8;
+      border-radius: 14px;
+      background: #fff;
+      color: var(--trent);
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .stage-list button[aria-pressed="true"], .compact-actions button.primary { background: var(--green); border-color: var(--green); color: #fff; }
+    .stage-list button:last-child { grid-column: 1 / -1; }
+    .stage-copy h2 { margin: 0 0 8px; font-size: 1.55rem; letter-spacing: -.025em; }
+    .stage-copy p { margin: 0; color: var(--muted); line-height: 1.48; }
+    .control-block { border-top: 1px solid var(--line); padding-top: 20px; }
+    .readout-row { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; margin-bottom: 9px; }
+    .readout-row strong { color: var(--green); font-variant-numeric: tabular-nums; }
+    input[type="range"] { width: 100%; accent-color: var(--green-2); }
+    .field-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .compact-actions { display: flex; flex-wrap: wrap; gap: 9px; }
+    .compact-actions button { padding: 0 15px; }
+    .compact-actions button[hidden] { display: none; }
+    select { width: 100%; min-height: 44px; padding: 0 38px 0 13px; border: 1px solid #a9cdb8; border-radius: 12px; background: #fff; color: var(--ink); }
+    .phase-note { margin: 10px 0 0; color: var(--muted); font-size: .9rem; line-height: 1.4; }
+    .live { padding: 14px 15px; border-left: 5px solid var(--green-2); background: var(--green-soft); color: #274c39; line-height: 1.42; }
+    .trap-frame { position: relative; width: 100%; aspect-ratio: 1000 / 680; min-height: 420px; overflow: hidden; border-radius: 20px; background: linear-gradient(180deg, #fbfdfc, #f1f7f3); }
+    .trap-frame svg { width: 100%; height: 100%; display: block; }
+    .credit { position: absolute; right: 16px; bottom: 10px; color: #9ba6a0; font-size: .7rem; letter-spacing: .04em; }
+    .science-strip { display: grid; grid-template-columns: 1fr auto; gap: 18px; align-items: center; margin-top: 14px; padding: 0 4px; }
+    .science-strip p { margin: 0; color: var(--muted); font-size: .85rem; line-height: 1.38; }
+    .science-strip code { color: var(--trent); font-family: Georgia, serif; font-size: .94rem; }
+    .q-panel { margin-top: 20px; padding: 19px 20px 17px; background: rgba(255, 255, 255, .9); border: 1px solid var(--line); border-radius: 22px; box-shadow: 0 10px 28px rgba(8, 47, 34, .08); }
+    .q-head { display: flex; justify-content: space-between; gap: 20px; align-items: baseline; margin-bottom: 18px; }
+    .q-head h2 { margin: 0; font-size: 1.22rem; }
+    .q-head span { color: var(--muted); font-size: .85rem; }
+    .q-scale { position: relative; height: 114px; margin: 0 20px 0 50px; border-bottom: 2px solid #809087; }
+    .q-boundary { position: absolute; top: 0; bottom: -2px; right: 0; width: 3px; background: var(--rose); }
+    .q-boundary span { position: absolute; right: 7px; top: -2px; color: var(--rose); font-size: .78rem; white-space: nowrap; }
+    .q-zero { position: absolute; left: -42px; bottom: -9px; color: var(--muted); font-size: .78rem; }
+    .q-marker { position: absolute; width: 126px; transform: translateX(-50%); display: grid; grid-template-columns: 15px auto; grid-template-rows: auto auto; align-items: center; justify-items: start; column-gap: 7px; transition: left .18s ease; }
+    .q-marker::before { content: ""; grid-row: 1 / 3; width: 15px; height: 15px; border-radius: 50%; background: var(--blue); box-shadow: 0 0 0 4px rgba(71, 111, 130, .12); }
+    .q-marker.ejected::before { background: var(--rose); box-shadow: 0 0 0 4px rgba(189, 59, 101, .12); }
+    .q-marker.ejected { transform: translateX(-100%); }
+    .q-marker b { font-size: .78rem; white-space: nowrap; }
+    .q-marker small { color: var(--muted); font-size: .7rem; font-variant-numeric: tabular-nums; white-space: nowrap; }
+    .q-marker[data-mz="100"] { top: 7px; }
+    .q-marker[data-mz="200"] { top: 42px; }
+    .q-marker[data-mz="400"] { top: 77px; }
+    .footer { display: flex; justify-content: space-between; align-items: center; gap: 20px; margin-top: 18px; color: var(--muted); font-size: .82rem; }
+    .footer a { color: var(--green); font-weight: 700; text-decoration: none; }
+    .footer a:hover { text-decoration: underline; }
+    .electrode { fill: none; stroke: #56625d; stroke-width: 34; stroke-linecap: round; }
+    .electrode.ring { stroke: #257a4a; }
+    .aperture { fill: #fbfdfc; stroke: #9aaba1; stroke-width: 3; }
+    .axis { stroke: #c8d4cd; stroke-width: 2; stroke-dasharray: 8 10; }
+    .field-line { fill: none; stroke: rgba(37, 122, 74, .22); stroke-width: 2.5; }
+    .force { stroke: var(--green-2); stroke-width: 7; fill: none; }
+    .force.axial { stroke: var(--blue); }
+    .force-label { font-size: 19px; font-weight: 700; fill: #40564a; }
+    .ion { transition: opacity .2s ease; }
+    .ion text { font-size: 17px; font-weight: 700; text-anchor: middle; fill: #fff; pointer-events: none; }
+    .ion circle { stroke: #fff; stroke-width: 4; }
+    .helium { fill: #99b7a7; opacity: .5; }
+    .supplement { stroke: var(--gold); stroke-width: 7; fill: none; opacity: 0; }
+    .beam { stroke: var(--gold); stroke-width: 8; stroke-dasharray: 17 14; opacity: 0; }
+    .detector { fill: #35443d; }
+    .detector-label { font-size: 17px; font-weight: 700; fill: #fff; text-anchor: middle; }
+    .phase-a .radial-a, .phase-b .radial-b, .phase-a .axial-a, .phase-b .axial-b { opacity: 1; }
+    .phase-a .radial-b, .phase-b .radial-a, .phase-a .axial-b, .phase-b .axial-a { opacity: 0; }
+    .stage-fill .beam { opacity: 1; }
+    .stage-trap .helium, .stage-activate .helium { opacity: .65; }
+    .stage-isolate .supplement, .stage-activate .supplement { opacity: 1; }
+    .stage-eject .detector { fill: var(--rose); }
+    @media (max-width: 980px) {
+      .app { width: min(100% - 24px, 760px); padding-top: 18px; }
+      .workspace { grid-template-columns: 1fr; }
+      .controls { order: 2; }
+      .simulator { order: 1; }
+      .trap-frame { min-height: 0; }
+    }
+    @media (max-width: 560px) {
+      .topbar { align-items: flex-start; }
+      .wordmark { font-size: .78rem; }
+      .controls, .simulator { border-radius: 20px; }
+      .controls { padding: 20px; }
+      .simulator { padding: 10px; }
+      .stage-list { grid-template-columns: 1fr; }
+      .stage-list button:last-child { grid-column: auto; }
+      .science-strip, .q-head { grid-template-columns: 1fr; display: grid; }
+      .q-head { gap: 5px; }
+      .footer { align-items: flex-start; flex-direction: column; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; animation-duration: .01ms !important; }
+    }
+    @media print {
+      body { background: #fff; }
+      .app { width: 100%; padding: 0; }
+      .controls, .simulator, .q-panel { box-shadow: none; }
+      .compact-actions, .stage-list { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <main class="app">
+    <header class="topbar">
+      <div>
+        <div class="course">CHEM 4400 · Lecture 18 companion</div>
+        <h1>Three-Dimensional Ion Trap Explorer</h1>
+        <p class="subtitle">Step through the experiment, then adjust the RF amplitude to see why lower <i>m/z</i> ions reach the axial stability boundary first.</p>
+      </div>
+      <div class="wordmark" aria-label="Trent University">TRENT UNIVERSITY</div>
+    </header>
+
+    <section class="workspace" aria-label="Interactive ion trap">
+      <aside class="controls">
+        <div>
+          <span class="label">Operation</span>
+          <div class="stage-list" role="group" aria-label="Ion trap operation">
+            <button type="button" data-stage="fill" aria-pressed="false">1 Fill</button>
+            <button type="button" data-stage="trap" aria-pressed="true">2 Cool and trap</button>
+            <button type="button" data-stage="isolate" aria-pressed="false">3 Isolate</button>
+            <button type="button" data-stage="activate" aria-pressed="false">4 Activate</button>
+            <button type="button" data-stage="eject" aria-pressed="false">5 Eject and detect</button>
+          </div>
+        </div>
+
+        <div class="stage-copy" aria-live="polite">
+          <h2 id="stage-title">Cool and trap</h2>
+          <p id="stage-description">The alternating RF field stores ions with stable radial and axial motion. Helium collisions reduce their spatial and kinetic-energy spread.</p>
+        </div>
+
+        <div class="control-block">
+          <div class="readout-row"><label for="rf-amplitude">Ring RF amplitude</label><strong id="rf-output">300 V</strong></div>
+          <input id="rf-amplitude" type="range" min="100" max="2000" step="25" value="300">
+        </div>
+
+        <div class="control-block field-grid">
+          <div>
+            <label class="label" for="selected-ion">Selected precursor</label>
+            <select id="selected-ion">
+              <option value="100">m/z 100</option>
+              <option value="200" selected>m/z 200</option>
+              <option value="400">m/z 400</option>
+            </select>
+          </div>
+          <div>
+            <span class="label">RF half-cycle</span>
+            <div class="compact-actions">
+              <button type="button" id="phase-step">Step phase</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="compact-actions">
+          <button type="button" class="primary" id="play-motion" aria-pressed="false">Play motion</button>
+          <button type="button" id="run-scan" hidden>Run RF scan</button>
+          <button type="button" id="reset-view">Reset</button>
+        </div>
+
+        <div class="live" id="live-explanation" aria-live="polite">Half-cycle A: radial focusing and axial defocusing. The next half-cycle reverses both directions.</div>
+      </aside>
+
+      <div class="simulator">
+        <div class="trap-frame" id="trap-frame">
+          <svg id="trap-svg" class="phase-a stage-trap" viewBox="0 0 1000 680" role="img" aria-labelledby="trap-title trap-desc">
+            <title id="trap-title">Cross-section of a three-dimensional quadrupole ion trap</title>
+            <desc id="trap-desc">A ring electrode and two end-cap electrodes surround three ions. Force arrows reverse every RF half-cycle. Ions leave through the lower end-cap aperture when their axial motion becomes unstable.</desc>
+            <defs>
+              <marker id="arrow-green" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 Z" fill="#3aad72"/></marker>
+              <marker id="arrow-blue" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 Z" fill="#476f82"/></marker>
+            </defs>
+
+            <line class="axis" x1="500" y1="45" x2="500" y2="632"/>
+            <line class="axis" x1="120" y1="340" x2="880" y2="340"/>
+            <path class="field-line" d="M300 170 Q500 325 700 170"/>
+            <path class="field-line" d="M300 510 Q500 355 700 510"/>
+            <path class="field-line" d="M245 160 Q395 340 245 520"/>
+            <path class="field-line" d="M755 160 Q605 340 755 520"/>
+
+            <path class="electrode ring" d="M255 115 Q105 340 255 565"/>
+            <path class="electrode ring" d="M745 115 Q895 340 745 565"/>
+            <path class="electrode" d="M315 145 Q405 216 466 224"/>
+            <path class="electrode" d="M534 224 Q595 216 685 145"/>
+            <path class="electrode" d="M315 535 Q405 464 466 456"/>
+            <path class="electrode" d="M534 456 Q595 464 685 535"/>
+            <circle class="aperture" cx="500" cy="222" r="24"/>
+            <circle class="aperture" cx="500" cy="458" r="24"/>
+
+            <text x="500" y="104" text-anchor="middle" class="force-label">upper end cap</text>
+            <text x="500" y="590" text-anchor="middle" class="force-label">lower end cap</text>
+            <text x="144" y="332" text-anchor="middle" class="force-label">ring</text>
+            <text x="856" y="332" text-anchor="middle" class="force-label">ring</text>
+
+            <path class="beam" d="M500 30 L500 200"/>
+            <path class="supplement" d="M390 115 C430 85 470 145 510 115 S590 145 630 115"/>
+
+            <g class="radial-a">
+              <line class="force" x1="330" y1="340" x2="430" y2="340" marker-end="url(#arrow-green)"/>
+              <line class="force" x1="670" y1="340" x2="570" y2="340" marker-end="url(#arrow-green)"/>
+            </g>
+            <g class="radial-b">
+              <line class="force" x1="430" y1="340" x2="330" y2="340" marker-end="url(#arrow-green)"/>
+              <line class="force" x1="570" y1="340" x2="670" y2="340" marker-end="url(#arrow-green)"/>
+            </g>
+            <g class="axial-a">
+              <line class="force axial" x1="500" y1="300" x2="500" y2="245" marker-end="url(#arrow-blue)"/>
+              <line class="force axial" x1="500" y1="380" x2="500" y2="435" marker-end="url(#arrow-blue)"/>
+            </g>
+            <g class="axial-b">
+              <line class="force axial" x1="500" y1="245" x2="500" y2="300" marker-end="url(#arrow-blue)"/>
+              <line class="force axial" x1="500" y1="435" x2="500" y2="380" marker-end="url(#arrow-blue)"/>
+            </g>
+            <text x="365" y="317" class="force-label">radial</text>
+            <text x="515" y="274" class="force-label">axial</text>
+
+            <g id="helium-group">
+              <circle class="helium" cx="365" cy="266" r="7"/><circle class="helium" cx="620" cy="260" r="7"/>
+              <circle class="helium" cx="388" cy="425" r="7"/><circle class="helium" cx="610" cy="422" r="7"/>
+              <circle class="helium" cx="455" cy="175" r="7"/><circle class="helium" cx="550" cy="505" r="7"/>
+            </g>
+
+            <g class="ion" data-mz="100" id="ion-100"><circle r="27" fill="#257a4a"/><text y="6">100</text></g>
+            <g class="ion" data-mz="200" id="ion-200"><circle r="27" fill="#476f82"/><text y="6">200</text></g>
+            <g class="ion" data-mz="400" id="ion-400"><circle r="27" fill="#d99b00"/><text y="6" fill="#17211c">400</text></g>
+
+            <rect class="detector" x="410" y="625" width="180" height="34" rx="12"/>
+            <text class="detector-label" x="500" y="648">detector</text>
+          </svg>
+          <span class="credit">Illustration: PolygonCyber</span>
+        </div>
+        <div class="science-strip">
+          <p><code>q<sub>z</sub> = 8zeV / (m r<sub>0</sub>²Ω²)</code></p>
+          <p>Model settings: r<sub>0</sub> = 10 mm, f = 1.00 MHz, z = +1. V is the zero-to-peak ring RF amplitude.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="q-panel" aria-labelledby="q-title">
+      <div class="q-head"><h2 id="q-title">Position on the RF-only q<sub>z</sub> axis</h2><span>Stable below q<sub>z</sub> ≈ 0.908. The lowest <i>m/z</i> reaches the boundary first during an RF ramp.</span></div>
+      <div class="q-scale" aria-label="Mathieu q z values for the three ions">
+        <span class="q-zero">q<sub>z</sub> = 0</span>
+        <div class="q-boundary"><span>0.908 boundary</span></div>
+        <div class="q-marker" data-mz="100"><b>m/z 100</b><small>qz 0.000</small></div>
+        <div class="q-marker" data-mz="200"><b>m/z 200</b><small>qz 0.000</small></div>
+        <div class="q-marker" data-mz="400"><b>m/z 400</b><small>qz 0.000</small></div>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <span>Teaching model for an ideal, unstretched three-dimensional quadrupole ion trap.</span>
+      <a href="Lecture18.html">Return to Lecture 18</a>
+    </footer>
+  </main>
+
+  <script>
+    (function () {
+      'use strict';
+      var E = 1.602176634e-19;
+      var U = 1.66053906660e-27;
+      var R0 = 0.010;
+      var OMEGA = 2 * Math.PI * 1e6;
+      var BOUNDARY = 0.908;
+      var masses = [100, 200, 400];
+      var colors = {100: '#257a4a', 200: '#476f82', 400: '#d99b00'};
+      var stages = {
+        fill: ['Fill', 'Ions enter through an end-cap aperture while the RF field is set to a storage value. Some instruments instead form ions inside the trap.'],
+        trap: ['Cool and trap', 'The alternating RF field stores ions with stable radial and axial motion. Helium collisions reduce their spatial and kinetic-energy spread.'],
+        isolate: ['Isolate', 'A tailored end-cap waveform excites unwanted secular frequencies while leaving a narrow frequency window around the selected precursor.'],
+        activate: ['Activate', 'A small auxiliary AC matches the selected precursor secular frequency. Its oscillation grows, and helium collisions convert kinetic energy into internal excitation.'],
+        eject: ['Eject and detect', 'Raising the ring RF amplitude increases qz. Lower m/z reaches the axial boundary first and leaves through an end-cap aperture.']
+      };
+      var state = {stage: 'trap', phase: 0, playing: false, selected: 200, volts: 300, time: 0, scanFrame: 0};
+      var svg = document.getElementById('trap-svg');
+      var rf = document.getElementById('rf-amplitude');
+      var rfOutput = document.getElementById('rf-output');
+      var phaseButton = document.getElementById('phase-step');
+      var playButton = document.getElementById('play-motion');
+      var scanButton = document.getElementById('run-scan');
+      var selectedIon = document.getElementById('selected-ion');
+      var live = document.getElementById('live-explanation');
+
+      function qz(mz, volts) {
+        return 8 * E * volts / (mz * U * R0 * R0 * OMEGA * OMEGA);
+      }
+
+      function phaseText() {
+        return state.phase === 0
+          ? 'Half-cycle A: radial focusing and axial defocusing. The next half-cycle reverses both directions.'
+          : 'Half-cycle B: axial focusing and radial defocusing. Fast repetition of both half-cycles gives dynamic confinement.';
+      }
+
+      function setStage(stage) {
+        state.stage = stage;
+        document.querySelectorAll('[data-stage]').forEach(function (button) {
+          button.setAttribute('aria-pressed', button.dataset.stage === stage ? 'true' : 'false');
+        });
+        document.getElementById('stage-title').textContent = stages[stage][0];
+        document.getElementById('stage-description').textContent = stages[stage][1];
+        svg.className.baseVal = 'phase-' + (state.phase === 0 ? 'a' : 'b') + ' stage-' + stage;
+        scanButton.hidden = stage !== 'eject';
+        update(true);
+      }
+
+      function setPhase(value) {
+        state.phase = value % 2;
+        svg.className.baseVal = 'phase-' + (state.phase === 0 ? 'a' : 'b') + ' stage-' + state.stage;
+        if (state.stage !== 'eject') live.textContent = phaseText();
+      }
+
+      function positionIon(mz, index, time) {
+        var q = qz(mz, state.volts);
+        var stable = q < BOUNDARY;
+        var selected = mz === state.selected;
+        var x = 500, y = 340, opacity = 1;
+        var basePhase = index * 2.1;
+        var amp = state.stage === 'trap' ? 46 : 66;
+
+        if (state.stage === 'fill') {
+          x = 500 + (index - 1) * 42;
+          y = 165 + index * 55 + (state.playing ? (time * 75 + index * 35) % 185 : index * 28);
+        } else if (state.stage === 'isolate' && !selected) {
+          x = 500 + (index === 0 ? -1 : 1) * (150 + 40 * Math.sin(time + basePhase));
+          y = 520;
+          opacity = .22;
+        } else if (state.stage === 'activate') {
+          opacity = selected ? 1 : .14;
+          amp = selected ? 105 : 30;
+          x = 500 + amp * .45 * Math.sin(time * 1.6 + basePhase);
+          y = 340 + amp * Math.sin(time * 1.15 + basePhase);
+        } else if (state.stage === 'eject' && !stable) {
+          x = 500 + 22 * Math.sin(time * 2 + basePhase);
+          y = Math.min(622, 360 + (q - BOUNDARY + .12) * 260 + (state.playing ? (time * 68) % 180 : 70));
+          opacity = y > 605 ? .32 : 1;
+        } else {
+          var cooling = state.stage === 'trap' ? Math.max(.38, Math.exp(-time * .09)) : 1;
+          x = 500 + amp * cooling * Math.sin(time * (1.05 + index * .08) + basePhase);
+          y = 340 + amp * .68 * cooling * Math.sin(time * (.72 + index * .05) + basePhase * .7);
+        }
+
+        var node = document.getElementById('ion-' + mz);
+        node.setAttribute('transform', 'translate(' + x.toFixed(1) + ' ' + y.toFixed(1) + ')');
+        node.setAttribute('opacity', opacity.toFixed(2));
+        node.querySelector('circle').setAttribute('fill', !stable && state.stage === 'eject' ? '#bd3b65' : colors[mz]);
+      }
+
+      function updateMarkers() {
+        masses.forEach(function (mz) {
+          var q = qz(mz, state.volts);
+          var marker = document.querySelector('.q-marker[data-mz="' + mz + '"]');
+          marker.style.left = Math.min(100, q / BOUNDARY * 100).toFixed(2) + '%';
+          marker.classList.toggle('ejected', q >= BOUNDARY);
+          marker.querySelector('small').textContent = 'qz ' + q.toFixed(3) + (q >= BOUNDARY ? ' · unstable' : ' · stable');
+        });
+      }
+
+      function update(force) {
+        rfOutput.textContent = state.volts + ' V';
+        if (force || !state.playing) masses.forEach(function (mz, index) { positionIon(mz, index, state.time); });
+        updateMarkers();
+        if (state.stage === 'eject') {
+          var gone = masses.filter(function (mz) { return qz(mz, state.volts) >= BOUNDARY; });
+          live.textContent = gone.length
+            ? 'Axially unstable and ejected: m/z ' + gone.join(', ') + '. Continue the RF ramp to reach higher m/z.'
+            : 'All three ions remain below qz = 0.908. Increase the RF amplitude to begin ordered ejection.';
+        } else {
+          live.textContent = phaseText();
+        }
+      }
+
+      function animate(now) {
+        if (!animate.last) animate.last = now;
+        var dt = Math.min(.05, (now - animate.last) / 1000);
+        animate.last = now;
+        if (state.playing) {
+          state.time += dt;
+          if (Math.floor(state.time * 2) % 2 !== state.phase) setPhase(Math.floor(state.time * 2) % 2);
+          masses.forEach(function (mz, index) { positionIon(mz, index, state.time); });
+        }
+        requestAnimationFrame(animate);
+      }
+
+      function runScan() {
+        cancelAnimationFrame(state.scanFrame);
+        var start = performance.now();
+        state.playing = true;
+        playButton.textContent = 'Pause motion';
+        playButton.setAttribute('aria-pressed', 'true');
+        function frame(now) {
+          var progress = Math.min(1, (now - start) / 6500);
+          state.volts = Math.round((100 + progress * 1900) / 25) * 25;
+          rf.value = String(state.volts);
+          update(true);
+          if (progress < 1) state.scanFrame = requestAnimationFrame(frame);
+        }
+        state.scanFrame = requestAnimationFrame(frame);
+      }
+
+      document.querySelectorAll('[data-stage]').forEach(function (button) {
+        button.addEventListener('click', function () { setStage(button.dataset.stage); });
+      });
+      rf.addEventListener('input', function () { state.volts = Number(rf.value); update(true); });
+      selectedIon.addEventListener('change', function () { state.selected = Number(selectedIon.value); update(true); });
+      phaseButton.addEventListener('click', function () { setPhase(state.phase ? 0 : 1); update(true); });
+      playButton.addEventListener('click', function () {
+        state.playing = !state.playing;
+        playButton.textContent = state.playing ? 'Pause motion' : 'Play motion';
+        playButton.setAttribute('aria-pressed', state.playing ? 'true' : 'false');
+        update(true);
+      });
+      scanButton.addEventListener('click', runScan);
+      document.getElementById('reset-view').addEventListener('click', function () {
+        cancelAnimationFrame(state.scanFrame);
+        state.stage = 'trap'; state.phase = 0; state.playing = false; state.selected = 200; state.volts = 300; state.time = 0;
+        rf.value = '300'; selectedIon.value = '200'; playButton.textContent = 'Play motion'; playButton.setAttribute('aria-pressed', 'false');
+        setPhase(0); setStage('trap');
+      });
+
+      setPhase(0);
+      setStage('trap');
+      requestAnimationFrame(animate);
+    })();
+  </script>
+</body>
+</html>
